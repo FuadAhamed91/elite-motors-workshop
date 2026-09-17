@@ -1,0 +1,29 @@
+{
+  "name": "elite-motors-workshop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "High-conversion WhatsApp-first landing page for Elite Motors Workshop, Mussafah, Abu Dhabi",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "framer-motion": "^13.4.0",
+    "lucide-react": "^1.46.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0",
+    "@types/node": "^24.0.0"
+  }
+}
