@@ -1,4 +1,4 @@
-import { useRef, type MouseEvent, type ReactNode } from 'react'
+import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
 interface GlowCardProps {
@@ -30,6 +30,28 @@ export function GlowCard({
   animatedBorder = false,
 }: GlowCardProps) {
   const ref = useRef<HTMLDivElement>(null)
+
+  // The ring is a rotating square that must cover the card's corners, so its
+  // side is the card's diagonal — far smaller than a blanket 300% box, which
+  // matters on phones where every layer is paid for at 2–3× DPR. It only
+  // spins while the card is actually on screen.
+  useEffect(() => {
+    const el = ref.current
+    if (!animatedBorder || !el) return
+    const resize = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      el.style.setProperty('--ring', `${Math.ceil(Math.hypot(width, height)) + 4}px`)
+    })
+    resize.observe(el)
+    const visibility = new IntersectionObserver(([entry]) => {
+      el.dataset.inview = entry.isIntersecting ? 'true' : 'false'
+    })
+    visibility.observe(el)
+    return () => {
+      resize.disconnect()
+      visibility.disconnect()
+    }
+  }, [animatedBorder])
 
   const handleMove = (event: MouseEvent<HTMLDivElement>) => {
     const el = ref.current

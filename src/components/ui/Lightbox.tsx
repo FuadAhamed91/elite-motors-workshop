@@ -1,6 +1,7 @@
 import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { useCallback, useEffect, useRef } from 'react'
+import { Picture } from '@/components/ui/Picture'
 import type { GalleryPhoto } from '@/data/gallery'
 
 const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
@@ -62,18 +63,19 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
         >
           <m.figure
             key={photo.id}
-            className="relative flex max-h-full max-w-6xl flex-col items-center"
+            className="relative flex max-h-full w-full max-w-6xl flex-col items-center"
             initial={reduce ? false : { opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.22, ease: EASE_OUT_CUBIC }}
             onClick={(event) => event.stopPropagation()}
           >
-            <img
+            <Picture
               src={photo.src}
               alt={photo.alt}
               width={photo.width}
               height={photo.height}
-              className="max-h-[78vh] w-auto rounded-2xl object-contain shadow-2xl"
+              loading="eager"
+              className="max-h-[78vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
             />
             <figcaption className="mt-3 text-center text-sm text-sand-50/90">
               {photo.caption}

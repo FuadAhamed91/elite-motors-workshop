@@ -264,11 +264,16 @@
     overflow: hidden;
     background: var(--color-line);
   }
-  /* rotating gradient square behind the inner surface — a transform, never a repaint */
+  /* rotating gradient square behind the inner surface — a transform, never a repaint.
+     --ring (the card's diagonal) is set by GlowCard; the % fallback covers any card. */
   .animated-border::before {
     content: "";
     position: absolute;
-    inset: -100%;
+    top: 50%;
+    left: 50%;
+    width: var(--ring, 300%);
+    height: var(--ring, 300%);
+    translate: -50% -50%;
     background: conic-gradient(
       from 0deg,
       var(--color-line) 0%,
@@ -282,6 +287,10 @@
   @media (prefers-reduced-motion: no-preference) {
     .animated-border::before {
       animation: var(--animate-border-spin);
+      animation-play-state: paused;
+    }
+    .animated-border[data-inview="true"]::before {
+      animation-play-state: running;
     }
   }
 

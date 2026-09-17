@@ -17,7 +17,7 @@ export function Footer() {
       {/* Final conversion callout */}
       <div className="container-x -mt-px py-16 lg:py-20">
         <Reveal>
-          <GlowCard animatedBorder innerClassName="p-8 sm:p-10 lg:p-12">
+          <GlowCard animatedBorder innerClassName="p-6 sm:p-10 lg:p-12">
             <div className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
               <div>
                 <p className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
@@ -34,7 +34,7 @@ export function Footer() {
               </div>
               <div className="flex flex-col gap-3 lg:items-end">
                 <CtaLink href={waLinks.quote()} external size="lg" icon={<WhatsAppIcon />}>
-                  Get Instant Quote on WhatsApp
+                  Get Instant Quote
                 </CtaLink>
                 <CtaLink
                   href={buildTelLink(workshop.phone)}

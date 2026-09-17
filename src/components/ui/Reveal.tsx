@@ -61,16 +61,18 @@ interface StaggerGroupProps {
   children: ReactNode
   className?: string
   as?: 'div' | 'ul' | 'ol'
+  'aria-label'?: string
 }
 
 /** Parent that staggers its `StaggerItem` children (30–80 ms apart). */
-export function StaggerGroup({ children, className, as = 'div' }: StaggerGroupProps) {
+export function StaggerGroup({ children, className, as = 'div', 'aria-label': ariaLabel }: StaggerGroupProps) {
   const reduce = useReducedMotion()
   const introActive = useIntroActive()
   const Tag = m[as]
   return (
     <Tag
       className={className}
+      aria-label={ariaLabel}
       variants={groupVariants}
       initial={reduce ? false : 'hidden'}
       animate={introActive && !reduce ? 'hidden' : undefined}

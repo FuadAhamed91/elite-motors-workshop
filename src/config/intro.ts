@@ -73,18 +73,19 @@ export function resolveTimeline(): IntroTimeline {
   }
 }
 
-export type IntroReviewMode = 'normal' | 'slow' | 'replay' | 'freeze'
+export type IntroReviewMode = 'normal' | 'slow' | 'replay' | 'freeze' | 'skip'
 
 /**
  * Dev-only review switches (ignored in production builds):
  *   ?intro=replay — ignore the once-per-session rule
  *   ?intro=slow   — run 4–8× slower
  *   ?intro=freeze — splash only: park the car mid-screen with no motion
+ *   ?intro=skip   — never play (layout review, headless screenshots)
  */
 export function reviewMode(): IntroReviewMode {
   if (!import.meta.env.DEV || typeof window === 'undefined') return 'normal'
   const mode = new URLSearchParams(window.location.search).get('intro')
-  return mode === 'slow' || mode === 'replay' || mode === 'freeze' ? mode : 'normal'
+  return mode === 'slow' || mode === 'replay' || mode === 'freeze' || mode === 'skip' ? mode : 'normal'
 }
 
 /** Same dev aid for the splash variant: `?intro=slow` stretches the launch 4×. */
@@ -110,7 +111,13 @@ export function splashLaunchMs(splash: typeof intro.splash): number {
 }
 
 export function forceReplay(): boolean {
-  return reviewMode() !== 'normal'
+  const mode = reviewMode()
+  return mode !== 'normal' && mode !== 'skip'
+}
+
+/** `?intro=skip` in dev: render the site with no intro at all. */
+export function forceSkip(): boolean {
+  return reviewMode() === 'skip'
 }
 
 /** Moment the lights go out and the car launches, in ms from mount. */

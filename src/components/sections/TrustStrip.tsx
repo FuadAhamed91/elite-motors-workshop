@@ -1,3 +1,4 @@
+import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { stats } from '@/data/stats'
 
@@ -11,13 +12,11 @@ export function TrustStrip() {
     >
       <div className="container-x grid gap-8 py-12 lg:grid-cols-[1fr_1.6fr] lg:items-center lg:gap-14 lg:py-16">
         <Reveal>
-          <img
+          <Picture
             src="/photos/entrance-canopy.jpg"
             alt="Elite Motors Workshop entrance sign over the service canopy"
             width={1270}
             height={440}
-            loading="lazy"
-            decoding="async"
             className="mb-6 aspect-[2.9/1] w-full rounded-2xl border border-line object-cover shadow-card"
           />
           <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
@@ -50,7 +49,7 @@ export function TrustStrip() {
                 <span className="flex size-10 items-center justify-center rounded-xl bg-primary/12 text-primary">
                   <Icon className="size-5" aria-hidden="true" />
                 </span>
-                <p className="mt-4 font-display text-2xl font-bold tracking-tight text-fg sm:text-[1.7rem]">
+                <p className="mt-4 font-display text-[1.35rem] font-bold tracking-tight text-fg sm:text-[1.7rem]">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm leading-snug text-fg-muted">{stat.label}</p>

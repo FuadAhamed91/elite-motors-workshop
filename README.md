@@ -92,7 +92,8 @@ Shared behaviour (`src/hooks/useIntroGate.ts`): the site DOM is `inert` while an
 `sessionStorage.hasSeenIntro` skips it on refresh within the session, a **Skip** button and
 Escape bypass it, it is disabled for `prefers-reduced-motion`, and it waits for the tab to be
 visible before playing. Dev review switches: `?intro=replay`, `?intro=slow`, `?intro=freeze`
-(splash: car parked mid-screen).
+(splash: car parked mid-screen), `?intro=skip` (no intro — for layout reviews and screenshots).
+Only the selected variant ships in the main bundle; the other is a lazy chunk.
 
 ## Content & photos
 
@@ -100,8 +101,11 @@ Services, equipment highlights, brands and the founding year come from the compa
 (`src/data/services.ts`, `src/data/gallery.ts`, `workshop.foundedYear`). The old "basic profile"
 page (staff counts, previous phone numbers) is intentionally not used.
 
-`public/photos/` holds the workshop photos used on service cards, the About banner and the
-Workshop gallery. **Every vehicle number plate was blurred before the images were added** — if
+`public/photos/` holds the workshop photos: the About banner (`entrance-canopy`), the three
+facility photos under the services grid (paint booth, body shop, lifts) and the six-photo
+Workshop gallery (`src/data/gallery.ts`). Each photo exists as `name.jpg` + `name.webp` (max
+1400px) and `name-thumb.jpg` + `name-thumb.webp` (800px, used in grids); `Picture.tsx` serves the
+WebP automatically. **Every vehicle number plate was blurred before the images were added** — if
 you add new photos, redact plates first and keep them out of the repo otherwise.
 
 ## On-site assistant
@@ -122,6 +126,12 @@ Copy and quick replies live in `src/config/assistant.ts`; set `enabled: false` t
 - Page reveals are held while the intro is up and play as it fades (`IntroActiveContext`).
 - framer-motion is loaded through `LazyMotion` + `m` components; fonts load without blocking first
   paint; the Google Maps iframe mounts only when the location section is near the viewport.
+- Code splitting: the assistant loads in idle time after the page is interactive, the photo
+  lightbox on the first tap, and the unused intro variant never.
+- The rotating card border is sized to the card's diagonal (not a 300% box) and only animates
+  while the card is on screen; the navbar uses a solid tint instead of `backdrop-filter` on phones.
+- Photos are WebP with JPEG fallback, 800px thumbnails in grids, all lazy-loaded with explicit
+  dimensions (no layout shift).
 
 ## Deployment (Vercel)
 

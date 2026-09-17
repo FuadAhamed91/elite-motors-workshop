@@ -1,6 +1,6 @@
 import { useReducedMotion } from 'framer-motion'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { forceReplay, intro } from '@/config/intro'
+import { forceReplay, forceSkip, intro } from '@/config/intro'
 
 export interface IntroGate {
   /** True while an intro overlay is on screen — the site behind it is made inert. */
@@ -16,7 +16,7 @@ export interface IntroGate {
 }
 
 function shouldShowIntro(): boolean {
-  if (!intro.enabled || intro.frequency === 'never') return false
+  if (!intro.enabled || intro.frequency === 'never' || forceSkip()) return false
   if (intro.frequency === 'always' || forceReplay()) return true
   try {
     return !window.sessionStorage.getItem(intro.storageKey)

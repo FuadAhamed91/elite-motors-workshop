@@ -1,5 +1,4 @@
-import { AssistantWidget } from '@/components/assistant/AssistantWidget'
-import { RaceIntro } from '@/components/intro/RaceIntro'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { SplashIntro } from '@/components/intro/SplashIntro'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
@@ -16,8 +15,31 @@ import { assistant } from '@/config/assistant'
 import { intro } from '@/config/intro'
 import { IntroActiveContext, useIntroGate } from '@/hooks/useIntroGate'
 
+/** The assistant (chat panel + answer engine) loads in idle time, after the page is interactive. */
+const AssistantWidget = lazy(() =>
+  import('@/components/assistant/AssistantWidget').then((mod) => ({ default: mod.AssistantWidget })),
+)
+/** The alternate intro (with its car SVG and engine-sound synth) only loads if it is selected. */
+const RaceIntro = lazy(() => import('@/components/intro/RaceIntro').then((mod) => ({ default: mod.RaceIntro })))
+
+/** True once the main thread has gone idle after load (or after `timeout` ms at the latest). */
+function useIdle(timeout = 2500): boolean {
+  const [idle, setIdle] = useState(false)
+  useEffect(() => {
+    // Safari has no requestIdleCallback — fall back to a short timer.
+    if (typeof window.requestIdleCallback !== 'function') {
+      const id = window.setTimeout(() => setIdle(true), 1200)
+      return () => window.clearTimeout(id)
+    }
+    const id = window.requestIdleCallback(() => setIdle(true), { timeout })
+    return () => window.cancelIdleCallback(id)
+  }, [timeout])
+  return idle
+}
+
 export default function App() {
   const gate = useIntroGate()
+  const idle = useIdle()
   const Intro = intro.variant === 'splash' ? SplashIntro : RaceIntro
 
   return (
@@ -37,9 +59,15 @@ export default function App() {
         </main>
         <Footer />
         <WhatsAppFab />
-        {assistant.enabled && <AssistantWidget />}
+        {assistant.enabled && idle && (
+          <Suspense fallback={null}>
+            <AssistantWidget />
+          </Suspense>
+        )}
       </div>
-      <Intro active={gate.active} ready={gate.ready} finish={gate.finish} />
+      <Suspense fallback={null}>
+        <Intro active={gate.active} ready={gate.ready} finish={gate.finish} />
+      </Suspense>
     </IntroActiveContext.Provider>
   )
 }

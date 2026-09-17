@@ -162,14 +162,14 @@ function MapEmbed() {
         <div aria-hidden="true" className="bg-grid absolute inset-0 animate-pulse bg-surface-elevated/40" />
       )}
       <div className="pointer-events-none absolute inset-x-4 bottom-4 flex justify-between gap-3">
-        <span className="rounded-pill border border-line bg-bg/95 px-3 py-1.5 text-xs font-medium text-fg">
+        <span className="min-w-0 truncate rounded-pill border border-line bg-bg/95 px-3 py-1.5 text-xs font-medium text-fg">
           {workshop.address.line2}
         </span>
         <a
           href={workshop.mapsLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-pill bg-primary px-3 py-1.5 text-xs font-semibold text-cta-fg shadow-glow-primary transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+          className="pointer-events-auto inline-flex shrink-0 items-center gap-1.5 rounded-pill bg-primary px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-cta-fg shadow-glow-primary transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
         >
           Larger map
           <ExternalLink className="size-3.5" aria-hidden="true" />

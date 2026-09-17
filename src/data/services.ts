@@ -10,13 +10,6 @@ import {
   Sparkles,
 } from 'lucide-react'
 
-export interface ServiceImage {
-  src: string
-  alt: string
-  width: number
-  height: number
-}
-
 export interface Service {
   id: string
   /** Exact name passed into the WhatsApp message. */
@@ -31,8 +24,6 @@ export interface Service {
   badge?: string
   /** Accent used for the icon tile + hover glow. */
   accent: 'primary' | 'secondary'
-  /** Photo from the workshop (number plates redacted). */
-  image: ServiceImage
 }
 
 /**
@@ -51,7 +42,6 @@ export const services: readonly Service[] = [
     includes: ['Engine repair & rebuild', 'Gearbox & transmission work', 'Clutch, mounts & drivetrain'],
     icon: Cog,
     accent: 'secondary',
-    image: { src: '/photos/card-engine.jpg', alt: 'Car raised on a two-post lift with the bonnet open in the workshop', width: 600, height: 450 },
   },
   {
     id: 'service',
@@ -63,7 +53,6 @@ export const services: readonly Service[] = [
     icon: Droplets,
     badge: 'Most requested',
     accent: 'primary',
-    image: { src: '/photos/workshop-hall.jpg', alt: 'The main service hall with vehicle lifts and a technician at work', width: 1600, height: 1200 },
   },
   {
     id: 'ac',
@@ -75,7 +64,6 @@ export const services: readonly Service[] = [
     icon: Snowflake,
     badge: 'UAE summer essential',
     accent: 'secondary',
-    image: { src: '/photos/card-ac.jpg', alt: 'SUV raised on a lift for cooling system work', width: 550, height: 420 },
   },
   {
     id: 'brakes',
@@ -86,7 +74,6 @@ export const services: readonly Service[] = [
     includes: ['Brake pads, discs & lathe work', 'Shocks, bushes & links', 'Wheel alignment & bearings'],
     icon: Disc3,
     accent: 'primary',
-    image: { src: '/photos/card-brakes.jpg', alt: 'Vehicle on a lift for brake and suspension work', width: 450, height: 420 },
   },
   {
     id: 'body',
@@ -98,7 +85,6 @@ export const services: readonly Service[] = [
     icon: Hammer,
     badge: 'Insurance approved',
     accent: 'secondary',
-    image: { src: '/photos/body-shop.jpg', alt: 'Body shop bench with bumpers and panels being repaired', width: 1350, height: 960 },
   },
   {
     id: 'paint',
@@ -109,7 +95,6 @@ export const services: readonly Service[] = [
     includes: ['Full-size booth with drying oven', 'Colour matching & resprays', 'Clear coat & polishing'],
     icon: PaintBucket,
     accent: 'primary',
-    image: { src: '/photos/paint-booth.jpg', alt: 'The workshop’s enclosed paint booth with red doors', width: 1600, height: 1200 },
   },
   {
     id: 'electrical',
@@ -120,7 +105,6 @@ export const services: readonly Service[] = [
     includes: ['OBD scan & fault report', 'Battery, alternator & starter', 'Wiring & sensor repairs'],
     icon: Cpu,
     accent: 'secondary',
-    image: { src: '/photos/card-electrical.jpg', alt: 'Technician walking between vehicle lifts in the service hall', width: 600, height: 450 },
   },
   {
     id: 'detailing',
@@ -131,7 +115,6 @@ export const services: readonly Service[] = [
     includes: ['Exterior wash & polish', 'Interior deep clean', 'Engine bay cleaning'],
     icon: Sparkles,
     accent: 'primary',
-    image: { src: '/photos/wash-bay.jpg', alt: 'Two vehicles in the covered wash bay', width: 1600, height: 1200 },
   },
 ]
 

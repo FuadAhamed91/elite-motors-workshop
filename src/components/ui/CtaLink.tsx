@@ -18,7 +18,7 @@ interface CtaLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'cl
 }
 
 const BASE =
-  'inline-flex cursor-pointer touch-manipulation select-none items-center justify-center gap-2 whitespace-nowrap rounded-pill font-semibold ' +
+  'inline-flex max-w-full cursor-pointer touch-manipulation select-none items-center justify-center gap-2 rounded-pill text-center font-semibold sm:whitespace-nowrap ' +
   'transition-[transform,background-color,border-color,box-shadow,color] duration-200 ease-out active:scale-[0.97] motion-reduce:active:scale-100'
 
 const VARIANTS: Record<CtaVariant, string> = {
@@ -30,11 +30,15 @@ const VARIANTS: Record<CtaVariant, string> = {
   inverse: 'bg-fg text-bg hover:bg-fg/90',
 }
 
-/* Heights keep every CTA ≥ 44px on touch devices (Apple HIG / WCAG target size). */
+/*
+ * Heights keep every CTA ≥ 44px on touch devices (Apple HIG / WCAG target size).
+ * min-height (not height) so a label that has to wrap on a narrow phone grows
+ * the pill instead of spilling out of it.
+ */
 const SIZES: Record<CtaSize, string> = {
-  sm: 'h-11 px-4 text-sm sm:h-10',
-  md: 'h-12 px-5 text-sm sm:text-[15px]',
-  lg: 'h-13 px-7 text-base sm:h-14 sm:px-8',
+  sm: 'min-h-11 px-4 py-2 text-sm sm:min-h-10',
+  md: 'min-h-12 px-5 py-2.5 text-sm sm:text-[15px]',
+  lg: 'min-h-13 px-6 py-3 text-[15px] sm:min-h-14 sm:px-8 sm:text-base',
 }
 
 /**

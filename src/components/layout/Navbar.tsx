@@ -46,7 +46,7 @@ export function Navbar() {
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300',
         frosted
-          ? 'border-b border-line bg-bg/75 shadow-[0_12px_40px_-24px_rgb(68_52_30/0.35)] backdrop-blur-xl'
+          ? 'border-b border-line bg-bg/92 shadow-[0_12px_40px_-24px_rgb(68_52_30/0.35)] sm:bg-bg/75 sm:backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent',
       )}
     >
