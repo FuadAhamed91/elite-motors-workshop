@@ -48,7 +48,7 @@ export function StatusBadge({ className, compact = false }: StatusBadgeProps) {
       role="status"
       aria-live="polite"
       className={cn(
-        'inline-flex items-center gap-2 rounded-pill border px-3 py-1.5 text-sm font-medium backdrop-blur-sm',
+        'inline-flex items-center gap-2 rounded-pill border px-3 py-1.5 text-sm font-medium',
         tone.border,
         className,
       )}

@@ -1,5 +1,6 @@
-import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import { m, useReducedMotion, type Variants } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { useIntroActive } from '@/hooks/useIntroGate'
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const
 
@@ -20,7 +21,18 @@ interface RevealProps {
  */
 export function Reveal({ children, className, delay = 0, y = 24, as = 'div' }: RevealProps) {
   const reduce = useReducedMotion()
-  const Tag = motion[as]
+  const introActive = useIntroActive()
+  const Tag = m[as]
+
+  // While the intro overlay is up, hold the hidden state (no wasted animation
+  // work behind it); the reveal runs as the overlay fades.
+  if (introActive && !reduce) {
+    return (
+      <Tag className={className} initial={{ opacity: 0, y }} animate={{ opacity: 0, y }}>
+        {children}
+      </Tag>
+    )
+  }
 
   return (
     <Tag
@@ -54,13 +66,15 @@ interface StaggerGroupProps {
 /** Parent that staggers its `StaggerItem` children (30–80 ms apart). */
 export function StaggerGroup({ children, className, as = 'div' }: StaggerGroupProps) {
   const reduce = useReducedMotion()
-  const Tag = motion[as]
+  const introActive = useIntroActive()
+  const Tag = m[as]
   return (
     <Tag
       className={className}
       variants={groupVariants}
       initial={reduce ? false : 'hidden'}
-      whileInView="show"
+      animate={introActive && !reduce ? 'hidden' : undefined}
+      whileInView={introActive && !reduce ? undefined : 'show'}
       viewport={{ once: true, margin: '0px 0px -60px 0px' }}
     >
       {children}
@@ -75,7 +89,7 @@ interface StaggerItemProps {
 }
 
 export function StaggerItem({ children, className, as = 'div' }: StaggerItemProps) {
-  const Tag = motion[as]
+  const Tag = m[as]
   return (
     <Tag className={className} variants={itemVariants}>
       {children}

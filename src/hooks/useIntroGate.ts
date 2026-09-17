@@ -1,5 +1,5 @@
 import { useReducedMotion } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { forceReplay, intro } from '@/config/intro'
 
 export interface IntroGate {
@@ -57,4 +57,11 @@ export function useIntroGate(): IntroGate {
   }, [])
 
   return { active, ready: active && visible, finish }
+}
+
+/** True while an intro overlay covers the page — reveals wait for it to finish. */
+export const IntroActiveContext = createContext(false)
+
+export function useIntroActive(): boolean {
+  return useContext(IntroActiveContext)
 }

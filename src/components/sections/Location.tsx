@@ -1,5 +1,5 @@
 import { ExternalLink, MapPin, Navigation, Phone } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
@@ -112,29 +112,57 @@ function AddressCard() {
   )
 }
 
-/** Lazy Google Maps iframe with a dark treatment and a skeleton until it paints. */
+/**
+ * Google Maps iframe mounted only once the section comes within ~400px of the
+ * viewport — the Maps scripts are heavy and would otherwise compete with the
+ * page's own load — with a skeleton until it paints.
+ */
 function MapEmbed() {
   const [loaded, setLoaded] = useState(false)
+  const [near, setNear] = useState(false)
+  const frame = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = frame.current
+    if (!el || near) return
+    if (!('IntersectionObserver' in window)) {
+      setNear(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) setNear(true)
+      },
+      { rootMargin: '400px 0px' },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [near])
 
   return (
-    <div className="relative min-h-[320px] overflow-hidden rounded-card border border-line bg-surface shadow-card sm:min-h-[400px] lg:h-full">
-      <iframe
-        src={workshop.mapEmbedUrl}
-        title={`Map showing ${workshop.name} in ${workshop.address.line2}, Abu Dhabi`}
-        loading="lazy"
-        allowFullScreen
-        referrerPolicy="no-referrer-when-downgrade"
-        onLoad={() => setLoaded(true)}
-        className={cn(
-          'map-tone absolute inset-0 h-full w-full border-0 transition-opacity duration-700',
-          loaded ? 'opacity-100' : 'opacity-0',
-        )}
-      />
+    <div
+      ref={frame}
+      className="relative min-h-[320px] overflow-hidden rounded-card border border-line bg-surface shadow-card sm:min-h-[400px] lg:h-full"
+    >
+      {near && (
+        <iframe
+          src={workshop.mapEmbedUrl}
+          title={`Map showing ${workshop.name} in ${workshop.address.line2}, Abu Dhabi`}
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
+          onLoad={() => setLoaded(true)}
+          className={cn(
+            'map-tone absolute inset-0 h-full w-full border-0 transition-opacity duration-700',
+            loaded ? 'opacity-100' : 'opacity-0',
+          )}
+        />
+      )}
       {!loaded && (
         <div aria-hidden="true" className="bg-grid absolute inset-0 animate-pulse bg-surface-elevated/40" />
       )}
       <div className="pointer-events-none absolute inset-x-4 bottom-4 flex justify-between gap-3">
-        <span className="rounded-pill border border-line bg-bg/85 px-3 py-1.5 text-xs font-medium text-fg backdrop-blur-md">
+        <span className="rounded-pill border border-line bg-bg/95 px-3 py-1.5 text-xs font-medium text-fg">
           {workshop.address.line2}
         </span>
         <a

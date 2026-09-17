@@ -94,6 +94,25 @@ Escape bypass it, it is disabled for `prefers-reduced-motion`, and it waits for 
 visible before playing. Dev review switches: `?intro=replay`, `?intro=slow`, `?intro=freeze`
 (splash: car parked mid-screen).
 
+## On-site assistant
+
+`src/components/assistant/AssistantWidget.tsx` is a small chat panel (launcher above the WhatsApp
+button). It is **rule-based and runs entirely in the browser** — no API, no keys, nothing sent
+anywhere. `src/lib/assistant.ts` matches the question against intents (open now, hours incl.
+specific days, location/directions, phone, WhatsApp, services and each service card, body shop &
+insurance, prices, reviews, booking, parts, experience) and builds every answer from the site's own
+config and data, with call/WhatsApp/maps links. Anything outside that scope gets the landline.
+Copy and quick replies live in `src/config/assistant.ts`; set `enabled: false` to remove it.
+
+## Performance notes
+
+- Only `transform`/`opacity` animate (looping textures translate a doubled pattern; the animated
+  border rotates a gradient behind the card); no `backdrop-filter` on cards; hero glows are
+  gradients, not large blurs.
+- Page reveals are held while the intro is up and play as it fades (`IntroActiveContext`).
+- framer-motion is loaded through `LazyMotion` + `m` components; fonts load without blocking first
+  paint; the Google Maps iframe mounts only when the location section is near the viewport.
+
 ## Deployment (Vercel)
 
 Vercel auto-detects Vite. Either import the GitHub repo in the Vercel dashboard, or:
@@ -116,7 +135,10 @@ src/
   config/intro.ts           intro variant + timing settings
   hooks/useIntroGate.ts     once-per-session / inert / visibility gate
   lib/engineSound.ts        Web Audio engine-sound synth
+  lib/assistant.ts          rule-based assistant (intents → answers from site data)
+  config/assistant.ts       assistant copy, quick replies, on/off
   components/
+    assistant/              AssistantWidget chat panel
     intro/                  SplashIntro + TopDownF1Car, RaceIntro + F1Car + StartLights
     ui/                     CtaLink, GlowCard, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab

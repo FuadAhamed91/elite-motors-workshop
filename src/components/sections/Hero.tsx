@@ -28,8 +28,8 @@ export function Hero() {
       {/* Ambient background: blueprint grid + electric glows, all decorative */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black_20%,transparent_75%)]" />
-        <div className="absolute -top-48 left-1/2 h-[560px] w-[900px] -translate-x-1/2 rounded-full bg-primary/15 blur-[130px]" />
-        <div className="absolute top-32 -right-24 h-[420px] w-[420px] rounded-full bg-secondary/12 blur-[120px]" />
+        <div className="absolute -top-48 left-1/2 h-[720px] w-[1100px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--color-primary-bright)_16%,transparent),transparent_62%)]" />
+        <div className="absolute top-16 -right-40 h-[620px] w-[620px] bg-[radial-gradient(circle_at_center,color-mix(in_oklab,var(--color-secondary-bright)_14%,transparent),transparent_60%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-bg to-transparent" />
       </div>
 
@@ -113,7 +113,7 @@ function QuickQuoteConsole() {
       {/* Floating rating chip */}
       <div
         aria-hidden="true"
-        className="absolute -top-4 -right-2 z-20 flex items-center gap-2 rounded-pill border border-line bg-surface-elevated/95 px-3 py-1.5 text-xs font-semibold text-fg shadow-card backdrop-blur-md motion-safe:animate-float sm:-right-5"
+        className="absolute -top-4 -right-2 z-20 flex items-center gap-2 rounded-pill border border-line bg-surface-elevated px-3 py-1.5 text-xs font-semibold text-fg shadow-card motion-safe:animate-float sm:-right-5"
       >
         <Star className="size-3.5 fill-star text-star" />
         {workshop.googleReviews.count} reviews on Google

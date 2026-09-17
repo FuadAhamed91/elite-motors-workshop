@@ -1,7 +1,7 @@
 import {
   AnimatePresence,
   animate,
-  motion,
+  m,
   useMotionTemplate,
   useMotionValue,
   useTransform,
@@ -38,7 +38,7 @@ function carWidth(): number {
  * Opening sequence: the car waits on the grid while five start lights come
  * on, then launches across the frame and pulls the overlay away behind it to
  * reveal the site. Runs on its own (tap anywhere for sound), is skippable,
- * shows once per session and is disabled under reduced motion.
+ * shows once per session and is disabled under reduced m.
  */
 export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) {
   const [phase, setPhase] = useState<Phase>('grid')
@@ -145,7 +145,7 @@ export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) 
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           key="race-intro"
           role="dialog"
           aria-modal="true"
@@ -157,13 +157,9 @@ export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) 
           exit={{ opacity: 0, transition: { duration: 0.32, ease: EASE_OUT_CUBIC } }}
         >
           {/* distant backdrop + streaks (panning-shot feel) */}
-          <div
-            aria-hidden="true"
-            className={cn(
-              'race-backdrop absolute inset-x-0 top-[26%] h-[22%] opacity-70',
-              racing && 'motion-safe:animate-pan-streaks',
-            )}
-          />
+          <div aria-hidden="true" className="absolute inset-x-0 top-[26%] h-[22%] overflow-hidden opacity-70">
+            <div className={cn('race-backdrop absolute inset-y-0 left-0', racing && 'motion-safe:animate-pan-streaks')} />
+          </div>
 
           {/* brand + skip */}
           <div className="absolute top-5 left-5 flex items-center gap-3 sm:top-6 sm:left-8">
@@ -190,32 +186,28 @@ export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) 
           {/* track */}
           <div className="absolute inset-x-0 top-[48%] -translate-y-1/2 sm:top-1/2">
             <div className="race-kerb h-2" aria-hidden="true" />
-            <div
-              className={cn(
-                'race-track relative h-36 sm:h-52',
-                racing && 'motion-safe:[animation:var(--animate-road-dash)]',
-              )}
-            >
+            <div className="race-track relative h-36 overflow-hidden sm:h-52">
+              <div aria-hidden="true" className={cn('race-dashes', racing && 'motion-safe:animate-road-dash')} />
               {racing && (
                 <div
                   aria-hidden="true"
-                  className="race-pan-streaks absolute inset-0 opacity-30 motion-safe:animate-pan-streaks"
+                  className="race-pan-streaks absolute inset-y-0 left-0 opacity-30 motion-safe:animate-pan-streaks"
                 />
               )}
 
               {/* car — width mirrors carWidth() */}
-              <motion.div
+              <m.div
                 aria-hidden="true"
                 className="absolute bottom-2 left-0 w-[44vw] max-w-[520px] min-w-[260px] will-change-transform sm:bottom-3"
                 style={{ transform: carTransform, transformOrigin: '20% 100%' }}
               >
                 {/* motion-blur trail behind the car */}
-                <motion.div
+                <m.div
                   className="absolute top-[40%] right-[60%] h-[36%] w-[80%] rounded-full bg-linear-to-l from-ink-900/45 to-transparent blur-[6px]"
                   style={{ opacity: trailOpacity }}
                 />
                 {/* sparks off the floor at speed */}
-                <motion.div className="absolute bottom-[8%] left-[28%] h-2 w-[40%]" style={{ opacity: sparkOpacity }}>
+                <m.div className="absolute bottom-[8%] left-[28%] h-2 w-[40%]" style={{ opacity: sparkOpacity }}>
                   {SPARKS.map((i) => (
                     <span
                       key={i}
@@ -223,7 +215,7 @@ export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) 
                       style={{ left: `${i * 18}%`, animationDelay: `${i * 55}ms` }}
                     />
                   ))}
-                </motion.div>
+                </m.div>
                 {/* tyre smoke at launch */}
                 {racing &&
                   SMOKE.map((i) => (
@@ -237,7 +229,7 @@ export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) 
                 <div className={cn(!racing && 'motion-safe:animate-idle-shake')}>
                   <F1Car spinning={racing} className="w-full" />
                 </div>
-              </motion.div>
+              </m.div>
             </div>
             <div className="race-kerb h-2" aria-hidden="true" />
             {/* pit wall line */}
@@ -247,7 +239,7 @@ export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) 
           {/* sound hint — the whole overlay is the tap target */}
           <AnimatePresence>
             {!soundOn && (
-              <motion.div
+              <m.div
                 key="hint"
                 className="pointer-events-none absolute inset-x-0 bottom-[max(2rem,env(safe-area-inset-bottom))] flex justify-center"
                 initial={{ opacity: 0, y: 8 }}
@@ -258,10 +250,10 @@ export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) 
                   <Volume2 className="size-4" aria-hidden="true" />
                   Tap anywhere for sound
                 </span>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

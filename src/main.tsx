@@ -1,3 +1,4 @@
+import { LazyMotion, domAnimation } from 'framer-motion'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@/index.css'
@@ -12,6 +13,9 @@ if (import.meta.env.DEV && !isWhatsAppConfigured()) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    {/* `m` components + this feature bundle ship ~40% less animation code than `motion` */}
+    <LazyMotion features={domAnimation} strict>
+      <App />
+    </LazyMotion>
   </StrictMode>,
 )

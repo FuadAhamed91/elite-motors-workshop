@@ -48,7 +48,7 @@ function GoogleReviewsBadge() {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-4 rounded-2xl border border-line bg-surface/80 p-4 pr-5 shadow-card backdrop-blur-sm transition-colors hover:border-line-strong"
+      className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 pr-5 shadow-card transition-colors hover:border-line-strong"
     >
       <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary/12 text-secondary">
         <BadgeCheck className="size-6" aria-hidden="true" />

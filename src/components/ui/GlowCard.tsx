@@ -49,7 +49,7 @@ export function GlowCard({
         'group relative h-full rounded-card transition-[border-color,box-shadow] duration-300 ease-out',
         animatedBorder
           ? 'animated-border p-px'
-          : 'border border-line bg-surface/80 shadow-card backdrop-blur-sm hover:border-line-strong',
+          : 'border border-line bg-surface shadow-card hover:border-line-strong',
         className,
       )}
     >

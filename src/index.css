@@ -70,17 +70,19 @@
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-border-spin: border-spin 7s linear infinite;
+  --animate-border-spin: border-rotate 7s linear infinite;
   --animate-float: float 7s ease-in-out infinite;
   --animate-wheel-spin: wheel-spin 0.16s linear infinite;
   --animate-pan-streaks: pan-streaks 0.22s linear infinite;
   --animate-road-dash: road-dash 0.28s linear infinite;
+  --animate-streaks-fast: streaks-fast 0.16s linear infinite;
+  --animate-streaks-slow: streaks-slow 0.26s linear infinite;
   --animate-idle-shake: idle-shake 90ms ease-in-out infinite;
   --animate-smoke-puff: smoke-puff 720ms cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
   --animate-spark: spark 260ms cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
   --animate-skid: skid 1900ms cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
-  --animate-streaks-down: streaks-down 0.16s linear infinite;
   --animate-exhaust: exhaust 90ms ease-in-out infinite;
+  --animate-smoke-rise: smoke-rise 900ms cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
 
   @keyframes pulse-ring {
     0% {
@@ -96,9 +98,9 @@
       opacity: 0;
     }
   }
-  @keyframes border-spin {
+  @keyframes border-rotate {
     to {
-      --border-angle: 360deg;
+      transform: rotate(360deg);
     }
   }
   @keyframes float {
@@ -115,20 +117,26 @@
       transform: rotate(360deg);
     }
   }
+  /* All looping motion below translates a doubled pattern by exactly one period,
+     so it stays on the compositor instead of repainting every frame. */
   @keyframes pan-streaks {
-    from {
-      background-position: 0 0;
-    }
     to {
-      background-position: -320px 0;
+      transform: translate3d(-320px, 0, 0);
     }
   }
   @keyframes road-dash {
-    from {
-      background-position: 0 50%;
-    }
     to {
-      background-position: -180px 50%;
+      transform: translate3d(-180px, 0, 0);
+    }
+  }
+  @keyframes streaks-fast {
+    to {
+      transform: translate3d(0, 260px, 0);
+    }
+  }
+  @keyframes streaks-slow {
+    to {
+      transform: translate3d(0, 420px, 0);
     }
   }
   @keyframes idle-shake {
@@ -175,12 +183,14 @@
       opacity: 0;
     }
   }
-  @keyframes streaks-down {
-    from {
-      background-position: 0 0, 0 0;
+  @keyframes smoke-rise {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.6);
+      opacity: 0.7;
     }
-    to {
-      background-position: 0 260px, 0 420px;
+    100% {
+      transform: translate3d(0, -140px, 0) scale(2.4);
+      opacity: 0;
     }
   }
   @keyframes exhaust {
@@ -194,13 +204,6 @@
       opacity: 1;
     }
   }
-}
-
-/* Registered custom property so the conic border angle can animate */
-@property --border-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
 }
 
 @layer base {
@@ -258,18 +261,26 @@
      with `bg-surface rounded-[inherit]` so only the 1px ring shows. */
   .animated-border {
     position: relative;
-    background:
-      conic-gradient(
-        from var(--border-angle),
-        var(--color-line) 0%,
-        var(--color-line) 62%,
-        var(--color-primary-bright) 78%,
-        var(--color-secondary-bright) 88%,
-        var(--color-line) 100%
-      );
+    overflow: hidden;
+    background: var(--color-line);
+  }
+  /* rotating gradient square behind the inner surface — a transform, never a repaint */
+  .animated-border::before {
+    content: "";
+    position: absolute;
+    inset: -100%;
+    background: conic-gradient(
+      from 0deg,
+      var(--color-line) 0%,
+      var(--color-line) 62%,
+      var(--color-primary-bright) 78%,
+      var(--color-secondary-bright) 88%,
+      var(--color-line) 100%
+    );
+    will-change: transform;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .animated-border {
+    .animated-border::before {
       animation: var(--animate-border-spin);
     }
   }
@@ -295,6 +306,8 @@
   }
   /* distant grandstand / tree line, kept low-contrast and soft */
   .race-backdrop {
+    width: calc(100% + 320px);
+    will-change: transform;
     background-image: repeating-linear-gradient(
       90deg,
       color-mix(in oklab, var(--color-ink-900) 14%, transparent) 0 42px,
@@ -308,12 +321,18 @@
   }
   .race-track {
     background-color: var(--color-asphalt);
-    background-image:
-      linear-gradient(180deg, rgb(255 255 255 / 0.1), transparent 30%, rgb(0 0 0 / 0.25) 100%),
-      repeating-linear-gradient(90deg, transparent 0 96px, rgb(255 255 255 / 0.55) 96px 180px);
-    background-size: 100% 100%, 180px 3px;
-    background-repeat: no-repeat, repeat-x;
-    background-position: 0 0, 0 50%;
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.1), transparent 30%, rgb(0 0 0 / 0.25) 100%);
+  }
+  /* centre-line dashes: one period wider than the track so a 180px translate loops seamlessly */
+  .race-dashes {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: calc(100% + 180px);
+    height: 3px;
+    margin-top: -1.5px;
+    background-image: repeating-linear-gradient(90deg, transparent 0 96px, rgb(255 255 255 / 0.55) 96px 180px);
+    will-change: transform;
   }
   /* F1-style red/white kerb along the track edges */
   .race-kerb {
@@ -325,6 +344,8 @@
   }
   /* thin dashed streaks the camera "drags" across the frame at speed */
   .race-pan-streaks {
+    width: calc(100% + 320px);
+    will-change: transform;
     background-image: repeating-linear-gradient(
       90deg,
       transparent 0 90px,
@@ -353,14 +374,27 @@
   .splash-vignette {
     background-image: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 55%, color-mix(in oklab, var(--color-ink-900) 14%, transparent) 100%);
   }
-  /* two layers of short vertical dashes at different speeds = track texture rushing past */
+  /* two layers of short vertical dashes at different speeds = track texture rushing past.
+     Each layer is one period taller than its box and translates by that period. */
   .splash-streaks {
-    background-image:
-      repeating-linear-gradient(180deg, color-mix(in oklab, var(--color-ink-900) 45%, transparent) 0 46px, transparent 46px 260px),
-      repeating-linear-gradient(180deg, color-mix(in oklab, var(--color-ink-900) 25%, transparent) 0 90px, transparent 90px 420px);
-    background-size: 100% 260px, 100% 420px;
+    overflow: hidden;
     -webkit-mask-image: repeating-linear-gradient(90deg, transparent 0 22px, #000 22px 24px, transparent 24px 61px);
     mask-image: repeating-linear-gradient(90deg, transparent 0 22px, #000 22px 24px, transparent 24px 61px);
+  }
+  .splash-streak-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    will-change: transform;
+  }
+  .splash-streak-fast {
+    top: -260px;
+    background-image: repeating-linear-gradient(180deg, color-mix(in oklab, var(--color-ink-900) 45%, transparent) 0 46px, transparent 46px 260px);
+  }
+  .splash-streak-slow {
+    top: -420px;
+    background-image: repeating-linear-gradient(180deg, color-mix(in oklab, var(--color-ink-900) 25%, transparent) 0 90px, transparent 90px 420px);
   }
   .splash-skid {
     background-image: linear-gradient(180deg, transparent 0%, rgb(0 0 0 / 0.9) 45%, rgb(20 18 16 / 0.7) 100%);

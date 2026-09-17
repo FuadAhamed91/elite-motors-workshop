@@ -15,14 +15,14 @@ export const intro = {
   splash: {
     /** Start lights (single row) that gate the launch. */
     lights: {
-      startMs: 400 as number,
-      intervalMs: 260 as number,
+      startMs: 260 as number,
+      intervalMs: 210 as number,
       count: 3,
       /** All lit before they go out. */
-      holdMs: 380 as number,
+      holdMs: 320 as number,
     },
     /** Car travel from below the viewport (100vh) to above it (-120vh). */
-    durationMs: 2000 as number,
+    durationMs: 1800 as number,
     /** Aggressive racing acceleration curve (power4.in). */
     ease: [0.7, 0, 0.84, 0] as [number, number, number, number],
     /** Backdrop fade once the car has cleared the top. */

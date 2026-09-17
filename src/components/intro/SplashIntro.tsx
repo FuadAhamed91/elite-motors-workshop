@@ -1,7 +1,7 @@
 import {
   AnimatePresence,
   animate,
-  motion,
+  m,
   useMotionTemplate,
   useMotionValue,
   useTransform,
@@ -15,6 +15,7 @@ import { TopDownF1Car } from '@/components/intro/TopDownF1Car'
 import { intro, resolveSplash, reviewMode, splashLaunchMs } from '@/config/intro'
 import { workshop } from '@/config/workshop'
 import type { IntroGate } from '@/hooks/useIntroGate'
+import { cn } from '@/lib/cn'
 
 const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
 
@@ -92,7 +93,7 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
   return (
     <AnimatePresence>
       {active && (
-        <motion.div
+        <m.div
           key="splash-intro"
           role="dialog"
           aria-modal="true"
@@ -101,18 +102,13 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: intro.splash.fadeMs / 1000, ease: EASE_OUT_CUBIC } }}
         >
-          {/* heat-haze displacement filter (used by the exhaust plume) */}
+          {/* heat-haze displacement filter (used by the exhaust plume). The turbulence is
+              static and the filtered element never changes, so the filter is rasterised once;
+              the flicker comes from transforming its wrapper. */}
           <svg className="absolute size-0" aria-hidden="true" focusable="false">
             <filter id="splash-haze" x="-20%" y="-20%" width="140%" height="140%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.02 0.07" numOctaves="2" seed="4">
-                <animate
-                  attributeName="baseFrequency"
-                  dur="0.5s"
-                  values="0.02 0.07;0.028 0.09;0.02 0.07"
-                  repeatCount="indefinite"
-                />
-              </feTurbulence>
-              <feDisplacementMap in="SourceGraphic" scale="18" xChannelSelector="R" yChannelSelector="G" />
+              <feTurbulence type="fractalNoise" baseFrequency="0.02 0.07" numOctaves="1" seed="4" />
+              <feDisplacementMap in="SourceGraphic" scale="16" xChannelSelector="R" yChannelSelector="G" />
             </filter>
           </svg>
 
@@ -121,11 +117,14 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
           <div aria-hidden="true" className="splash-vignette absolute inset-0" />
 
           {/* track texture rushing past — only visible once the car is moving fast */}
-          <motion.div
+          <m.div
             aria-hidden="true"
-            className="splash-streaks absolute inset-x-[18%] inset-y-0 motion-safe:animate-streaks-down sm:inset-x-[30%]"
+            className="splash-streaks absolute inset-x-[18%] inset-y-0 sm:inset-x-[30%]"
             style={{ opacity: streakOpacity }}
-          />
+          >
+            <div className="splash-streak-layer splash-streak-fast motion-safe:animate-streaks-fast" />
+            <div className="splash-streak-layer splash-streak-slow motion-safe:animate-streaks-slow" />
+          </m.div>
 
           {/* grid slot at the launch position + twin skid marks */}
           <div aria-hidden="true" className="absolute bottom-0 left-1/2 h-[30vh] w-[min(46vw,270px)] -translate-x-1/2">
@@ -135,30 +134,40 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
                 {/* rear tyres sit at 15% / 85% of the car's width — skids are centred on them */}
                 <span className="splash-skid absolute bottom-0 left-[8.5%] h-full w-[13%] rounded-t-full motion-safe:animate-skid" />
                 <span className="splash-skid absolute right-[8.5%] bottom-0 h-full w-[13%] rounded-t-full motion-safe:animate-skid" />
+                {/* tyre smoke at the grid slot — the launch reads instantly, before the car is in frame */}
+                {[0, 1, 2, 3].map((i) => (
+                  <span
+                    key={i}
+                    className={cn(
+                      'absolute -bottom-4 size-14 rounded-full bg-fg/20 blur-[3px] motion-safe:animate-smoke-rise',
+                      i % 2 === 0 ? 'left-[6%]' : 'right-[6%]',
+                    )}
+                    style={{ animationDelay: `${i * 110}ms` }}
+                  />
+                ))}
               </>
             )}
           </div>
 
           {/* the car */}
-          <motion.div
+          <m.div
             aria-hidden="true"
             className="absolute top-0 left-1/2 w-[min(46vw,270px)] will-change-transform"
             style={{ transform: carTransform, transformOrigin: '50% 100%' }}
           >
             {/* motion-blur trail behind (below) the car */}
-            <motion.div
+            <m.div
               className="absolute inset-x-[14%] top-[92%] h-[70%] rounded-full bg-linear-to-b from-brand-red/45 via-ink-900/15 to-transparent blur-[8px]"
               style={{ opacity: trailOpacity }}
             />
             {/* exhaust plume with heat-haze distortion */}
-            <div
-              className="absolute top-[93%] left-1/2 h-[22%] w-[38%] -translate-x-1/2"
-              style={{ filter: 'url(#splash-haze)' }}
-            >
-              <div className="size-full rounded-full bg-[radial-gradient(ellipse_at_50%_0%,rgb(255_170_60/0.6),rgb(255_110_20/0.3)_35%,transparent_70%)] blur-[2px] motion-safe:animate-exhaust" />
+            <div className="absolute top-[93%] left-1/2 h-[22%] w-[38%] -translate-x-1/2 motion-safe:animate-exhaust">
+              <div className="size-full" style={{ filter: 'url(#splash-haze)' }}>
+                <div className="size-full rounded-full bg-[radial-gradient(ellipse_at_50%_0%,rgb(255_170_60/0.6),rgb(255_110_20/0.3)_35%,transparent_70%)]" />
+              </div>
             </div>
             <TopDownF1Car className="relative w-full" />
-          </motion.div>
+          </m.div>
 
           {/* start lights — hang above the track, so the car passes beneath them */}
           <div className="absolute inset-x-0 top-[max(5rem,13%)] sm:top-[max(6rem,15%)]">
@@ -180,7 +189,7 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
             Skip
             <X className="size-4" aria-hidden="true" />
           </button>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

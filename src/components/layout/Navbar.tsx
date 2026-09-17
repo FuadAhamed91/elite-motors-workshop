@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { Menu, Phone, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
@@ -115,7 +115,7 @@ export function Navbar() {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             id="mobile-nav"
             key="mobile-nav"
             initial={reduce ? { opacity: 1 } : { opacity: 0, y: -8 }}
@@ -149,7 +149,7 @@ export function Navbar() {
                 </CtaLink>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>
