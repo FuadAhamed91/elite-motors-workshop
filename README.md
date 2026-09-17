@@ -71,17 +71,24 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 - `directions()` — location section
 - `afterHours()` — shown by the status card when the workshop is closed
 
-## Opening race intro
+## Opening "lights out" intro
 
-`src/components/intro/RaceIntro.tsx` shows an F1 car (EMW livery) racing across a track when
-the site opens, then a short "Where to?" menu (WhatsApp quote, call, services, location).
+`src/components/intro/RaceIntro.tsx` — on first open the EMW single-seater waits on the grid
+while the five start lights come on; at lights-out it launches across the frame (wheelspin,
+tyre smoke, sparks, velocity-driven lean and motion-blur trail) and the overlay wipes away
+behind the car with a feathered edge, straight into the hero. No menu, no button.
 
-- Sound: browsers block autoplay, so the intro shows a **Start engine** button — tapping it
-  plays a synthesized engine pass (`src/lib/engineSound.ts`, Web Audio, no audio file). If
-  nobody taps, the race starts silently after 2.5 s. Drop a licensed clip in `/public` and set
-  `soundUrl` in `src/config/intro.ts` to use a real recording instead.
-- Shown once per browser session, skippable (button / Escape), and disabled for visitors who
-  prefer reduced motion. Tune or switch it off in `src/config/intro.ts`.
+- **Sound** is synthesized with the Web Audio API (`src/lib/engineSound.ts`): a tick per
+  light, an idle burble that tightens, then the launch — gear shifts, peak, Doppler drop.
+  Browsers block autoplay, so tapping anywhere turns it on, synced to wherever the sequence
+  is. Drop a licensed clip in `/public` and set `soundUrl` in `src/config/intro.ts` for a real
+  recording.
+- Motion follows the web-animation-design guide: ease-in-out for on-screen movement, ease-out
+  for enters/exits, transform/opacity only, `will-change`, blur under 20px.
+- Skippable (button / Escape), once per browser session, skipped for reduced-motion users
+  and background tabs. Timing lives in `src/config/intro.ts`.
+- Dev review aids: `?intro=slow` runs the sequence 8× slower, `?intro=replay` ignores the
+  once-per-session rule (dev server only).
 
 ## Deployment (Vercel)
 
@@ -105,7 +112,7 @@ src/
   config/intro.ts           opening race intro settings
   lib/engineSound.ts        Web Audio engine-sound synth
   components/
-    intro/                  RaceIntro overlay + F1Car SVG
+    intro/                  RaceIntro overlay, F1Car SVG, StartLights gantry
     ui/                     CtaLink, GlowCard, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab
     sections/               Hero, TrustStrip, Services, Reviews, Hours, Location
