@@ -8,23 +8,28 @@ import {
   useVelocity,
 } from 'framer-motion'
 import { X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BrandMark } from '@/components/icons/BrandMark'
+import { StartLights } from '@/components/intro/StartLights'
 import { TopDownF1Car } from '@/components/intro/TopDownF1Car'
-import { intro, resolveSplash, reviewMode } from '@/config/intro'
+import { intro, resolveSplash, reviewMode, splashLaunchMs } from '@/config/intro'
 import { workshop } from '@/config/workshop'
 import type { IntroGate } from '@/hooks/useIntroGate'
 
 const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
 
 /**
- * Full-screen splash: a top-down F1 car starts just below the viewport,
- * accelerates straight up and off the top (power4.in), leaving skid marks
- * and speed streaks; the backdrop fades out as the car clears the frame.
- * The site behind is inert until then (see App). Once per session, skippable.
+ * Full-screen splash on the site's cream/beige gradient: three start lights
+ * come on, hold, go out — then a top-down F1 car launches from just below the
+ * viewport straight up and off the top (power4.in), leaving skid marks and
+ * speed streaks. The backdrop fades as the car clears the frame. The site
+ * behind is inert until then (see App). Once per session, skippable.
  */
 export function SplashIntro({ active, ready, finish }: IntroGate) {
+  const [lit, setLit] = useState(0)
+  const [lightsOut, setLightsOut] = useState(false)
   const [launched, setLaunched] = useState(false)
+  const timers = useRef<number[]>([])
 
   // Vertical position in px drives everything: stretch, trail and streak intensity follow velocity.
   const y = useMotionValue(typeof window === 'undefined' ? 0 : window.innerHeight)
@@ -39,21 +44,35 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
     const splash = resolveSplash()
     const viewportHeight = window.innerHeight
     y.set(viewportHeight) // translateY(100vh): just below the viewport
-    setLaunched(true)
 
     if (reviewMode() === 'freeze') {
-      // Dev review frame: car parked in view, nothing moves, no auto-finish.
+      // Dev review frame: lights on, car parked in view, nothing moves, no auto-finish.
+      setLit(splash.lights.count)
+      setLaunched(true)
       y.set(viewportHeight * 0.06)
       return
     }
 
-    const controls = animate(y, -1.2 * viewportHeight, {
-      // translateY(-120vh) — well clear of the top
-      duration: splash.durationMs / 1000,
-      ease: splash.ease,
+    const schedule = (ms: number, fn: () => void) => {
+      timers.current.push(window.setTimeout(fn, ms))
+    }
+    for (let i = 0; i < splash.lights.count; i++) {
+      schedule(splash.lights.startMs + i * splash.lights.intervalMs, () => setLit(i + 1))
+    }
+
+    let controls: ReturnType<typeof animate> | null = null
+    const launchMs = splashLaunchMs(splash)
+    schedule(launchMs, () => {
+      setLightsOut(true)
+      setLaunched(true)
+      controls = animate(y, -1.2 * viewportHeight, {
+        // translateY(-120vh) — well clear of the top
+        duration: splash.durationMs / 1000,
+        ease: splash.ease,
+      })
     })
     // Start the backdrop fade as the car clears the top edge.
-    const done = window.setTimeout(finish, splash.durationMs - 120)
+    schedule(launchMs + splash.durationMs - 120, finish)
 
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -62,8 +81,9 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
     }
     window.addEventListener('keydown', onKey)
     return () => {
-      controls.stop()
-      window.clearTimeout(done)
+      controls?.stop()
+      timers.current.forEach((id) => window.clearTimeout(id))
+      timers.current = []
       document.body.style.overflow = previousOverflow
       window.removeEventListener('keydown', onKey)
     }
@@ -109,7 +129,7 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
 
           {/* grid slot at the launch position + twin skid marks */}
           <div aria-hidden="true" className="absolute bottom-0 left-1/2 h-[30vh] w-[min(46vw,320px)] -translate-x-1/2">
-            <div className="splash-grid-box absolute inset-x-0 bottom-0 h-[10vh] opacity-60" />
+            <div className="splash-grid-box absolute inset-x-0 bottom-0 h-[10vh] opacity-50" />
             {launched && (
               <>
                 <span className="splash-skid absolute bottom-0 left-[16%] h-full w-[13%] rounded-t-full motion-safe:animate-skid" />
@@ -126,7 +146,7 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
           >
             {/* motion-blur trail behind (below) the car */}
             <motion.div
-              className="absolute inset-x-[14%] top-[92%] h-[70%] rounded-full bg-linear-to-b from-brand-red/50 via-white/10 to-transparent blur-[8px]"
+              className="absolute inset-x-[14%] top-[92%] h-[70%] rounded-full bg-linear-to-b from-brand-red/45 via-ink-900/15 to-transparent blur-[8px]"
               style={{ opacity: trailOpacity }}
             />
             {/* exhaust plume with heat-haze distortion */}
@@ -134,22 +154,27 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
               className="absolute top-[93%] left-1/2 h-[22%] w-[38%] -translate-x-1/2"
               style={{ filter: 'url(#splash-haze)' }}
             >
-              <div className="size-full rounded-full bg-[radial-gradient(ellipse_at_50%_0%,rgb(255_210_138/0.55),rgb(255_122_26/0.25)_35%,transparent_70%)] blur-[2px] motion-safe:animate-exhaust" />
+              <div className="size-full rounded-full bg-[radial-gradient(ellipse_at_50%_0%,rgb(255_170_60/0.6),rgb(255_110_20/0.3)_35%,transparent_70%)] blur-[2px] motion-safe:animate-exhaust" />
             </div>
             <TopDownF1Car className="relative w-full" />
           </motion.div>
 
+          {/* start lights — hang above the track, so the car passes beneath them */}
+          <div className="absolute inset-x-0 top-[max(5rem,13%)] sm:top-[max(6rem,15%)]">
+            <StartLights lit={lit} out={lightsOut} count={intro.splash.lights.count} rows={1} />
+          </div>
+
           {/* brand + skip */}
           <div className="absolute top-5 left-5 flex items-center gap-3 sm:top-6 sm:left-8">
             <BrandMark className="h-9 w-auto sm:h-11" />
-            <span className="hidden font-display text-sm font-bold tracking-[0.14em] text-sand-50 uppercase sm:block">
+            <span className="hidden font-display text-sm font-bold tracking-[0.14em] text-fg uppercase sm:block">
               Elite Motors Workshop
             </span>
           </div>
           <button
             type="button"
             onClick={finish}
-            className="absolute top-5 right-5 inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-pill border border-white/15 bg-white/8 px-4 text-sm font-semibold text-sand-50 backdrop-blur transition-colors duration-150 ease-out hover:bg-white/14 sm:top-6 sm:right-8"
+            className="absolute top-5 right-5 inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-pill border border-line bg-surface/80 px-4 text-sm font-semibold text-fg backdrop-blur transition-colors duration-150 ease-out hover:border-line-strong hover:bg-surface sm:top-6 sm:right-8"
           >
             Skip
             <X className="size-4" aria-hidden="true" />

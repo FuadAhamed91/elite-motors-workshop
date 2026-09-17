@@ -76,9 +76,10 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 Two variants live in `src/components/intro/`; pick one with `variant` in `src/config/intro.ts`
 (`'splash'` is active, `'lights-out'` is the approved earlier version — git tag `v1-approved-intro`).
 
-**`splash`** — `SplashIntro.tsx`: a full-screen dark backdrop (`z-index: 9999`, radial gradient +
-asphalt grain + vignette). A top-down F1 car (`TopDownF1Car.tsx`, 400×1100 SVG with metallic
-gradients, halo, slick tyres) starts at `translateY(100vh)` and accelerates straight up to
+**`splash`** — `SplashIntro.tsx`: a full-screen overlay (`z-index: 9999`) on the site's cream/beige
+gradient with a faint grain and vignette. A single row of three start lights comes on, holds,
+and goes out; then a top-down F1 car (`TopDownF1Car.tsx`, 400×1100 SVG with metallic gradients,
+halo, slick tyres) starts at `translateY(100vh)` and accelerates straight up to
 `translateY(-120vh)` over 2 s on `cubic-bezier(0.7, 0, 0.84, 0)`. Speed cues: twin skid marks
 fading behind the launch slot, velocity-driven stretch and blur trail, rushing track streaks, and
 an exhaust plume distorted by an SVG heat-haze filter. As the car clears the top the backdrop

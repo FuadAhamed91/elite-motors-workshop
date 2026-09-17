@@ -6,13 +6,15 @@ interface StartLightsProps {
   /** All lights off after the hold — "lights out". */
   out: boolean
   count: number
+  /** Lamps per column — real gantries have two, the splash uses one. */
+  rows?: 1 | 2
 }
 
 /**
  * F1 start-light gantry. Only opacity is transitioned (the red lamp and its
  * glow are separate layers) so the sequence stays on the compositor.
  */
-export function StartLights({ lit, out, count }: StartLightsProps) {
+export function StartLights({ lit, out, count, rows = 2 }: StartLightsProps) {
   return (
     <div
       aria-hidden="true"
@@ -22,7 +24,7 @@ export function StartLights({ lit, out, count }: StartLightsProps) {
         const on = !out && index < lit
         return (
           <span key={index} className="flex flex-col gap-2">
-            {[0, 1].map((row) => (
+            {Array.from({ length: rows }, (_, row) => (
               <span key={row} className="relative size-5 rounded-full bg-brand-red/15 sm:size-7">
                 <span
                   className={cn(

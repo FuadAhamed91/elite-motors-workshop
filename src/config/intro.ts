@@ -13,6 +13,14 @@ export const intro = {
   frequency: 'session' as 'session' | 'always' | 'never',
   /** Vertical launch splash. */
   splash: {
+    /** Start lights (single row) that gate the launch. */
+    lights: {
+      startMs: 400 as number,
+      intervalMs: 260 as number,
+      count: 3,
+      /** All lit before they go out. */
+      holdMs: 380 as number,
+    },
     /** Car travel from below the viewport (100vh) to above it (-120vh). */
     durationMs: 2000 as number,
     /** Aggressive racing acceleration curve (power4.in). */
@@ -82,7 +90,23 @@ export function reviewMode(): IntroReviewMode {
 /** Same dev aid for the splash variant: `?intro=slow` stretches the launch 4×. */
 export function resolveSplash(): typeof intro.splash {
   if (reviewMode() !== 'slow') return intro.splash
-  return { ...intro.splash, durationMs: intro.splash.durationMs * 4 }
+  const { lights } = intro.splash
+  return {
+    ...intro.splash,
+    durationMs: intro.splash.durationMs * 4,
+    lights: {
+      ...lights,
+      startMs: lights.startMs * 4,
+      intervalMs: lights.intervalMs * 4,
+      holdMs: lights.holdMs * 4,
+    },
+  }
+}
+
+/** Moment the splash lights go out and the car launches, in ms from start. */
+export function splashLaunchMs(splash: typeof intro.splash): number {
+  const { lights } = splash
+  return lights.startMs + lights.intervalMs * (lights.count - 1) + lights.holdMs
 }
 
 export function forceReplay(): boolean {
