@@ -61,8 +61,8 @@ export const workshop = {
   /** Used in the navbar title and SEO title. */
   displayTitle: 'Elite Motors Workshop Abu Dhabi',
   tagline: 'Precision Auto Care & Mechanical Excellence in Abu Dhabi',
-  /** From the company profile: incorporated in 2003. */
-  foundedYear: 2003,
+  /** Per the owner: the workshop started in 2016 (the group profile's 2003 refers to the parent company). */
+  foundedYear: 2016,
   city: 'Mussafah, Abu Dhabi, UAE',
   timeZone: 'Asia/Dubai',
 

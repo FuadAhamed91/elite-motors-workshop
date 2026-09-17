@@ -99,10 +99,11 @@ Only the selected variant ships in the main bundle; the other is a lazy chunk.
 ## Content & photos
 
 Services, equipment highlights, brands and the founding year come from the company profile
-(`src/data/services.ts`, `src/data/gallery.ts`, `workshop.foundedYear`). The old "basic profile"
+(`src/data/services.ts`, `src/data/gallery.ts`). `workshop.foundedYear` is 2016 per the owner — every
+"since …" line and the years stat derive from it. The old "basic profile"
 page (staff counts, previous phone numbers) is intentionally not used.
 
-`public/photos/` holds the workshop photos: the About banner (`entrance-canopy`), the three
+`public/photos/` holds the workshop photos: the About banner (`workshop-exterior`, 16:9), the three
 facility photos under the services grid (paint booth, body shop, lifts) and the **Gallery**
 subsection in the Workshop section — a cover photo plus thumbnails that open a full-screen viewer
 (arrows, keyboard, swipe, thumbnail strip) over all eight photos (`photos` in

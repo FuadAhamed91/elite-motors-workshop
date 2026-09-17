@@ -6,7 +6,7 @@ import { workshop } from '@/config/workshop'
 import { buildTelLink } from '@/lib/whatsapp'
 
 const HERO_PROOF_POINTS = [
-  'In Mussafah since 2003',
+  `In Mussafah since ${workshop.foundedYear}`,
   'Mechanical, body & paint under one roof',
   'Estimate before any work starts',
 ] as const

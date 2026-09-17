@@ -1,5 +1,6 @@
 import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
+import { workshop } from '@/config/workshop'
 import { stats } from '@/data/stats'
 
 /** Trust & credibility strip — doubles as the "About" anchor from the navbar. */
@@ -13,11 +14,13 @@ export function TrustStrip() {
       <div className="container-x grid gap-8 py-12 lg:grid-cols-[1fr_1.6fr] lg:items-center lg:gap-14 lg:py-16">
         <Reveal>
           <Picture
-            src="/photos/entrance-canopy.jpg"
-            alt="Elite Motors Workshop entrance sign over the service canopy"
-            width={1270}
-            height={440}
-            className="mb-6 aspect-[2.9/1] w-full rounded-2xl border border-line object-cover shadow-card"
+            src="/photos/workshop-exterior.jpg"
+            thumb="/photos/workshop-exterior-thumb.jpg"
+            alt="Elite Motors Workshop sign above the blue perimeter fence in Mussafah"
+            width={1400}
+            height={788}
+            sizes="(min-width: 1024px) 38vw, 100vw"
+            className="mb-6 aspect-video w-full rounded-2xl border border-line object-cover shadow-card"
           />
           <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
             <span aria-hidden="true" className="h-px w-6 bg-linear-to-r from-primary to-secondary" />
@@ -27,10 +30,10 @@ export function TrustStrip() {
             id="about-heading"
             className="font-display text-2xl font-bold tracking-tight text-balance text-fg sm:text-3xl"
           >
-            Serving Abu Dhabi from Mussafah since 2003.
+            Serving Abu Dhabi from Mussafah since {workshop.foundedYear}.
           </h2>
           <p className="mt-3 text-base leading-relaxed text-pretty text-fg-muted">
-            Elite Motors Workshop L.L.C was incorporated in 2003 as an all-makes repair centre.
+            Elite Motors Workshop L.L.C has run as an all-makes repair centre since {workshop.foundedYear}.
             A trained team supervised by a U.S.-certified auto engineer handles mechanical,
             electrical, body and paint work in one facility — for private owners, fleets and
             insurance companies alike — with an estimate agreed before we touch a bolt.

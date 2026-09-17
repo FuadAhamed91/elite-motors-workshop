@@ -3,6 +3,7 @@ import { lazy, Suspense, useState } from 'react'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { workshop } from '@/config/workshop'
 import { equipment, photos } from '@/data/gallery'
 
 /** Loaded on first tap so the viewer's code stays out of the initial bundle. */
@@ -30,7 +31,7 @@ export function Workshop() {
             id="workshop-heading"
             eyebrow="Inside the workshop"
             title="A full mechanical, body and paint facility in Mussafah."
-            description="Serving Abu Dhabi since 2003 with dealer-grade equipment under one roof — so your car doesn’t travel between garages for mechanical work, bodywork and paint."
+            description={`Serving Abu Dhabi since ${workshop.foundedYear} with dealer-grade equipment under one roof — so your car doesn’t travel between garages for mechanical work, bodywork and paint.`}
           />
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {equipment.map((item) => (
