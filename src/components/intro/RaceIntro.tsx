@@ -4,7 +4,6 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useTransform,
   useVelocity,
 } from 'framer-motion'
@@ -13,7 +12,8 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties, type Poin
 import { BrandMark } from '@/components/icons/BrandMark'
 import { F1Car } from '@/components/intro/F1Car'
 import { StartLights } from '@/components/intro/StartLights'
-import { forceReplay, intro, lightsOutMs, resolveTimeline } from '@/config/intro'
+import { intro, lightsOutMs, resolveTimeline } from '@/config/intro'
+import type { IntroGate } from '@/hooks/useIntroGate'
 import { workshop } from '@/config/workshop'
 import { cn } from '@/lib/cn'
 import { getAudioContext, playAudioFile, playIntroSound, tryUnlockAudio } from '@/lib/engineSound'
@@ -29,26 +29,6 @@ const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
 const SPARKS = [0, 1, 2, 3, 4] as const
 const SMOKE = [0, 1, 2] as const
 
-function shouldShowIntro(): boolean {
-  if (!intro.enabled || intro.frequency === 'never') return false
-  // A background tab has no animation frames — the sequence would stall, so skip it.
-  if (document.visibilityState === 'hidden') return false
-  if (intro.frequency === 'always' || forceReplay()) return true
-  try {
-    return !window.sessionStorage.getItem(intro.storageKey)
-  } catch {
-    return true
-  }
-}
-
-function markIntroSeen() {
-  try {
-    window.sessionStorage.setItem(intro.storageKey, '1')
-  } catch {
-    /* private mode — ignore */
-  }
-}
-
 /** Car width in px for the current viewport (mirrors the Tailwind classes below). */
 function carWidth(): number {
   return Math.min(Math.max(window.innerWidth * 0.44, 260), 520)
@@ -60,9 +40,7 @@ function carWidth(): number {
  * reveal the site. Runs on its own (tap anywhere for sound), is skippable,
  * shows once per session and is disabled under reduced motion.
  */
-export function RaceIntro() {
-  const reduceMotion = useReducedMotion()
-  const [open, setOpen] = useState<boolean>(() => !reduceMotion && shouldShowIntro())
+export function RaceIntro({ active: open, ready, finish: onFinish }: IntroGate) {
   const [phase, setPhase] = useState<Phase>('grid')
   const [lit, setLit] = useState(0)
   const [lightsOut, setLightsOut] = useState(false)
@@ -88,9 +66,8 @@ export function RaceIntro() {
     timers.current = []
     stopSound.current?.()
     stopSound.current = null
-    markIntroSeen()
-    setOpen(false)
-  }, [])
+    onFinish()
+  }, [onFinish])
 
   /** Starts audio from wherever the visual timeline currently is. */
   const enableSound = useCallback(() => {
@@ -109,7 +86,7 @@ export function RaceIntro() {
 
   // Visual timeline: lights → hold → lights out → launch → done.
   useEffect(() => {
-    if (!open) return
+    if (!ready) return
     const timeline = resolveTimeline()
     viewportWidth.current = window.innerWidth
     carX.set(window.innerWidth * 0.05)
@@ -145,7 +122,7 @@ export function RaceIntro() {
       document.body.style.overflow = previousOverflow
       window.removeEventListener('keydown', onKey)
     }
-  }, [open, carX, finish, enableSound])
+  }, [ready, carX, finish, enableSound])
 
   // Launch: one ease-in-out run to well past the right edge, so the visible
   // part is pure acceleration and the "braking" half happens off screen.

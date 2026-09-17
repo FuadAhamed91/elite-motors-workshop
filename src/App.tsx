@@ -1,4 +1,5 @@
 import { RaceIntro } from '@/components/intro/RaceIntro'
+import { SplashIntro } from '@/components/intro/SplashIntro'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
@@ -9,23 +10,31 @@ import { Reviews } from '@/components/sections/Reviews'
 import { Services } from '@/components/sections/Services'
 import { TrustStrip } from '@/components/sections/TrustStrip'
 import { SeoSchema } from '@/components/SeoSchema'
+import { intro } from '@/config/intro'
+import { useIntroGate } from '@/hooks/useIntroGate'
 
 export default function App() {
+  const gate = useIntroGate()
+  const Intro = intro.variant === 'splash' ? SplashIntro : RaceIntro
+
   return (
     <>
       <SeoSchema />
-      <Navbar />
-      <main id="main">
-        <Hero />
-        <TrustStrip />
-        <Services />
-        <Reviews />
-        <Hours />
-        <Location />
-      </main>
-      <Footer />
-      <WhatsAppFab />
-      <RaceIntro />
+      {/* The site stays inert (no focus, clicks or scrolling) until the intro is gone. */}
+      <div inert={gate.active || undefined}>
+        <Navbar />
+        <main id="main">
+          <Hero />
+          <TrustStrip />
+          <Services />
+          <Reviews />
+          <Hours />
+          <Location />
+        </main>
+        <Footer />
+        <WhatsAppFab />
+      </div>
+      <Intro active={gate.active} ready={gate.ready} finish={gate.finish} />
     </>
   )
 }

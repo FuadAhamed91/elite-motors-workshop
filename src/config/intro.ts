@@ -1,12 +1,25 @@
 /**
- * Opening "lights out" intro — an F1 car waits on the grid while the five
- * start lights come on, then launches across the screen and pulls the
- * overlay away to reveal the site. Set `enabled: false` to remove it.
+ * Opening intro. Two variants are available:
+ *   'splash'     — dark full-screen backdrop, top-down F1 car launches straight up
+ *                  the screen and the backdrop fades into the site (see `splash`)
+ *   'lights-out' — F1 start-light sequence, side-view car races across a track
+ *                  and wipes the overlay away (see `timeline`)
+ * Set `enabled: false` to remove the intro entirely.
  */
 export const intro = {
   enabled: true,
+  variant: 'splash' as 'splash' | 'lights-out',
   /** 'session' = once per browser session, 'always' = every load, 'never' = off. */
   frequency: 'session' as 'session' | 'always' | 'never',
+  /** Vertical launch splash. */
+  splash: {
+    /** Car travel from below the viewport (100vh) to above it (-120vh). */
+    durationMs: 2000 as number,
+    /** Aggressive racing acceleration curve (power4.in). */
+    ease: [0.7, 0, 0.84, 0] as [number, number, number, number],
+    /** Backdrop fade once the car has cleared the top. */
+    fadeMs: 400 as number,
+  },
   /**
    * Optional licensed audio clip in /public (e.g. '/sounds/f1-start.mp3').
    * When null the start lights and engine are synthesized with the Web Audio API.
@@ -23,7 +36,7 @@ export const intro = {
     raceMs: 1500,
   },
   /** sessionStorage key used for the once-per-session rule. */
-  storageKey: 'emw-intro-seen',
+  storageKey: 'hasSeenIntro',
 } as const
 
 export interface IntroTimeline {
@@ -52,10 +65,28 @@ export function resolveTimeline(): IntroTimeline {
   }
 }
 
-export function forceReplay(): boolean {
-  if (!import.meta.env.DEV || typeof window === 'undefined') return false
+export type IntroReviewMode = 'normal' | 'slow' | 'replay' | 'freeze'
+
+/**
+ * Dev-only review switches (ignored in production builds):
+ *   ?intro=replay — ignore the once-per-session rule
+ *   ?intro=slow   — run 4–8× slower
+ *   ?intro=freeze — splash only: park the car mid-screen with no motion
+ */
+export function reviewMode(): IntroReviewMode {
+  if (!import.meta.env.DEV || typeof window === 'undefined') return 'normal'
   const mode = new URLSearchParams(window.location.search).get('intro')
-  return mode === 'slow' || mode === 'replay'
+  return mode === 'slow' || mode === 'replay' || mode === 'freeze' ? mode : 'normal'
+}
+
+/** Same dev aid for the splash variant: `?intro=slow` stretches the launch 4×. */
+export function resolveSplash(): typeof intro.splash {
+  if (reviewMode() !== 'slow') return intro.splash
+  return { ...intro.splash, durationMs: intro.splash.durationMs * 4 }
+}
+
+export function forceReplay(): boolean {
+  return reviewMode() !== 'normal'
 }
 
 /** Moment the lights go out and the car launches, in ms from mount. */

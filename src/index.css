@@ -54,6 +54,8 @@
   --color-cta-hover: var(--color-whatsapp-dark);
   --color-cta-fg: #062d17; /* near-black green — 9.6:1 on WhatsApp green */
   --color-asphalt: #3a3531; /* intro track — lighter than the car's carbon parts */
+  --color-splash-900: #1a1714; /* splash backdrop core */
+  --color-splash-950: #070706; /* splash backdrop edge */
 
   /* Shape */
   --radius-card: 1.25rem;
@@ -76,6 +78,9 @@
   --animate-idle-shake: idle-shake 90ms ease-in-out infinite;
   --animate-smoke-puff: smoke-puff 720ms cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
   --animate-spark: spark 260ms cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  --animate-skid: skid 1900ms cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+  --animate-streaks-down: streaks-down 0.16s linear infinite;
+  --animate-exhaust: exhaust 90ms ease-in-out infinite;
 
   @keyframes pulse-ring {
     0% {
@@ -153,6 +158,40 @@
     100% {
       transform: translate(-70px, 10px) scaleX(2.2);
       opacity: 0;
+    }
+  }
+  /* rubber laid down at launch, then fading */
+  @keyframes skid {
+    0% {
+      transform: scaleY(0.04);
+      opacity: 0.95;
+    }
+    28% {
+      transform: scaleY(1);
+      opacity: 0.85;
+    }
+    100% {
+      transform: scaleY(1);
+      opacity: 0;
+    }
+  }
+  @keyframes streaks-down {
+    from {
+      background-position: 0 0, 0 0;
+    }
+    to {
+      background-position: 0 260px, 0 420px;
+    }
+  }
+  @keyframes exhaust {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(1.25);
+      opacity: 1;
     }
   }
 }
@@ -295,5 +334,47 @@
     background-size: 320px 100%;
     -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 2px, transparent 2px 23px);
     mask-image: repeating-linear-gradient(180deg, #000 0 2px, transparent 2px 23px);
+  }
+
+  /* ── Splash intro (top-down launch) ─────────────────────────────── */
+  .splash-backdrop {
+    background-color: var(--color-splash-950);
+    background-image: radial-gradient(
+      ellipse 85% 70% at 50% 42%,
+      var(--color-splash-900) 0%,
+      #0e0d0b 55%,
+      var(--color-splash-950) 100%
+    );
+  }
+  /* fine asphalt grain (SVG noise, tiled) */
+  .splash-asphalt {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.75 0 0 0 0 0.7 0 0 0 0 0.62 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    opacity: 0.16;
+  }
+  .splash-vignette {
+    background-image: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 55%, rgb(0 0 0 / 0.75) 100%);
+  }
+  /* two layers of short vertical dashes at different speeds = track texture rushing past */
+  .splash-streaks {
+    background-image:
+      repeating-linear-gradient(180deg, rgb(255 255 255 / 0.5) 0 46px, transparent 46px 260px),
+      repeating-linear-gradient(180deg, rgb(255 255 255 / 0.28) 0 90px, transparent 90px 420px);
+    background-size: 100% 260px, 100% 420px;
+    -webkit-mask-image: repeating-linear-gradient(90deg, transparent 0 22px, #000 22px 24px, transparent 24px 61px);
+    mask-image: repeating-linear-gradient(90deg, transparent 0 22px, #000 22px 24px, transparent 24px 61px);
+  }
+  .splash-skid {
+    background-image: linear-gradient(180deg, transparent 0%, rgb(0 0 0 / 0.9) 45%, rgb(20 18 16 / 0.7) 100%);
+    transform-origin: 50% 100%;
+  }
+  .splash-grid-box {
+    background-image:
+      linear-gradient(90deg, rgb(255 255 255 / 0.85), rgb(255 255 255 / 0.85)),
+      linear-gradient(90deg, rgb(255 255 255 / 0.85), rgb(255 255 255 / 0.85)),
+      linear-gradient(90deg, rgb(255 255 255 / 0.85), rgb(255 255 255 / 0.85));
+    background-size: 3px 100%, 3px 100%, 100% 3px;
+    background-position: left top, right top, center top;
+    background-repeat: no-repeat;
   }
 }

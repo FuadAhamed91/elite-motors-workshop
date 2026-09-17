@@ -71,24 +71,27 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 - `directions()` — location section
 - `afterHours()` — shown by the status card when the workshop is closed
 
-## Opening "lights out" intro
+## Opening intro
 
-`src/components/intro/RaceIntro.tsx` — on first open the EMW single-seater waits on the grid
-while the five start lights come on; at lights-out it launches across the frame (wheelspin,
-tyre smoke, sparks, velocity-driven lean and motion-blur trail) and the overlay wipes away
-behind the car with a feathered edge, straight into the hero. No menu, no button.
+Two variants live in `src/components/intro/`; pick one with `variant` in `src/config/intro.ts`
+(`'splash'` is active, `'lights-out'` is the approved earlier version — git tag `v1-approved-intro`).
 
-- **Sound** is synthesized with the Web Audio API (`src/lib/engineSound.ts`): a tick per
-  light, an idle burble that tightens, then the launch — gear shifts, peak, Doppler drop.
-  Browsers block autoplay, so tapping anywhere turns it on, synced to wherever the sequence
-  is. Drop a licensed clip in `/public` and set `soundUrl` in `src/config/intro.ts` for a real
-  recording.
-- Motion follows the web-animation-design guide: ease-in-out for on-screen movement, ease-out
-  for enters/exits, transform/opacity only, `will-change`, blur under 20px.
-- Skippable (button / Escape), once per browser session, skipped for reduced-motion users
-  and background tabs. Timing lives in `src/config/intro.ts`.
-- Dev review aids: `?intro=slow` runs the sequence 8× slower, `?intro=replay` ignores the
-  once-per-session rule (dev server only).
+**`splash`** — `SplashIntro.tsx`: a full-screen dark backdrop (`z-index: 9999`, radial gradient +
+asphalt grain + vignette). A top-down F1 car (`TopDownF1Car.tsx`, 400×1100 SVG with metallic
+gradients, halo, slick tyres) starts at `translateY(100vh)` and accelerates straight up to
+`translateY(-120vh)` over 2 s on `cubic-bezier(0.7, 0, 0.84, 0)`. Speed cues: twin skid marks
+fading behind the launch slot, velocity-driven stretch and blur trail, rushing track streaks, and
+an exhaust plume distorted by an SVG heat-haze filter. As the car clears the top the backdrop
+fades (400 ms) and the overlay unmounts.
+
+**`lights-out`** — `RaceIntro.tsx`: F1 start-light gantry, side-view car launches across a track
+and wipes the overlay away behind it; synthesized engine sound on tap.
+
+Shared behaviour (`src/hooks/useIntroGate.ts`): the site DOM is `inert` while an intro is up,
+`sessionStorage.hasSeenIntro` skips it on refresh within the session, a **Skip** button and
+Escape bypass it, it is disabled for `prefers-reduced-motion`, and it waits for the tab to be
+visible before playing. Dev review switches: `?intro=replay`, `?intro=slow`, `?intro=freeze`
+(splash: car parked mid-screen).
 
 ## Deployment (Vercel)
 
@@ -109,10 +112,11 @@ src/
   data/                     services, reviews, stats
   lib/                      whatsapp link builder, hours engine, cn()
   hooks/useWorkshopStatus   live status (re-evaluated every 30s)
-  config/intro.ts           opening race intro settings
+  config/intro.ts           intro variant + timing settings
+  hooks/useIntroGate.ts     once-per-session / inert / visibility gate
   lib/engineSound.ts        Web Audio engine-sound synth
   components/
-    intro/                  RaceIntro overlay, F1Car SVG, StartLights gantry
+    intro/                  SplashIntro + TopDownF1Car, RaceIntro + F1Car + StartLights
     ui/                     CtaLink, GlowCard, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab
     sections/               Hero, TrustStrip, Services, Reviews, Hours, Location
