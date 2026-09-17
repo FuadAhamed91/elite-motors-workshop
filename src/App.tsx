@@ -10,6 +10,7 @@ import { Location } from '@/components/sections/Location'
 import { Reviews } from '@/components/sections/Reviews'
 import { Services } from '@/components/sections/Services'
 import { TrustStrip } from '@/components/sections/TrustStrip'
+import { Workshop } from '@/components/sections/Workshop'
 import { SeoSchema } from '@/components/SeoSchema'
 import { assistant } from '@/config/assistant'
 import { intro } from '@/config/intro'
@@ -29,6 +30,7 @@ export default function App() {
           <Hero />
           <TrustStrip />
           <Services />
+          <Workshop />
           <Reviews />
           <Hours />
           <Location />

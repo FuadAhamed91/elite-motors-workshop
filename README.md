@@ -94,6 +94,16 @@ Escape bypass it, it is disabled for `prefers-reduced-motion`, and it waits for 
 visible before playing. Dev review switches: `?intro=replay`, `?intro=slow`, `?intro=freeze`
 (splash: car parked mid-screen).
 
+## Content & photos
+
+Services, equipment highlights, brands and the founding year come from the company profile
+(`src/data/services.ts`, `src/data/gallery.ts`, `workshop.foundedYear`). The old "basic profile"
+page (staff counts, previous phone numbers) is intentionally not used.
+
+`public/photos/` holds the workshop photos used on service cards, the About banner and the
+Workshop gallery. **Every vehicle number plate was blurred before the images were added** — if
+you add new photos, redact plates first and keep them out of the repo otherwise.
+
 ## On-site assistant
 
 `src/components/assistant/AssistantWidget.tsx` is a small chat panel (launcher above the WhatsApp
@@ -140,9 +150,9 @@ src/
   components/
     assistant/              AssistantWidget chat panel
     intro/                  SplashIntro + TopDownF1Car, RaceIntro + F1Car + StartLights
-    ui/                     CtaLink, GlowCard, Reveal/Stagger, SectionHeading, StatusBadge, Stars
+    ui/                     CtaLink, GlowCard, Lightbox, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab
-    sections/               Hero, TrustStrip, Services, Reviews, Hours, Location
+    sections/               Hero, TrustStrip, Services, Workshop (gallery), Reviews, Hours, Location
     SeoSchema.tsx           schema.org AutoRepair JSON-LD
   index.css                 Tailwind v4 theme tokens + base styles
 ```

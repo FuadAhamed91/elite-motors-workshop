@@ -11,6 +11,15 @@ export function TrustStrip() {
     >
       <div className="container-x grid gap-8 py-12 lg:grid-cols-[1fr_1.6fr] lg:items-center lg:gap-14 lg:py-16">
         <Reveal>
+          <img
+            src="/photos/entrance-canopy.jpg"
+            alt="Elite Motors Workshop entrance sign over the service canopy"
+            width={1270}
+            height={440}
+            loading="lazy"
+            decoding="async"
+            className="mb-6 aspect-[2.9/1] w-full rounded-2xl border border-line object-cover shadow-card"
+          />
           <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
             <span aria-hidden="true" className="h-px w-6 bg-linear-to-r from-primary to-secondary" />
             Why drivers choose us
@@ -19,12 +28,13 @@ export function TrustStrip() {
             id="about-heading"
             className="font-display text-2xl font-bold tracking-tight text-balance text-fg sm:text-3xl"
           >
-            Fifteen years of honest wrenching in Mussafah.
+            Serving Abu Dhabi from Mussafah since 2003.
           </h2>
           <p className="mt-3 text-base leading-relaxed text-pretty text-fg-muted">
-            Certified technicians, genuine parts and an estimate agreed before we touch a
-            bolt — from routine servicing to insurance-approved accident and body repairs.
-            That is why drivers across Abu Dhabi keep coming back.
+            Elite Motors Workshop L.L.C was incorporated in 2003 as an all-makes repair centre.
+            A trained team supervised by a U.S.-certified auto engineer handles mechanical,
+            electrical, body and paint work in one facility — for private owners, fleets and
+            insurance companies alike — with an estimate agreed before we touch a bolt.
           </p>
         </Reveal>
 

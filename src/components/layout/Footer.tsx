@@ -54,8 +54,8 @@ export function Footer() {
         <div>
           <Logo variant="stacked" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-fg-muted">
-            Independent auto service, repair and body shop in {workshop.city}. Certified
-            technicians, genuine parts and honest pricing.
+            Mechanical, electrical, body and paint repairs in {workshop.city} since{' '}
+            {workshop.foundedYear}. Engineer-supervised team, genuine parts and honest pricing.
           </p>
           <StatusBadge className="mt-5" />
         </div>
@@ -135,7 +135,10 @@ export function Footer() {
 
       <div className="container-x mt-12 flex flex-col gap-4 border-t border-line pt-6 text-xs text-fg-muted sm:flex-row sm:items-start sm:justify-between sm:pr-28 lg:pr-32">
         <p>
-          &copy; {year} {workshop.name}. All rights reserved.
+          &copy; {year} {workshop.legalName}. All rights reserved.
+          <br />
+          Group companies: Alkayed Workshop LLC · Motor World Workshop (Dubai, Ajman, Fujairah) ·
+          Dubai Classic Motors · Repute Spare Parts Trading.
         </p>
         <p className="max-w-2xl sm:text-right">
           {workshop.name} is an independent workshop and is not affiliated with any vehicle

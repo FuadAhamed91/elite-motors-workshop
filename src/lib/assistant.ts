@@ -1,6 +1,7 @@
 import { workshop, type DaySchedule } from '@/config/workshop'
 import { reviews } from '@/data/reviews'
-import { services, type Service } from '@/data/services'
+import { equipment } from '@/data/gallery'
+import { brands, services, type Service } from '@/data/services'
 import { stats } from '@/data/stats'
 import { formatRange, formatTime, getWorkshopStatus, getZonedNow } from '@/lib/hours'
 import { buildTelLink, waLinks } from '@/lib/whatsapp'
@@ -43,6 +44,8 @@ type IntentId =
   | 'booking'
   | 'parts'
   | 'experience'
+  | 'facility'
+  | 'brands'
 
 interface Intent {
   id: IntentId
@@ -179,17 +182,29 @@ const INTENTS: readonly Intent[] = [
     weight: 2,
   },
   { id: 'parts', patterns: ['genuine', 'oem', 'original part', 'parts', 'spare'], weight: 2 },
+  {
+    id: 'facility',
+    patterns: ['photo', 'picture', 'gallery', 'facility', 'equipment', 'workshop look', 'inside', 'lift', 'paint booth', 'machines', 'tools', 'how big', 'premises'],
+    weight: 1,
+  },
+  {
+    id: 'brands',
+    patterns: ['brand', 'make', 'mercedes', 'bmw', 'audi', 'porsche', 'volkswagen', 'toyota', 'lexus', 'honda', 'nissan', 'infiniti', 'mitsubishi', 'hyundai', 'kia', 'patrol', 'land cruiser', 'european', 'japanese', 'korean', 'german'],
+    weight: 2,
+  },
   { id: 'experience', patterns: ['how long', 'years', 'since', 'experience', 'established', 'old is'], weight: 2 },
 ]
 
 /** Keywords that identify one specific service card. */
 const SERVICE_KEYWORDS: Record<string, readonly (string | RegExp)[]> = {
-  diagnostics: ['diagnos', 'check engine', 'engine light', 'warning light', 'scan', 'obd', 'computer', 'misfire', 'sensor', 'fault', 'engine problem', 'engine issue'],
-  maintenance: ['oil', 'filter', 'fluid', 'periodic', 'maintenance', 'servicing', 'minor service', 'major service', 'coolant', 'km service'],
-  ac: [/\bac\b/, 'a/c', 'air con', 'aircon', 'cooling', 'cold air', 'not cold', 'compressor', 'gas refill', 'regas', 'radiator', 'overheat', 'thermostat'],
-  brakes: ['brake', 'suspension', 'alignment', 'shock', 'steering', 'wheel', 'tyre', 'tire', 'pulling', 'vibrat', 'noise when braking', 'balancing'],
-  transmission: ['gearbox', 'transmission', 'gear', 'clutch', 'cvt', '4x4', 'drivetrain', 'differential', 'transfer case', 'cv joint', 'slipping'],
-  inspection: ['inspection', 'pre-purchase', 'pre purchase', 'buying', 'used car', 'second hand', 'check a car', 'ppi', 'before i buy'],
+  engine: ['engine', 'gearbox', 'transmission', 'gear', 'clutch', 'cvt', '4x4', 'drivetrain', 'differential', 'timing', 'head gasket', 'rebuild', 'misfire', 'slipping', 'overhaul'],
+  service: ['oil', 'filter', 'fluid', 'periodic', 'maintenance', 'servicing', 'general service', 'minor service', 'major service', 'km service', 'tune up', 'tune-up'],
+  ac: [/\bac\b/, 'a/c', 'air con', 'aircon', 'cooling', 'cold air', 'not cold', 'compressor', 'gas refill', 'regas', 'radiator', 'overheat', 'thermostat', 'coolant', 'water pump'],
+  brakes: ['brake', 'suspension', 'alignment', 'shock', 'steering', 'wheel', 'tyre', 'tire', 'pulling', 'vibrat', 'noise when braking', 'balancing', 'bearing', 'rotor', 'disc'],
+  body: ['dent', 'denting', 'accident', 'body work', 'bodywork', 'bumper', 'panel', 'collision', 'crash', 'chassis', 'frame', 'car-o-liner', 'insurance', 'claim', 'scratch'],
+  paint: ['paint', 'painting', 'respray', 'spray', 'colour', 'color', 'clear coat', 'polish', 'booth', 'refinish'],
+  electrical: ['electric', 'electrical', 'diagnos', 'check engine', 'engine light', 'warning light', 'scan', 'obd', 'computer', 'sensor', 'fault code', 'battery', 'alternator', 'starter', 'not starting', 'wont start', "won't start", 'wiring', 'x431'],
+  detailing: ['detail', 'detailing', 'wash', 'cleaning', 'clean', 'valet', 'interior clean', 'shampoo', 'wax'],
 }
 
 /* ── helpers ──────────────────────────────────────────────────────────── */
@@ -312,7 +327,7 @@ const REPLIES: Record<IntentId, () => AssistantReply> = {
     suggestions: ['What services do you offer?', 'Opening hours'],
   }),
   services: () => ({
-    text: `Services at ${workshop.name}:\n${services.map((s) => `• ${s.title}`).join('\n')}\n• Insurance-approved accident & body repairs\n\nAsk about any of these for details.`,
+    text: `Services at ${workshop.name}:\n${services.map((s) => `• ${s.title}`).join('\n')}\n\nAsk about any of these for details.`,
     links: [{ label: 'See all services', href: '#services', kind: 'anchor' }, quoteLink],
     suggestions: services.slice(0, 3).map((s) => s.title),
   }),
@@ -347,8 +362,20 @@ const REPLIES: Record<IntentId, () => AssistantReply> = {
     text: `${stat('parts') ?? 'Genuine OEM parts only'} — the workshop fits genuine manufacturer parts. For a specific part or price, call the workshop or ask on WhatsApp.`,
     links: [callLink, quoteLink],
   }),
+  facility: () => ({
+    text: `${workshop.name} is a full mechanical, body and paint facility in Mussafah. Equipment includes:\n${equipment
+      .map((e) => `• ${e.title} — ${e.detail}`)
+      .join('\n')}\n\nPhotos are in the Workshop section of this site.`,
+    links: [{ label: 'See the workshop photos', href: '#workshop', kind: 'anchor' }],
+    suggestions: ['What services do you offer?', 'Where are you located?'],
+  }),
+  brands: () => ({
+    text: `The workshop services all major makes:\nEuropean: ${brands.European.join(', ')}\nJapanese: ${brands.Japanese.join(', ')}\nKorean: ${brands.Korean.join(', ')}\n\nNot sure about yours? Ask on WhatsApp or call the workshop.`,
+    links: [quoteLink, callLink],
+    suggestions: ['What services do you offer?', 'Are you open now?'],
+  }),
   experience: () => ({
-    text: `${stat('years') ?? '15+ years serving Abu Dhabi'}, with ${stat('techs')?.toLowerCase() ?? 'certified technicians'} and ${stat('insurance')?.toLowerCase() ?? 'insurance-approved repairs'}.`,
+    text: `${workshop.name} has been in Mussafah since ${workshop.foundedYear} — ${new Date().getFullYear() - workshop.foundedYear}+ years of all-makes repairs, with a team supervised by a U.S.-certified auto engineer and an insurance-approved body & paint shop.`,
     links: [{ label: 'About the workshop', href: '#about', kind: 'anchor' }],
     suggestions: ['What services do you offer?', 'Reviews'],
   }),
@@ -379,7 +406,7 @@ export function answerQuestion(question: string): AssistantReply {
     if (!best || total > best.score) best = { id: intent.id, score: total }
   }
 
-  if (service && (!best || !['price', 'bodyshop', 'booking', 'status', 'hours', 'location', 'phone'].includes(best.id))) {
+  if (service && (!best || !['price', 'booking', 'status', 'hours', 'location', 'phone'].includes(best.id))) {
     return serviceReply(service)
   }
   if (best?.id === 'hours' || best?.id === 'status') {

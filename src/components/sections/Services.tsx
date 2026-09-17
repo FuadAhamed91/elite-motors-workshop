@@ -3,7 +3,7 @@ import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { services, type Service } from '@/data/services'
+import { brands, services, type Service } from '@/data/services'
 import { cn } from '@/lib/cn'
 import { waLinks } from '@/lib/whatsapp'
 
@@ -14,12 +14,12 @@ export function Services() {
         <SectionHeading
           id="services-heading"
           eyebrow="Services"
-          title="Everything your car needs, under one roof."
-          description="From a diagnostic scan to a full transmission rebuild. Every job starts with a clear estimate — no surprises on the invoice."
+          title="Mechanical, body and paint — under one roof."
+          description="Engine and gearbox work, servicing, AC, brakes, denting, painting, electrical diagnosis and detailing. Every job starts with a clear estimate — no surprises on the invoice."
         />
       </Reveal>
 
-      <StaggerGroup as="ul" className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <StaggerGroup as="ul" className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {services.map((service) => (
           <StaggerItem as="li" key={service.id} className="h-full">
             <ServiceCard service={service} />
@@ -27,8 +27,22 @@ export function Services() {
         ))}
       </StaggerGroup>
 
+      <Reveal delay={0.05}>
+        <div className="mt-10 rounded-2xl border border-line bg-surface p-5 sm:p-6">
+          <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">Multi-brand workshop</p>
+          <div className="mt-3 grid gap-3 sm:grid-cols-3">
+            {(Object.keys(brands) as Array<keyof typeof brands>).map((region) => (
+              <div key={region}>
+                <p className="text-sm font-semibold text-fg">{region}</p>
+                <p className="mt-1 text-sm leading-relaxed text-fg-muted">{brands[region].join(' · ')}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal delay={0.1}>
-        <p className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-fg-muted">
+        <p className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-fg-muted">
           Not sure what your car needs?
           <a
             href={waLinks.quote()}
@@ -56,28 +70,37 @@ interface ServiceCardProps {
 function ServiceCard({ service }: ServiceCardProps) {
   const Icon = service.icon
   const accentText = service.accent === 'primary' ? 'text-primary' : 'text-secondary'
-  const accentBg = service.accent === 'primary' ? 'bg-primary/12' : 'bg-secondary/12'
 
   return (
-    <GlowCard accent={service.accent} innerClassName="flex flex-col p-6">
-      <div className="flex items-start justify-between gap-3">
+    <GlowCard accent={service.accent} innerClassName="flex flex-col">
+      {/* photo header — workshop photo, number plates redacted */}
+      <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-sand-200">
+        <img
+          src={service.image.src}
+          alt={service.image.alt}
+          width={service.image.width}
+          height={service.image.height}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:group-hover:scale-100"
+        />
         <span
           className={cn(
-            'flex size-12 items-center justify-center rounded-xl border border-line transition-transform duration-300 group-hover:scale-105 motion-reduce:group-hover:scale-100',
-            accentBg,
+            'absolute bottom-3 left-3 flex size-11 items-center justify-center rounded-xl border border-white/40 bg-surface/95 shadow-card',
             accentText,
           )}
         >
-          <Icon className="size-6" aria-hidden="true" strokeWidth={1.75} />
+          <Icon className="size-5" aria-hidden="true" strokeWidth={1.75} />
         </span>
         {service.badge && (
-          <span className="rounded-pill border border-secondary/30 bg-secondary/10 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-secondary uppercase">
+          <span className="absolute top-3 right-3 rounded-pill border border-white/40 bg-surface/95 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-secondary uppercase shadow-card">
             {service.badge}
           </span>
         )}
       </div>
 
-      <h3 className="mt-5 font-display text-xl font-bold tracking-tight text-fg">{service.title}</h3>
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+      <h3 className="font-display text-lg font-bold tracking-tight text-fg">{service.title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-fg-muted">{service.description}</p>
 
       <ul className="mt-4 space-y-2 pb-1" aria-label={`What ${service.title} includes`}>
@@ -88,7 +111,7 @@ function ServiceCard({ service }: ServiceCardProps) {
           </li>
         ))}
       </ul>
-
+      </div>
     </GlowCard>
   )
 }

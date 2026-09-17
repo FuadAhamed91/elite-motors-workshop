@@ -30,6 +30,7 @@ function buildSchema() {
     '@type': 'AutoRepair',
     name: workshop.name,
     legalName: workshop.legalName,
+    foundingDate: String(workshop.foundedYear),
     description: workshop.tagline,
     telephone: workshop.phone,
     url: typeof window !== 'undefined' ? window.location.origin : undefined,

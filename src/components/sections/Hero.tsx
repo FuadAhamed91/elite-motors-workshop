@@ -10,9 +10,9 @@ import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
 import { buildTelLink, waLinks } from '@/lib/whatsapp'
 
 const HERO_PROOF_POINTS = [
+  'In Mussafah since 2003',
+  'Mechanical, body & paint under one roof',
   'Estimate before any work starts',
-  'Genuine OEM parts',
-  'Insurance-approved body shop',
 ] as const
 
 /** Four most-requested services surfaced as one-tap WhatsApp shortcuts. */
