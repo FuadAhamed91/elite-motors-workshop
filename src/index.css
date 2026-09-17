@@ -26,6 +26,11 @@
   --color-whatsapp: #25d366; /* official WhatsApp green */
   --color-whatsapp-dark: #1fb457;
   --color-star: #fbbf24; /* amber-400 */
+
+  /* Primitive colors — EMW logo tiles (brand mark only, not UI accents) */
+  --color-brand-red: #e2231a;
+  --color-brand-blue: #2149b0;
+  --color-brand-yellow: #f8c21c;
   --color-warn: #fbbf24;
   --color-danger: #fb7185; /* rose-400 */
 

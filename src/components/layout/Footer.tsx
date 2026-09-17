@@ -52,7 +52,7 @@ export function Footer() {
 
       <div className="container-x grid gap-10 border-t border-line pt-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
-          <Logo size="lg" />
+          <Logo variant="stacked" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-fg-muted">
             Independent auto service and repair centre in {workshop.city}. Certified
             technicians, genuine parts and honest pricing since 2010.

@@ -1,44 +1,68 @@
+import { BrandMark } from '@/components/icons/BrandMark'
 import { workshop } from '@/config/workshop'
 import { cn } from '@/lib/cn'
 
 interface LogoProps {
   className?: string
-  /** Larger lockup for the footer. */
-  size?: 'md' | 'lg'
+  /**
+   * `inline`  — mark beside a two-line wordmark (navbar).
+   * `stacked` — mark above the full "ELITE MOTORS WORKSHOP L.L.C" wordmark
+   *             with the tri-colour rule, mirroring the original badge (footer).
+   */
+  variant?: 'inline' | 'stacked'
 }
 
-/** Brand lockup: gradient "EM" monogram tile + two-line wordmark. */
-export function Logo({ className, size = 'md' }: LogoProps) {
+export function Logo({ className, variant = 'inline' }: LogoProps) {
+  const label = `${workshop.displayTitle} — back to top`
+
+  if (variant === 'stacked') {
+    return (
+      <a
+        href="#top"
+        aria-label={label}
+        className={cn('group inline-flex flex-col items-start gap-3 rounded-lg', className)}
+      >
+        <BrandMark className="h-12 w-auto transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:group-hover:translate-y-0" />
+        <span className="flex flex-col gap-2">
+          <span className="font-display text-sm font-bold tracking-[0.14em] text-fg uppercase">
+            Elite Motors Workshop <span className="text-fg-muted">L.L.C</span>
+          </span>
+          <TriColourRule />
+        </span>
+      </a>
+    )
+  }
+
   return (
     <a
       href="#top"
-      aria-label={`${workshop.displayTitle} — back to top`}
+      aria-label={label}
       className={cn('group inline-flex items-center gap-2.5 rounded-lg', className)}
     >
-      <span
-        aria-hidden="true"
-        className={cn(
-          'relative flex shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-primary to-secondary p-px shadow-[0_0_24px_-6px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] transition-transform duration-300 group-hover:rotate-[-4deg] motion-reduce:group-hover:rotate-0',
-          size === 'md' ? 'size-9' : 'size-11',
-        )}
-      >
-        <span className="flex size-full items-center justify-center rounded-[11px] bg-bg font-display text-sm font-extrabold tracking-tight text-fg">
-          EM
-        </span>
-      </span>
+      <BrandMark className="h-8 w-auto transition-transform duration-300 group-hover:-rotate-2 motion-reduce:group-hover:rotate-0 sm:h-9" />
       <span className="flex flex-col leading-none">
-        <span
-          className={cn(
-            'font-display font-bold tracking-tight text-fg',
-            size === 'md' ? 'text-[15px] sm:text-base' : 'text-lg',
-          )}
-        >
-          {workshop.name}
+        <span className="font-display text-[13px] font-bold tracking-tight whitespace-nowrap text-fg sm:text-[15px]">
+          Elite Motors<span className="hidden sm:inline"> Workshop</span>
         </span>
-        <span className="mt-1 text-[10px] font-semibold tracking-[0.22em] text-fg-muted uppercase">
-          Abu Dhabi
+        {/* Phones: second bold line keeps the lockup narrow enough for the 375px bar */}
+        <span className="mt-1 font-display text-[13px] font-bold tracking-tight whitespace-nowrap text-fg sm:hidden">
+          Workshop L.L.C
+        </span>
+        <span className="mt-1 hidden text-[10px] font-semibold tracking-[0.2em] whitespace-nowrap text-fg-muted uppercase sm:block">
+          L.L.C · Abu Dhabi
         </span>
       </span>
     </a>
+  )
+}
+
+/** Thin red / blue / yellow rule from the original badge. */
+function TriColourRule() {
+  return (
+    <span aria-hidden="true" className="flex h-0.5 w-full overflow-hidden rounded-full">
+      <span className="flex-1 bg-brand-red" />
+      <span className="flex-1 bg-brand-blue" />
+      <span className="flex-1 bg-brand-yellow" />
+    </span>
   )
 }

@@ -65,10 +65,9 @@ export const workshop = {
 
   /**
    * WhatsApp number in display format.
-   * TODO: replace the X's with the real digits, e.g. "+971 50 123 4567".
-   * The link builder strips spaces/plus signs → https://wa.me/97150XXXXXXX?text=...
+   * The link builder strips spaces/plus signs → https://wa.me/971565017797?text=...
    */
-  whatsappNumber: '+971 50 XXX XXXX',
+  whatsappNumber: '+971 56 501 7797',
   phone: '+971 2 558 3441',
 
   /** Human-readable summary used in the footer and SEO schema. */

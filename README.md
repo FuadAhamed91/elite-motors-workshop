@@ -39,14 +39,15 @@ the map and the SEO schema read from it.
 | `rating` | Review badge, hero chip, JSON-LD `aggregateRating` |
 | `nav` | Navbar and footer quick links |
 
-> **TODO before launch:** replace the `X` placeholders in `whatsappNumber` with the real
-> digits (e.g. `+971 50 123 4567`). The dev server logs a warning until you do.
-
 Content lives in `src/data/`:
 
 - `services.ts` — six service cards (name passed into each WhatsApp message)
 - `reviews.ts` — Google-style review cards (placeholder testimonials — replace with real ones)
 - `stats.ts` — trust strip figures
+
+The EMW logo is a vector recreation in `src/components/icons/BrandMark.tsx` (brand colours
+live as `--color-brand-*` tokens); `Logo.tsx` offers `inline` (navbar) and `stacked`
+(footer) lockups.
 
 ## How the live status works
 
