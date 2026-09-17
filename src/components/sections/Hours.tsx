@@ -8,7 +8,7 @@ import { StatusBadge } from '@/components/ui/StatusBadge'
 import { workshop, type DaySchedule } from '@/config/workshop'
 import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
 import { cn } from '@/lib/cn'
-import { formatRange, formatTime } from '@/lib/hours'
+import { formatRange } from '@/lib/hours'
 import { waLinks } from '@/lib/whatsapp'
 
 export function Hours() {
@@ -18,7 +18,7 @@ export function Hours() {
         <SectionHeading
           id="hours-heading"
           eyebrow="Working hours"
-          title="Open six days a week, with a midday break."
+          title="Open six days a week, with a lunch break."
           description="Drop in during working hours or message us any time — WhatsApp messages sent after hours are answered first thing when we open."
         />
       </Reveal>
@@ -59,10 +59,6 @@ function ScheduleCard() {
         <li className="flex items-center gap-1.5">
           <Coffee className="size-3.5 text-fg-muted" aria-hidden="true" />
           {workshop.breakLabel}
-        </li>
-        <li className="flex items-center gap-1.5">
-          <MoonStar className="size-3.5 text-warn" aria-hidden="true" />
-          Friday: Jumu&rsquo;ah prayer break
         </li>
         <li className="flex items-center gap-1.5">
           <CalendarX className="size-3.5 text-danger" aria-hidden="true" />
@@ -140,13 +136,11 @@ function ScheduleRow({ day, isToday }: ScheduleRowProps) {
 }
 
 const STANDARD_DAY = workshop.schedule.find((day) => day.day === 'monday')
-const FRIDAY = workshop.schedule.find((day) => day.day === 'friday')
 
 /** Live status panel — flips copy and CTA depending on whether the bay is open. */
 function LiveStatusCard() {
   const { status, now } = useWorkshopStatus(15_000)
   const standardHours = STANDARD_DAY?.intervals.map(formatRange).join(' · ') ?? ''
-  const fridayClose = FRIDAY?.intervals[0]?.close
 
   return (
     <GlowCard accent="secondary" innerClassName="flex h-full flex-col p-5 sm:p-6">
@@ -168,14 +162,10 @@ function LiveStatusCard() {
           <dt className="text-fg-muted">Monday – Saturday</dt>
           <dd className="text-right font-medium text-fg tabular-nums">{standardHours}</dd>
         </div>
-        {fridayClose && (
-          <div className="flex justify-between gap-4">
-            <dt className="text-fg-muted">Friday morning</dt>
-            <dd className="text-right font-medium text-fg tabular-nums">
-              Closes {formatTime(fridayClose)} for prayer
-            </dd>
-          </div>
-        )}
+        <div className="flex justify-between gap-4">
+          <dt className="text-fg-muted">Lunch break</dt>
+          <dd className="text-right font-medium text-fg tabular-nums">{workshop.breakLabel}</dd>
+        </div>
         <div className="flex justify-between gap-4">
           <dt className="text-fg-muted">Sunday</dt>
           <dd className="text-right font-medium text-danger">Closed</dd>

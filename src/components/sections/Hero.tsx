@@ -10,9 +10,9 @@ import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
 import { buildTelLink, waLinks } from '@/lib/whatsapp'
 
 const HERO_PROOF_POINTS = [
-  'Free diagnosis quote',
+  'Estimate before any work starts',
   'Genuine OEM parts',
-  'Same-day turnaround on most jobs',
+  'Insurance-approved body shop',
 ] as const
 
 /** Four most-requested services surfaced as one-tap WhatsApp shortcuts. */
@@ -116,7 +116,7 @@ function QuickQuoteConsole() {
         className="absolute -top-4 -right-2 z-20 flex items-center gap-2 rounded-pill border border-line bg-surface-elevated/90 px-3 py-1.5 text-xs font-semibold text-fg shadow-card backdrop-blur-md motion-safe:animate-float sm:-right-5"
       >
         <Star className="size-3.5 fill-star text-star" />
-        {workshop.rating.value} on Google
+        {workshop.googleReviews.count} reviews on Google
       </div>
 
       <GlowCard accent="secondary" animatedBorder innerClassName="p-5 sm:p-6">
@@ -126,7 +126,7 @@ function QuickQuoteConsole() {
               Quick quote
             </p>
             <p className="mt-1 font-display text-xl font-bold text-fg">
-              Tap a service, we pre-fill the chat
+              Tap a service, we pre-fill your message
             </p>
           </div>
           <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-cta/15 text-cta">

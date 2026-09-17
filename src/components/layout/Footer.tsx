@@ -1,4 +1,4 @@
-import { ArrowUpRight, Clock, MapPin, Phone } from 'lucide-react'
+import { Clock, MapPin, Phone } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { Logo } from '@/components/layout/Logo'
 import { CtaLink } from '@/components/ui/CtaLink'
@@ -54,8 +54,8 @@ export function Footer() {
         <div>
           <Logo variant="stacked" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-fg-muted">
-            Independent auto service and repair centre in {workshop.city}. Certified
-            technicians, genuine parts and honest pricing since 2010.
+            Independent auto service, repair and body shop in {workshop.city}. Certified
+            technicians, genuine parts and honest pricing.
           </p>
           <StatusBadge className="mt-5" />
         </div>
@@ -87,16 +87,10 @@ export function Footer() {
             {services.map((service) => (
               <li key={service.id}>
                 <a
-                  href={waLinks.quickService(service.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1 text-sm text-fg-muted transition-colors hover:text-primary"
+                  href="#services"
+                  className="text-sm text-fg-muted transition-colors hover:text-primary"
                 >
                   {service.title}
-                  <ArrowUpRight
-                    className="size-3 opacity-0 transition-opacity group-hover:opacity-100"
-                    aria-hidden="true"
-                  />
                 </a>
               </li>
             ))}
@@ -109,7 +103,7 @@ export function Footer() {
             <li className="flex gap-2.5">
               <MapPin className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
               <span>
-                {workshop.address.line1}, {workshop.address.line2}
+                {workshop.address.line2}
                 <br />
                 {workshop.address.city}
               </span>
@@ -126,9 +120,9 @@ export function Footer() {
                 href={waLinks.general()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-primary tabular-nums"
+                className="transition-colors hover:text-primary"
               >
-                {workshop.whatsappNumber}
+                Chat on WhatsApp
               </a>
             </li>
             <li className="flex gap-2.5">

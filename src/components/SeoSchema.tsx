@@ -13,7 +13,7 @@ const DAY_NAMES: Record<string, string> = {
 /**
  * schema.org AutoRepair JSON-LD generated from the config, so Google can show
  * opening hours, phone and rating in local search results.
- * Keep `workshop.rating` in sync with the real Google Business profile.
+ * No aggregateRating is emitted — the page intentionally doesn't show a star rating.
  */
 function buildSchema() {
   const openingHoursSpecification = workshop.schedule.flatMap((day) =>
@@ -29,6 +29,7 @@ function buildSchema() {
     '@context': 'https://schema.org',
     '@type': 'AutoRepair',
     name: workshop.name,
+    legalName: workshop.legalName,
     description: workshop.tagline,
     telephone: workshop.phone,
     url: typeof window !== 'undefined' ? window.location.origin : undefined,
@@ -41,13 +42,12 @@ function buildSchema() {
     },
     areaServed: workshop.city,
     openingHoursSpecification,
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: workshop.rating.value,
-      bestRating: workshop.rating.outOf,
-      reviewCount: workshop.rating.count,
-    },
     hasMap: workshop.mapsLink,
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: workshop.address.geo.lat,
+      longitude: workshop.address.geo.lng,
+    },
     priceRange: 'AED',
   }
 }

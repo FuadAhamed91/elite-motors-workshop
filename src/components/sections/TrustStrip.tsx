@@ -22,9 +22,9 @@ export function TrustStrip() {
             Fifteen years of honest wrenching in Mussafah.
           </h2>
           <p className="mt-3 text-base leading-relaxed text-pretty text-fg-muted">
-            Dealer-trained technicians, genuine parts and a price agreed on WhatsApp before we
-            touch a bolt. That is why Patrol, Land Cruiser and BMW owners across Abu Dhabi keep
-            coming back.
+            Certified technicians, genuine parts and an estimate agreed before we touch a
+            bolt — from routine servicing to insurance-approved accident and body repairs.
+            That is why drivers across Abu Dhabi keep coming back.
           </p>
         </Reveal>
 

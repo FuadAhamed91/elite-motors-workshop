@@ -31,18 +31,18 @@ the map and the SEO schema read from it.
 | Key | What it drives |
 | --- | --- |
 | `name`, `displayTitle`, `tagline`, `city` | Navbar, hero, footer, `<title>`, JSON-LD |
-| `whatsappNumber` | All WhatsApp links → `https://wa.me/97150XXXXXXX?text=...` |
-| `phone` | "Call Workshop" CTAs (`tel:` links) |
+| `whatsappNumber` | All WhatsApp chat links → `https://wa.me/971565017797?text=...` (never displayed as a phone number) |
+| `phone` | Landline — the only number shown; every "Call" CTA (`tel:` link) |
 | `schedule` | Live **Open Now / Open Today / Closed** badge + weekly schedule card |
 | `hoursSummary`, `breakLabel` | Footer text and schedule legend |
-| `address`, `mapEmbedUrl`, `mapsLink`, `directionsLink` | Location section + map iframe |
-| `rating` | Review badge, hero chip, JSON-LD `aggregateRating` |
+| `address`, `mapEmbedUrl`, `mapsLink`, `directionsLink` | Location section + map iframe (Google pin: Musaffah M21) |
+| `googleReviews` | Review count + link to the Google review list (no star average is shown) |
 | `nav` | Navbar and footer quick links |
 
 Content lives in `src/data/`:
 
-- `services.ts` — six service cards (name passed into each WhatsApp message)
-- `reviews.ts` — Google-style review cards (placeholder testimonials — replace with real ones)
+- `services.ts` — six informational service cards (no per-service booking buttons)
+- `reviews.ts` — short excerpts of the top 5-star Google reviews (captured Sept 2026), each linking to Google
 - `stats.ts` — trust strip figures
 
 The EMW logo is a vector recreation in `src/components/icons/BrandMark.tsx` (brand colours
@@ -58,16 +58,15 @@ the badge is correct for visitors anywhere in the world. It distinguishes:
 - **Open Today** · on break, back at … / opens at …
 - **Closed** · opens tomorrow / opens Mon …
 
-Friday's morning session ends at 12:00 PM for Jumu'ah prayer and Sunday is closed — both
-are indicated on the schedule card. Adjust in `workshop.schedule`.
+Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday closed. Adjust in
+`workshop.schedule`; a per-day `note` (e.g. a prayer break) renders as a badge on that row.
 
 ## Pre-filled WhatsApp messages
 
 `src/lib/whatsapp.ts` exposes `waLinks`:
 
-- `quote()` — hero, navbar, FAB, footer
-- `service(name)` — "Book via WhatsApp" on each service card
-- `quickService(name)` — hero quick-quote console, footer service links
+- `quote()` — hero, navbar, FAB, services prompt, footer
+- `quickService(name)` — hero quick-quote console (estimate request, not a booking)
 - `directions()` — location section
 - `afterHours()` — shown by the status card when the workshop is closed
 

@@ -1,68 +1,67 @@
+/**
+ * Top 5-star reviews from the workshop's Google Business listing
+ * (captured September 2026, "most relevant" order). Each card shows a short
+ * excerpt and links to the full review on Google — see `workshop.googleReviews.url`.
+ */
 export interface Review {
   id: string
   name: string
-  car: string
   rating: 1 | 2 | 3 | 4 | 5
-  /** Relative label as shown on Google. */
+  /** Approximate month of the review, derived from Google's relative date. */
   when: string
-  text: string
-  /** Service the customer came in for — displayed as a chip. */
-  service: string
+  /** Short excerpt of the review text. */
+  excerpt: string
+  /** Google review topic the comment relates to — displayed as a chip. */
+  topic: string
 }
 
 export const reviews: readonly Review[] = [
   {
-    id: 'r1',
-    name: 'Khalid Al Mazrouei',
-    car: 'Nissan Patrol',
+    id: 'ahmad-sankar',
+    name: 'Ahmad Sankar',
     rating: 5,
-    when: '2 weeks ago',
-    text: 'Patrol had a gearbox judder that two other garages could not trace. Elite scanned it, showed me the live data and fixed it the same day. Honest pricing, no upsell.',
-    service: 'Transmission',
+    when: 'March 2026',
+    excerpt: 'Truly shocked, surprised, and more than satisfied with the level of service I received.',
+    topic: 'Excellent team',
   },
   {
-    id: 'r2',
-    name: 'Fatima Al Hammadi',
-    car: 'Toyota Land Cruiser',
+    id: 'shannon-corera',
+    name: 'Shannon Corera',
     rating: 5,
-    when: '1 month ago',
-    text: 'AC went weak in August. They found a tiny condenser leak instead of just regassing it like everyone else. Cabin is freezing again and they messaged me photos on WhatsApp during the job.',
-    service: 'AC Repair',
+    when: 'March 2026',
+    excerpt: 'Fantastic service… guided me through the complete procedure… delivered the car on time.',
+    topic: 'Accident repair',
   },
   {
-    id: 'r3',
-    name: 'Daniel Okafor',
-    car: 'BMW 530i',
+    id: 'ali-afzal',
+    name: 'Ali Afzal',
     rating: 5,
-    when: '3 weeks ago',
-    text: 'Quoted less than half of what the dealer wanted for brakes and used genuine parts. Alignment is perfect, steering is dead straight on the E11. Quick turnaround too.',
-    service: 'Brakes & Alignment',
+    when: 'March 2026',
+    excerpt: 'They made it so easy… so helpful and professional… best service station to recommend.',
+    topic: 'Polite staff',
   },
   {
-    id: 'r4',
-    name: 'Mohammed Siddiqui',
-    car: 'Mitsubishi Pajero',
+    id: 'petro-nixon',
+    name: 'Petro A R Nixon',
     rating: 5,
-    when: '1 month ago',
-    text: 'Booked a pre-purchase inspection over WhatsApp in the morning, had the full report by lunch. They caught a repaired chassis rail so I walked away from the deal. Saved me a fortune.',
-    service: 'Pre-Purchase Inspection',
+    when: 'March 2026',
+    excerpt: 'Prompt response, frequent status updates and quick repair. He delivered exactly what he promised.',
+    topic: 'Quick repair',
   },
   {
-    id: 'r5',
-    name: 'Sara Al Ketbi',
-    car: 'Lexus LX 570',
+    id: 'kashyap-patel',
+    name: 'Kashyap Patel',
     rating: 5,
-    when: '2 months ago',
-    text: 'Transparent from start to finish. They send the price before starting, explain what is urgent and what can wait. Finally a workshop in Mussafah I trust with the family car.',
-    service: 'Periodic Maintenance',
+    when: 'April 2026',
+    excerpt: 'A strong and competent body shop that’s approved by many reputed insurers.',
+    topic: 'Insurance work',
   },
   {
-    id: 'r6',
-    name: 'James Whitfield',
-    car: 'Mitsubishi Montero Sport',
+    id: 'long-sc',
+    name: 'Long SC',
     rating: 5,
-    when: '3 months ago',
-    text: 'Check-engine light diagnosed in 20 minutes with a proper written report. Fixed a faulty sensor for a fair price and the light has not returned. Fast, honest, professional.',
-    service: 'Engine Diagnostics',
+    when: 'July 2026',
+    excerpt: 'Very good and helping in sorting out my car problem… courteous and helpful.',
+    topic: 'Customer support',
   },
 ]

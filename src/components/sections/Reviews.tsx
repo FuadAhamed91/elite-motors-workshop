@@ -1,4 +1,4 @@
-import { BadgeCheck, Car, ExternalLink } from 'lucide-react'
+import { BadgeCheck, ExternalLink } from 'lucide-react'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -19,12 +19,12 @@ export function Reviews() {
             <SectionHeading
               id="reviews-heading"
               eyebrow="Reviews"
-              title="Abu Dhabi drivers don't just come back. They bring their friends."
-              description="Real feedback from Patrol, Land Cruiser, BMW and Pajero owners who value speed, honesty and fair pricing."
+              title="What customers say on Google."
+              description="Excerpts from the workshop's top Google reviews — tap any card to read the full review on Google Maps."
             />
           </Reveal>
           <Reveal delay={0.1} className="shrink-0">
-            <RatingBadge />
+            <GoogleReviewsBadge />
           </Reveal>
         </div>
 
@@ -40,31 +40,23 @@ export function Reviews() {
   )
 }
 
-/** "Rated 4.8 / 5 on Google Reviews by Abu Dhabi Drivers" trust badge. */
-function RatingBadge() {
-  const { value, outOf, platform, count } = workshop.rating
+/** Links to the full review list on Google — deliberately shows no star average. */
+function GoogleReviewsBadge() {
+  const { count, url } = workshop.googleReviews
   return (
     <a
-      href={workshop.googleReviewsUrl}
+      href={url}
       target="_blank"
       rel="noopener noreferrer"
       className="group flex items-center gap-4 rounded-2xl border border-line bg-surface/80 p-4 pr-5 shadow-card backdrop-blur-sm transition-colors hover:border-line-strong"
     >
-      <span className="flex flex-col items-center justify-center rounded-xl bg-star/12 px-3 py-2">
-        <span className="font-display text-3xl leading-none font-extrabold text-fg tabular-nums">
-          {value}
-        </span>
-        <span className="mt-1 text-[10px] font-semibold tracking-widest text-fg-muted uppercase">
-          / {outOf}
-        </span>
+      <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary/12 text-secondary">
+        <BadgeCheck className="size-6" aria-hidden="true" />
       </span>
-      <span className="flex flex-col gap-1">
-        <Stars rating={value} size="md" />
-        <span className="text-sm font-semibold text-fg">
-          Rated {value} / {outOf} on {platform}
-        </span>
+      <span className="flex flex-col gap-0.5">
+        <span className="text-sm font-semibold text-fg">Reviews from Google</span>
         <span className="flex items-center gap-1 text-xs text-fg-muted">
-          by {count}+ Abu Dhabi drivers
+          See all {count} reviews on Google Maps
           <ExternalLink
             className="size-3 transition-transform group-hover:translate-x-0.5"
             aria-hidden="true"
@@ -91,42 +83,50 @@ function initials(name: string): string {
 function ReviewCard({ review }: ReviewCardProps) {
   return (
     <GlowCard accent="secondary" innerClassName="flex flex-col p-6">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <span
-            aria-hidden="true"
-            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-primary/30 to-secondary/30 font-display text-sm font-bold text-fg ring-1 ring-line-strong"
-          >
-            {initials(review.name)}
-          </span>
-          <div>
-            <p className="font-semibold text-fg">{review.name}</p>
-            <p className="mt-0.5 flex items-center gap-1.5 text-xs text-fg-muted">
-              <Car className="size-3.5" aria-hidden="true" />
-              {review.car}
-            </p>
+      <a
+        href={workshop.googleReviews.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Read ${review.name}'s review on Google`}
+        className="flex h-full flex-col rounded-lg"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="flex size-11 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-primary/30 to-secondary/30 font-display text-sm font-bold text-fg ring-1 ring-line-strong"
+            >
+              {initials(review.name)}
+            </span>
+            <div>
+              <p className="font-semibold text-fg">{review.name}</p>
+              <p className="mt-0.5 text-xs text-fg-muted">{review.when}</p>
+            </div>
           </div>
+          <span className="inline-flex items-center gap-1 rounded-pill border border-line bg-white/3 px-2 py-1 text-[11px] font-medium text-fg-muted">
+            <BadgeCheck className="size-3.5 text-secondary" aria-hidden="true" />
+            Google
+          </span>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-pill border border-line bg-white/3 px-2 py-1 text-[11px] font-medium text-fg-muted">
-          <BadgeCheck className="size-3.5 text-secondary" aria-hidden="true" />
-          Google
-        </span>
-      </div>
 
-      <div className="mt-4 flex items-center justify-between gap-3">
-        <Stars rating={review.rating} />
-        <span className="text-xs text-fg-muted">{review.when}</span>
-      </div>
+        <div className="mt-4">
+          <Stars rating={review.rating} />
+        </div>
 
-      <blockquote className="mt-3 text-sm leading-relaxed text-fg/90">
-        <p>“{review.text}”</p>
-      </blockquote>
+        <blockquote className="mt-3 text-sm leading-relaxed text-fg/90">
+          <p>“{review.excerpt}”</p>
+        </blockquote>
 
-      <p className="mt-auto pt-5">
-        <span className="inline-flex rounded-pill bg-primary/10 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-primary">
-          {review.service}
-        </span>
-      </p>
+        <p className="mt-auto flex items-center justify-between gap-3 pt-5">
+          <span className="inline-flex rounded-pill bg-primary/10 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-primary">
+            {review.topic}
+          </span>
+          <span className="inline-flex items-center gap-1 text-xs text-fg-muted transition-colors group-hover:text-fg">
+            Read on Google
+            <ExternalLink className="size-3" aria-hidden="true" />
+          </span>
+        </p>
+      </a>
     </GlowCard>
   )
 }

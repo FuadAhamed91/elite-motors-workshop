@@ -30,7 +30,7 @@ export const services: readonly Service[] = [
     name: 'Engine Diagnostics & Computer Scanning',
     title: 'Engine Diagnostics & Computer Scanning',
     description:
-      'Dealer-level OBD scanning that pinpoints check-engine lights, misfires and sensor faults before they become expensive.',
+      'OBD computer scanning that pinpoints check-engine lights, misfires and sensor faults before they become expensive.',
     includes: ['Full ECU scan', 'Live data analysis', 'Written fault report'],
     icon: Cpu,
     badge: 'Most requested',
@@ -42,7 +42,7 @@ export const services: readonly Service[] = [
     title: 'Periodic Maintenance & Fluid Changes',
     description:
       'Manufacturer-schedule servicing with genuine filters and fluids, so your warranty and resale value stay intact.',
-    includes: ['Engine oil & filter', 'Brake, coolant & ATF fluids', '30-point safety check'],
+    includes: ['Engine oil & filter', 'Brake, coolant & ATF fluids', 'Multi-point safety check'],
     icon: Droplets,
     accent: 'primary',
   },
@@ -62,8 +62,8 @@ export const services: readonly Service[] = [
     name: 'Brake System, Suspension & Wheel Alignment',
     title: 'Brakes, Suspension & Alignment',
     description:
-      'Pads, discs, shocks and laser 3D alignment for a straight, silent and confident drive on Abu Dhabi highways.',
-    includes: ['Pads, discs & calipers', 'Shocks, bushes & links', '3D laser wheel alignment'],
+      'Pads, discs, shocks and precision wheel alignment for a straight, silent and confident drive on Abu Dhabi highways.',
+    includes: ['Pads, discs & calipers', 'Shocks, bushes & links', 'Wheel alignment & balancing'],
     icon: Disc3,
     accent: 'primary',
   },
@@ -82,10 +82,9 @@ export const services: readonly Service[] = [
     name: 'Pre-Purchase Vehicle Inspection',
     title: 'Pre-Purchase Vehicle Inspection',
     description:
-      'Buying used? Our 150-point inspection uncovers accident repairs, hidden leaks and odometer red flags before you pay.',
-    includes: ['150-point checklist', 'Paint depth & chassis scan', 'Same-day PDF report'],
+      'Buying used? A comprehensive inspection uncovers accident repairs, hidden leaks and odometer red flags before you pay.',
+    includes: ['Comprehensive checklist', 'Paint depth & chassis check', 'Written report'],
     icon: ClipboardCheck,
-    badge: 'Same-day report',
     accent: 'primary',
   },
 ]

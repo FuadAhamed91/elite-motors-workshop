@@ -1,6 +1,5 @@
 import { ArrowUpRight, Check } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
-import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -16,7 +15,7 @@ export function Services() {
           id="services-heading"
           eyebrow="Services"
           title="Everything your car needs, under one roof."
-          description="From a 20-minute diagnostic scan to a full transmission rebuild. Every job starts with a clear WhatsApp quote — no surprises on the invoice."
+          description="From a diagnostic scan to a full transmission rebuild. Every job starts with a clear estimate — no surprises on the invoice."
         />
       </Reveal>
 
@@ -27,6 +26,25 @@ export function Services() {
           </StaggerItem>
         ))}
       </StaggerGroup>
+
+      <Reveal delay={0.1}>
+        <p className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-fg-muted">
+          Not sure what your car needs?
+          <a
+            href={waLinks.quote()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-1.5 font-semibold text-primary transition-colors hover:text-volt-300"
+          >
+            <WhatsAppIcon className="size-4" />
+            Describe the problem on WhatsApp
+            <ArrowUpRight
+              className="size-3.5 transition-transform group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
+          </a>
+        </p>
+      </Reveal>
     </section>
   )
 }
@@ -62,7 +80,7 @@ function ServiceCard({ service }: ServiceCardProps) {
       <h3 className="mt-5 font-display text-xl font-bold tracking-tight text-fg">{service.title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-fg-muted">{service.description}</p>
 
-      <ul className="mt-4 space-y-2" aria-label={`What ${service.title} includes`}>
+      <ul className="mt-4 space-y-2 pb-1" aria-label={`What ${service.title} includes`}>
         {service.includes.map((item) => (
           <li key={item} className="flex items-center gap-2 text-sm text-fg/90">
             <Check className={cn('size-4 shrink-0', accentText)} strokeWidth={2.5} aria-hidden="true" />
@@ -71,19 +89,6 @@ function ServiceCard({ service }: ServiceCardProps) {
         ))}
       </ul>
 
-      <div className="mt-auto pt-6">
-        <CtaLink
-          href={waLinks.service(service.name)}
-          external
-          size="sm"
-          icon={<WhatsAppIcon />}
-          iconRight={<ArrowUpRight />}
-          className="w-full sm:w-auto"
-          aria-label={`Book ${service.name} via WhatsApp`}
-        >
-          Book via WhatsApp
-        </CtaLink>
-      </div>
     </GlowCard>
   )
 }

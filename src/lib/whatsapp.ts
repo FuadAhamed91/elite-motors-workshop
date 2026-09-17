@@ -34,11 +34,8 @@ export const whatsappMessages = {
   quote: () =>
     `${greeting}\n\nI'd like an instant quote for my car.\n\n🚗 Car (make / model / year): \n🔧 Issue or service needed: \n\nThank you!`,
 
-  service: (serviceName: string) =>
-    `${greeting}\n\nI'd like to book *${serviceName}*.\n\n🚗 Car (make / model / year): \n📅 Preferred day / time: \n\nPlease share availability and pricing. Thank you!`,
-
   quickService: (serviceName: string) =>
-    `${greeting} I need *${serviceName}* for my car. Can you share a quote and the next available slot?`,
+    `${greeting} I need *${serviceName}* for my car. Could you share an estimate?\n\n🚗 Car (make / model / year): `,
 
   directions: () =>
     `${greeting}\n\nI'm on my way to the workshop in ${workshop.city}. Could you share the exact pin location / directions?`,
@@ -54,7 +51,6 @@ export type WhatsAppIntent = keyof typeof whatsappMessages
 /** Convenience helpers used by CTAs across the page. */
 export const waLinks = {
   quote: () => buildWhatsAppLink(whatsappMessages.quote()),
-  service: (name: string) => buildWhatsAppLink(whatsappMessages.service(name)),
   quickService: (name: string) => buildWhatsAppLink(whatsappMessages.quickService(name)),
   directions: () => buildWhatsAppLink(whatsappMessages.directions()),
   afterHours: () => buildWhatsAppLink(whatsappMessages.afterHours()),

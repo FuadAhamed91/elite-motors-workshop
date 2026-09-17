@@ -17,7 +17,7 @@ export function Location() {
           id="location-heading"
           eyebrow="Find us"
           title="In the heart of Mussafah Industrial Area."
-          description="Minutes from Abu Dhabi city, Khalifa City and the Al Ain Road — with customer parking right at the bay door."
+          description="Sector M21 of Mussafah Industrial Area — a short drive from Abu Dhabi city, Khalifa City and the Al Ain Road."
         />
       </Reveal>
 
@@ -43,10 +43,8 @@ function AddressCard() {
           <MapPin className="size-6" aria-hidden="true" />
         </span>
         <address className="not-italic">
-          <p className="font-display text-xl font-bold text-fg">{workshop.name}</p>
+          <p className="font-display text-xl font-bold text-fg">{address.line1}</p>
           <p className="mt-2 leading-relaxed text-fg/90">
-            {address.line1}
-            <br />
             {address.line2}
             <br />
             {address.city}
@@ -68,7 +66,7 @@ function AddressCard() {
             >
               {phone}
             </a>
-            <p className="text-xs text-fg-muted">Landline · working hours only</p>
+            <p className="text-xs text-fg-muted">Landline · call during working hours</p>
           </dd>
         </div>
         <div className="flex items-center gap-4">
@@ -81,11 +79,11 @@ function AddressCard() {
               href={waLinks.directions()}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-fg transition-colors hover:text-primary tabular-nums"
+              className="font-semibold text-fg transition-colors hover:text-primary"
             >
-              {workshop.whatsappNumber}
+              Chat on WhatsApp
             </a>
-            <p className="text-xs text-fg-muted">Fastest reply · send us your location</p>
+            <p className="text-xs text-fg-muted">Send us your location for directions</p>
           </dd>
         </div>
       </dl>

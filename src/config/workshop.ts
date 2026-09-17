@@ -4,6 +4,9 @@
  *  Single source of truth for every name, number, address and opening
  *  time rendered on the page. Every section, CTA, WhatsApp link, the
  *  live status badge and the SEO schema read from this file.
+ *
+ *  Location, map links and review data follow the workshop's Google
+ *  Business listing ("Elite Motors Workshop", Musaffah M21, Abu Dhabi).
  * ─────────────────────────────────────────────────────────────────────
  */
 
@@ -39,23 +42,21 @@ export interface NavLink {
   href: `#${string}`
 }
 
+/** Monday – Saturday: morning shift, one-hour lunch break, afternoon shift. */
 const STANDARD_DAY: readonly TimeRange[] = [
   { open: '08:00', close: '13:00' },
-  { open: '15:00', close: '20:00' },
+  { open: '14:00', close: '17:30' },
 ]
 
-/**
- * Friday: the morning session closes at 12:00 PM so the team can attend
- * Jumu'ah prayer (≈12:15–1:00 PM in Abu Dhabi) before the usual 3:00 PM reopening.
- * Change `close` below if the workshop keeps the standard 1:00 PM close on Fridays.
- */
-const FRIDAY: readonly TimeRange[] = [
-  { open: '08:00', close: '12:00' },
-  { open: '15:00', close: '20:00' },
-]
+/** Google Maps pin for the workshop (Musaffah M21). */
+const GEO = { lat: 24.3772101, lng: 54.4746864 } as const
+
+/** Google Maps customer id of the listing — opens the exact business card. */
+const GOOGLE_CID = '3957074303703546179'
 
 export const workshop = {
   name: 'Elite Motors Workshop',
+  legalName: 'Elite Motors Workshop L.L.C',
   shortName: 'Elite Motors',
   /** Used in the navbar title and SEO title. */
   displayTitle: 'Elite Motors Workshop Abu Dhabi',
@@ -64,15 +65,15 @@ export const workshop = {
   timeZone: 'Asia/Dubai',
 
   /**
-   * WhatsApp number in display format.
+   * WhatsApp is for chat only — the number is never displayed as a phone number.
    * The link builder strips spaces/plus signs → https://wa.me/971565017797?text=...
    */
   whatsappNumber: '+971 56 501 7797',
+  /** Landline — the only number shown on the page and used by every "Call" button. */
   phone: '+971 2 558 3441',
 
   /** Human-readable summary used in the footer and SEO schema. */
-  hoursSummary:
-    'Monday – Saturday: 8:00 AM – 1:00 PM & 3:00 PM – 8:00 PM | Sunday: Closed',
+  hoursSummary: 'Monday – Saturday: 8:00 AM – 1:00 PM & 2:00 PM – 5:30 PM | Sunday: Closed',
 
   /** Structured schedule driving the live status badge and the hours card. */
   schedule: [
@@ -80,14 +81,7 @@ export const workshop = {
     { day: 'tuesday', label: 'Tuesday', short: 'Tue', intervals: STANDARD_DAY },
     { day: 'wednesday', label: 'Wednesday', short: 'Wed', intervals: STANDARD_DAY },
     { day: 'thursday', label: 'Thursday', short: 'Thu', intervals: STANDARD_DAY },
-    {
-      day: 'friday',
-      label: 'Friday',
-      short: 'Fri',
-      intervals: FRIDAY,
-      note: "Jumu'ah prayer break",
-      noteKind: 'prayer',
-    },
+    { day: 'friday', label: 'Friday', short: 'Fri', intervals: STANDARD_DAY },
     { day: 'saturday', label: 'Saturday', short: 'Sat', intervals: STANDARD_DAY },
     {
       day: 'sunday',
@@ -100,36 +94,31 @@ export const workshop = {
   ] as const satisfies readonly DaySchedule[],
 
   /** Daily midday break (shown as a hint on the schedule card). */
-  breakLabel: '1:00 PM – 3:00 PM daily break',
+  breakLabel: '1:00 PM – 2:00 PM lunch break',
 
   address: {
-    line1: 'Workshop 12, Plot M-9',
-    line2: 'Mussafah Industrial Area (M9)',
+    line1: 'Elite Motors Workshop L.L.C',
+    line2: 'Musaffah M21, Mussafah Industrial Area',
     city: 'Abu Dhabi, United Arab Emirates',
-    landmarks: 'Behind Capital Mall · 4 min from Dalma Mall · off Al Ain Road (E22)',
-    /** Free-text query used for the map links below. */
-    mapQuery: 'Mussafah Industrial Area M9, Abu Dhabi',
+    /** Google plus code — the quickest way to share the exact pin. */
+    landmarks: 'Plus code 9FGF+VV · Abu Dhabi',
+    geo: GEO,
   },
 
-  /**
-   * Map embed — no API key required. To use the exact pin, open the location
-   * in Google Maps → Share → "Embed a map" and paste the iframe `src` here.
-   */
-  mapEmbedUrl:
-    'https://maps.google.com/maps?q=Mussafah%20Industrial%20Area%20M9%2C%20Abu%20Dhabi&t=&z=14&ie=UTF8&iwloc=&output=embed',
-  mapsLink:
-    'https://www.google.com/maps/search/?api=1&query=Mussafah+Industrial+Area+M9%2C+Abu+Dhabi',
-  directionsLink:
-    'https://www.google.com/maps/dir/?api=1&destination=Mussafah+Industrial+Area+M9%2C+Abu+Dhabi',
-  /** Link to the Google Business reviews page. */
-  googleReviewsUrl:
-    'https://www.google.com/maps/search/?api=1&query=Elite+Motors+Workshop+Mussafah+Abu+Dhabi',
+  /** Map embed centred on the Google pin — no API key required. */
+  mapEmbedUrl: `https://maps.google.com/maps?q=Elite%20Motors%20Workshop%2C%20Musaffah%20M21%2C%20Abu%20Dhabi&ll=${GEO.lat}%2C${GEO.lng}&z=16&ie=UTF8&output=embed`,
+  /** Opens the exact Google Business listing. */
+  mapsLink: `https://maps.google.com/?cid=${GOOGLE_CID}`,
+  directionsLink: `https://www.google.com/maps/dir/?api=1&destination=${GEO.lat}%2C${GEO.lng}`,
 
-  rating: {
-    value: 4.8,
-    outOf: 5,
-    count: 312,
-    platform: 'Google Reviews',
+  /**
+   * Google reviews — the page shows short excerpts of the top reviews and links
+   * here so visitors can read them in full. The overall star rating is
+   * intentionally not displayed.
+   */
+  googleReviews: {
+    count: 283,
+    url: 'https://www.google.com/maps/place/Elite+Motors+Workshop/@24.3772101,54.4746864,17z/data=!4m8!3m7!1s0x3e5e41c28360946d:0x36ea5a1d1e137943!8m2!3d24.3772101!4d54.4746864!9m1!1b1!16s%2Fg%2F11h_bqg108',
   },
 
   /** Typical WhatsApp first-reply time shown near CTAs. */
