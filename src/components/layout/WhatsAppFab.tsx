@@ -1,5 +1,5 @@
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
-import { workshop } from '@/config/workshop'
+import { useT } from '@/i18n'
 import { waLinks } from '@/lib/whatsapp'
 
 /**
@@ -8,19 +8,20 @@ import { waLinks } from '@/lib/whatsapp'
  * a 56px target sitting above the safe-area inset on notched phones.
  */
 export function WhatsAppFab() {
+  const t = useT()
   return (
     <a
       href={waLinks.quote()}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Chat with ${workshop.name} on WhatsApp`}
-      className="group fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 flex items-center gap-3 sm:right-6 sm:bottom-6"
+      aria-label={t.fab.aria(t.brand.name)}
+      className="group fixed end-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 flex items-center gap-3 sm:end-6 sm:bottom-6"
     >
       <span
         aria-hidden="true"
-        className="pointer-events-none hidden translate-x-2 rounded-pill border border-line bg-surface/90 px-3.5 py-2 text-sm font-semibold text-fg opacity-0 shadow-card backdrop-blur-md transition-[opacity,transform] duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:block"
+        className="pointer-events-none hidden translate-x-2 rtl:-translate-x-2 rounded-pill border border-line bg-surface/90 px-3.5 py-2 text-sm font-semibold text-fg opacity-0 shadow-card backdrop-blur-md transition-[opacity,transform] duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:block"
       >
-        Chat with us
+        {t.fab.label}
       </span>
       <span className="relative flex size-14 items-center justify-center">
         <span

@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import { workshop } from '@/config/workshop'
-import { getWorkshopStatus, getZonedNow, type WorkshopStatus, type ZonedNow } from '@/lib/hours'
+import { hoursStrings, useT } from '@/i18n'
+import { getWorkshopStatus, getZonedNow, type HoursStrings, type WorkshopStatus, type ZonedNow } from '@/lib/hours'
 
 export interface LiveStatus {
   status: WorkshopStatus
   now: ZonedNow
 }
 
-function compute(): LiveStatus {
-  const now = getZonedNow(workshop.timeZone)
-  return { status: getWorkshopStatus(workshop.schedule, now), now }
+function compute(strings: HoursStrings): LiveStatus {
+  const now = getZonedNow(workshop.timeZone, new Date(), strings)
+  return { status: getWorkshopStatus(workshop.schedule, now, strings), now }
 }
 
 /**
@@ -17,12 +18,15 @@ function compute(): LiveStatus {
  * re-evaluated every 30 seconds so the badge flips exactly on schedule.
  */
 export function useWorkshopStatus(refreshMs = 30_000): LiveStatus {
-  const [live, setLive] = useState<LiveStatus>(compute)
+  const t = useT()
+  const [live, setLive] = useState<LiveStatus>(() => compute(hoursStrings(t)))
 
   useEffect(() => {
-    const id = window.setInterval(() => setLive(compute()), refreshMs)
+    const strings = hoursStrings(t)
+    setLive(compute(strings))
+    const id = window.setInterval(() => setLive(compute(strings)), refreshMs)
     return () => window.clearInterval(id)
-  }, [refreshMs])
+  }, [refreshMs, t])
 
   return live
 }

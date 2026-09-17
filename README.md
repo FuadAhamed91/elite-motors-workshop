@@ -72,6 +72,22 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 - **WhatsApp** — only the floating button (`WhatsAppFab`, pre-filled quote message from
   `src/lib/whatsapp.ts`) and the assistant's WhatsApp answer.
 
+## Languages — English & Arabic
+
+The whole site is bilingual. `src/i18n/en.ts` is the source of every string (typed as
+`Dictionary`); `src/i18n/ar.ts` must match its shape, so a missing translation fails the build.
+`LocaleProvider` (`src/i18n/index.tsx`) picks the language — `?lang=ar|en` in the URL, then the
+saved choice (`localStorage` `emw:lang`), then the browser language (Arabic browsers get Arabic) —
+and keeps `<html lang dir>`, the title and the description in step. The toggle sits in the navbar
+(icon-only on phones).
+
+Arabic details: `dir="rtl"` flips the layout (logical `start/end` utilities, mirrored arrows), the
+**Cairo** font loads only when Arabic is shown, letter-spacing is disabled for the connected
+script, and times/phone numbers are wrapped in bidi isolates so "8:00 ص – 1:00 م" and
+"+971 2 558 3441" never reorder inside Arabic text. Review quotes stay in their original English.
+The assistant answers in the language of the question (Arabic script → Arabic, with Gulf terms
+such as الجير، الرديتر، السمكرة، الصبغ) using Arabic keyword sets in `src/lib/assistant.ts`.
+
 ## Opening intro
 
 Two variants live in `src/components/intro/`; pick one with `variant` in `src/config/intro.ts`

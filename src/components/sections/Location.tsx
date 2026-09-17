@@ -5,18 +5,20 @@ import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { workshop } from '@/config/workshop'
+import { useT } from '@/i18n'
 import { cn } from '@/lib/cn'
 import { buildTelLink } from '@/lib/whatsapp'
 
 export function Location() {
+  const t = useT()
   return (
     <section id="location" aria-labelledby="location-heading" className="container-x pb-20 lg:pb-28">
       <Reveal>
         <SectionHeading
           id="location-heading"
-          eyebrow="Find us"
-          title="In the heart of Mussafah Industrial Area."
-          description="Sector M21 of Mussafah Industrial Area — a short drive from Abu Dhabi city, Khalifa City and the Al Ain Road."
+          eyebrow={t.location.eyebrow}
+          title={t.location.title}
+          description={t.location.description}
         />
       </Reveal>
 
@@ -33,7 +35,8 @@ export function Location() {
 }
 
 function AddressCard() {
-  const { address, phone } = workshop
+  const t = useT()
+  const { phone } = workshop
 
   return (
     <GlowCard innerClassName="flex h-full flex-col p-6 sm:p-8">
@@ -42,13 +45,13 @@ function AddressCard() {
           <MapPin className="size-6" aria-hidden="true" />
         </span>
         <address className="not-italic">
-          <p className="font-display text-xl font-bold text-fg">{address.line1}</p>
+          <p className="font-display text-xl font-bold text-fg">{t.location.line1}</p>
           <p className="mt-2 leading-relaxed text-fg/90">
-            {address.line2}
+            {t.location.line2}
             <br />
-            {address.city}
+            {t.location.city}
           </p>
-          <p className="mt-3 text-sm text-fg-muted">{address.landmarks}</p>
+          <p className="mt-3 text-sm text-fg-muted">{t.location.landmarks}</p>
         </address>
       </div>
 
@@ -56,16 +59,17 @@ function AddressCard() {
         <div className="flex items-center gap-4">
           <dt className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-fg/4 text-secondary">
             <Phone className="size-4.5" aria-hidden="true" />
-            <span className="sr-only">Phone</span>
+            <span className="sr-only">{t.location.phone}</span>
           </dt>
           <dd>
             <a
               href={buildTelLink(phone)}
               className="font-semibold text-fg transition-colors hover:text-primary tabular-nums"
+              dir="ltr"
             >
               {phone}
             </a>
-            <p className="text-xs text-fg-muted">Landline · call during working hours</p>
+            <p className="text-xs text-fg-muted">{t.location.phoneNote}</p>
           </dd>
         </div>
       </dl>
@@ -78,7 +82,7 @@ function AddressCard() {
           icon={<ExternalLink />}
           className="sm:flex-1"
         >
-          Open in Google Maps
+          {t.common.openInGoogleMaps}
         </CtaLink>
         <CtaLink
           href={workshop.directionsLink}
@@ -87,7 +91,7 @@ function AddressCard() {
           icon={<Navigation />}
           className="sm:flex-1"
         >
-          Get Directions
+          {t.common.getDirections}
         </CtaLink>
       </div>
     </GlowCard>
@@ -100,6 +104,7 @@ function AddressCard() {
  * page's own load — with a skeleton until it paints.
  */
 function MapEmbed() {
+  const t = useT()
   const [loaded, setLoaded] = useState(false)
   const [near, setNear] = useState(false)
   const frame = useRef<HTMLDivElement>(null)
@@ -129,7 +134,7 @@ function MapEmbed() {
       {near && (
         <iframe
           src={workshop.mapEmbedUrl}
-          title={`Map showing ${workshop.name} in ${workshop.address.line2}, Abu Dhabi`}
+          title={t.location.mapTitle(t.brand.name, t.location.line2)}
           loading="lazy"
           allowFullScreen
           referrerPolicy="no-referrer-when-downgrade"
@@ -145,7 +150,7 @@ function MapEmbed() {
       )}
       <div className="pointer-events-none absolute inset-x-4 bottom-4 flex justify-between gap-3">
         <span className="min-w-0 truncate rounded-pill border border-line bg-bg/95 px-3 py-1.5 text-xs font-medium text-fg">
-          {workshop.address.line2}
+          {t.location.line2}
         </span>
         <a
           href={workshop.mapsLink}
@@ -153,7 +158,7 @@ function MapEmbed() {
           rel="noopener noreferrer"
           className="pointer-events-auto inline-flex shrink-0 items-center gap-1.5 rounded-pill bg-primary px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-cta-fg shadow-glow-primary transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
         >
-          Larger map
+          {t.common.largerMap}
           <ExternalLink className="size-3.5" aria-hidden="true" />
         </a>
       </div>

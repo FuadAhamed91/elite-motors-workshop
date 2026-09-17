@@ -3,16 +3,13 @@ import { CtaLink } from '@/components/ui/CtaLink'
 import { Reveal } from '@/components/ui/Reveal'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import { workshop } from '@/config/workshop'
+import { useT } from '@/i18n'
 import { buildTelLink } from '@/lib/whatsapp'
-
-const HERO_PROOF_POINTS = [
-  `In Mussafah since ${workshop.foundedYear}`,
-  'Mechanical, body & paint under one roof',
-  'Estimate before any work starts',
-] as const
 
 /** Centred hero: live status, headline, landline + directions, proof points. No visual, no forms. */
 export function Hero() {
+  const t = useT()
+
   return (
     <section
       id="top"
@@ -38,7 +35,7 @@ export function Hero() {
               className="inline-flex items-center gap-1.5 rounded-pill border border-line bg-surface-elevated px-3 py-1.5 text-xs font-semibold text-fg shadow-card transition-colors hover:border-primary/50 hover:text-primary"
             >
               <Star className="size-3.5 fill-star text-star" aria-hidden="true" />
-              {workshop.googleReviews.count} reviews on Google
+              {t.hero.reviewsChip(workshop.googleReviews.count)}
               <ExternalLink className="size-3 text-fg-muted" aria-hidden="true" />
             </a>
           </div>
@@ -49,25 +46,24 @@ export function Hero() {
             id="hero-heading"
             className="mx-auto mt-6 max-w-4xl font-display text-[2.6rem] leading-[1.05] font-extrabold tracking-tight text-balance text-fg sm:text-5xl lg:text-6xl xl:text-[4.4rem]"
           >
-            Precision Auto Care &amp;{' '}
+            {t.hero.headlineStart}{' '}
             <span className="bg-linear-to-r from-primary via-primary-bright to-secondary bg-clip-text text-transparent">
-              Mechanical Excellence
+              {t.hero.headlineAccent}
             </span>{' '}
-            in Abu Dhabi
+            {t.hero.headlineEnd}
           </h1>
         </Reveal>
 
         <Reveal delay={0.1}>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted sm:text-xl">
-            Trusted diagnostics, transparent pricing and fast turnaround — right here in
-            Mussafah. Call the workshop or drop in; every job starts with a clear estimate.
+            {t.hero.lead}
           </p>
         </Reveal>
 
         <Reveal delay={0.15}>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
             <CtaLink href={buildTelLink(workshop.phone)} size="lg" icon={<Phone />}>
-              Call {workshop.phone}
+              {t.common.call(workshop.phone)}
             </CtaLink>
             <CtaLink
               href={workshop.directionsLink}
@@ -76,18 +72,18 @@ export function Hero() {
               size="lg"
               icon={<Navigation />}
             >
-              Get Directions
+              {t.common.getDirections}
             </CtaLink>
           </div>
           <p className="mt-4 flex items-center justify-center gap-2 text-sm text-fg-muted">
             <MapPin className="size-4 shrink-0 text-primary" aria-hidden="true" />
-            {workshop.address.line2} · landline answered during working hours
+            {t.hero.addressLine(t.location.line2)}
           </p>
         </Reveal>
 
         <Reveal delay={0.2}>
           <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2">
-            {HERO_PROOF_POINTS.map((point) => (
+            {t.hero.proofPoints(workshop.foundedYear).map((point) => (
               <li key={point} className="flex items-center gap-2 text-sm text-fg/90">
                 <span className="flex size-5 items-center justify-center rounded-full bg-primary/15 text-primary">
                   <Check className="size-3" strokeWidth={3} aria-hidden="true" />

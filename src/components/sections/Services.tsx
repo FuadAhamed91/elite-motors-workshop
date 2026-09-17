@@ -3,21 +3,24 @@ import { GlowCard } from '@/components/ui/GlowCard'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { workshop } from '@/config/workshop'
 import { facilities } from '@/data/gallery'
 import { brands, services, type Service } from '@/data/services'
-import { workshop } from '@/config/workshop'
+import { useT } from '@/i18n'
 import { cn } from '@/lib/cn'
 import { buildTelLink } from '@/lib/whatsapp'
 
 export function Services() {
+  const t = useT()
+
   return (
     <section id="services" aria-labelledby="services-heading" className="container-x py-20 lg:py-28">
       <Reveal>
         <SectionHeading
           id="services-heading"
-          eyebrow="Services"
-          title="Mechanical, body and paint — under one roof."
-          description="Engine and gearbox work, servicing, AC, brakes, denting, painting, electrical diagnosis and detailing. Every job starts with a clear estimate — no surprises on the invoice."
+          eyebrow={t.services.eyebrow}
+          title={t.services.title}
+          description={t.services.description}
         />
       </Reveal>
 
@@ -30,37 +33,42 @@ export function Services() {
       </StaggerGroup>
 
       {/* The three facilities behind the body, paint and mechanical work — real photos, plates redacted */}
-      <StaggerGroup as="ul" className="mt-10 grid gap-4 sm:grid-cols-3" aria-label="Where the work happens">
-        {facilities.map((facility) => (
-          <StaggerItem
-            as="li"
-            key={facility.id}
-            className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card"
-          >
-            <Picture
-              src={facility.thumb}
-              alt={facility.alt}
-              width={800}
-              height={Math.round((800 * facility.height) / facility.width)}
-              className="aspect-[3/2] w-full object-cover"
-            />
-            <div className="p-4">
-              <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">{facility.service}</p>
-              <p className="mt-1 text-sm font-semibold text-fg">{facility.caption}</p>
-              <p className="mt-0.5 text-sm text-fg-muted">{facility.blurb}</p>
-            </div>
-          </StaggerItem>
-        ))}
+      <StaggerGroup as="ul" className="mt-10 grid gap-4 sm:grid-cols-3" aria-label={t.services.facilitiesLabel}>
+        {facilities.map((facility) => {
+          const copy = t.services.facilities[facility.id] ?? facility
+          return (
+            <StaggerItem
+              as="li"
+              key={facility.id}
+              className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card"
+            >
+              <Picture
+                src={facility.thumb}
+                alt={copy.alt}
+                width={800}
+                height={Math.round((800 * facility.height) / facility.width)}
+                className="aspect-[3/2] w-full object-cover"
+              />
+              <div className="p-4">
+                <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">{copy.service}</p>
+                <p className="mt-1 text-sm font-semibold text-fg">{copy.caption}</p>
+                <p className="mt-0.5 text-sm text-fg-muted">{copy.blurb}</p>
+              </div>
+            </StaggerItem>
+          )
+        })}
       </StaggerGroup>
 
       <Reveal delay={0.05}>
         <div className="mt-10 rounded-2xl border border-line bg-surface p-5 sm:p-6">
-          <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">Multi-brand workshop</p>
+          <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">{t.services.multiBrand}</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-3">
             {(Object.keys(brands) as Array<keyof typeof brands>).map((region) => (
               <div key={region}>
-                <p className="text-sm font-semibold text-fg">{region}</p>
-                <p className="mt-1 text-sm leading-relaxed text-fg-muted">{brands[region].join(' · ')}</p>
+                <p className="text-sm font-semibold text-fg">{t.services.regions[region]}</p>
+                <p className="mt-1 text-sm leading-relaxed text-fg-muted rtl:text-right" dir="ltr">
+                  {brands[region].join(' · ')}
+                </p>
               </div>
             ))}
           </div>
@@ -69,15 +77,15 @@ export function Services() {
 
       <Reveal delay={0.1}>
         <p className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-fg-muted">
-          Not sure what your car needs?
+          {t.services.notSure}
           <a
             href={buildTelLink(workshop.phone)}
             className="group inline-flex items-center gap-1.5 font-semibold text-primary transition-colors hover:text-primary-bright"
           >
             <Phone className="size-4" aria-hidden="true" />
-            Call {workshop.phone} and describe the problem
+            {t.services.callAndDescribe(workshop.phone)}
             <ArrowUpRight
-              className="size-3.5 transition-transform group-hover:translate-x-0.5"
+              className="size-3.5 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5"
               aria-hidden="true"
             />
           </a>
@@ -92,6 +100,8 @@ interface ServiceCardProps {
 }
 
 function ServiceCard({ service }: ServiceCardProps) {
+  const t = useT()
+  const copy = t.services.items[service.id] ?? { title: service.title, description: service.description, includes: [...service.includes], badge: service.badge }
   const Icon = service.icon
   const accentText = service.accent === 'primary' ? 'text-primary' : 'text-secondary'
   const accentBg = service.accent === 'primary' ? 'bg-primary/12' : 'bg-secondary/12'
@@ -108,18 +118,18 @@ function ServiceCard({ service }: ServiceCardProps) {
         >
           <Icon className="size-6" aria-hidden="true" strokeWidth={1.75} />
         </span>
-        {service.badge && (
-          <span className="rounded-pill border border-secondary/30 bg-secondary/10 px-2.5 py-1 text-right text-[11px] font-semibold tracking-wider text-secondary uppercase">
-            {service.badge}
+        {copy.badge && (
+          <span className="rounded-pill border border-secondary/30 bg-secondary/10 px-2.5 py-1 text-end text-[11px] font-semibold tracking-wider text-secondary uppercase">
+            {copy.badge}
           </span>
         )}
       </div>
 
-      <h3 className="mt-5 font-display text-xl font-bold tracking-tight text-fg">{service.title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-fg-muted">{service.description}</p>
+      <h3 className="mt-5 font-display text-xl font-bold tracking-tight text-fg">{copy.title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-fg-muted">{copy.description}</p>
 
-      <ul className="mt-4 space-y-2 pb-1" aria-label={`What ${service.title} includes`}>
-        {service.includes.map((item) => (
+      <ul className="mt-4 space-y-2 pb-1" aria-label={t.services.includesLabel(copy.title)}>
+        {copy.includes.map((item) => (
           <li key={item} className="flex items-center gap-2 text-sm text-fg/90">
             <Check className={cn('size-4 shrink-0', accentText)} strokeWidth={2.5} aria-hidden="true" />
             {item}

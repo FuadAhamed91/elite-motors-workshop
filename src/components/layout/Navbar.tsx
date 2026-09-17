@@ -1,9 +1,10 @@
 import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
-import { Menu, Navigation, Phone, X } from 'lucide-react'
+import { Languages, Menu, Navigation, Phone, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Logo } from '@/components/layout/Logo'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { workshop } from '@/config/workshop'
+import { useLocale } from '@/i18n'
 import { cn } from '@/lib/cn'
 import { buildTelLink } from '@/lib/whatsapp'
 
@@ -12,6 +13,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const reduce = useReducedMotion()
+  const { t, toggle } = useLocale()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -39,6 +41,13 @@ export function Navbar() {
   }, [open])
 
   const frosted = scrolled || open
+  const navLabels: Record<string, string> = {
+    '#services': t.nav.services,
+    '#workshop': t.nav.workshop,
+    '#about': t.nav.about,
+    '#reviews': t.nav.reviews,
+    '#hours': t.nav.hoursLocation,
+  }
 
   return (
     <header
@@ -51,13 +60,13 @@ export function Navbar() {
     >
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-pill focus:bg-cta focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-cta-fg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:start-3 focus:z-[60] focus:rounded-pill focus:bg-cta focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-cta-fg"
       >
-        Skip to content
+        {t.common.skipToContent}
       </a>
 
       <nav
-        aria-label="Primary"
+        aria-label={t.nav.primary}
         className="container-x flex h-16 items-center justify-between gap-3 sm:h-[4.5rem]"
       >
         <Logo />
@@ -69,25 +78,37 @@ export function Navbar() {
                 href={link.href}
                 className="inline-flex h-10 items-center rounded-pill px-4 text-sm font-medium text-fg-muted transition-colors duration-200 hover:bg-fg/5 hover:text-fg"
               >
-                {link.label}
+                {navLabels[link.href] ?? link.label}
               </a>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          {/* Language toggle — shows the language you would switch to */}
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={t.switchAria}
+            lang={t.locale === 'en' ? 'ar' : 'en'}
+            title={t.switchLabel}
+            className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border border-line bg-fg/3 text-sm font-semibold text-fg transition-colors hover:bg-fg/8 sm:h-10 sm:w-auto sm:rounded-pill sm:px-3"
+          >
+            <Languages className="size-5 text-primary sm:size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">{t.switchLabel}</span>
+          </button>
           <CtaLink
             href={buildTelLink(workshop.phone)}
             size="sm"
             icon={<Phone />}
             className="max-sm:hidden"
           >
-            Call {workshop.phone}
+            <span dir="ltr">{t.common.call(workshop.phone)}</span>
           </CtaLink>
           {/* Icon-only call shortcut keeps the landline one tap away on phones */}
           <a
             href={buildTelLink(workshop.phone)}
-            aria-label={`Call ${workshop.phone}`}
+            aria-label={t.common.call(workshop.phone)}
             className="inline-flex size-11 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_10px_24px_-10px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] transition-transform active:scale-95 sm:hidden"
           >
             <Phone className="size-5" aria-hidden="true" />
@@ -97,7 +118,7 @@ export function Navbar() {
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             className="inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-line bg-fg/3 text-fg transition-colors hover:bg-fg/8 lg:hidden"
           >
             {open ? (
@@ -128,12 +149,12 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="flex h-12 items-center rounded-xl px-3 text-base font-medium text-fg transition-colors hover:bg-fg/5"
                 >
-                  {link.label}
+                  {navLabels[link.href] ?? link.label}
                 </a>
               ))}
               <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-3">
                 <CtaLink href={buildTelLink(workshop.phone)} icon={<Phone />} fullWidth>
-                  Call
+                  {t.common.callShort}
                 </CtaLink>
                 <CtaLink
                   href={workshop.directionsLink}
@@ -142,7 +163,7 @@ export function Navbar() {
                   icon={<Navigation />}
                   fullWidth
                 >
-                  Directions
+                  {t.common.directions}
                 </CtaLink>
               </div>
             </div>

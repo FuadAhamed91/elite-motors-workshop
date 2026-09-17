@@ -2,9 +2,19 @@ import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { workshop } from '@/config/workshop'
 import { stats } from '@/data/stats'
+import { useT } from '@/i18n'
 
 /** Trust & credibility strip — doubles as the "About" anchor from the navbar. */
 export function TrustStrip() {
+  const t = useT()
+  const yearsInBusiness = new Date().getFullYear() - workshop.foundedYear
+  const copy: Record<string, { value: string; label: string }> = {
+    years: { value: t.stats.years.value(yearsInBusiness), label: t.stats.years.label(workshop.foundedYear) },
+    insurance: t.stats.insurance,
+    techs: t.stats.techs,
+    parts: t.stats.parts,
+  }
+
   return (
     <section
       id="about"
@@ -16,7 +26,7 @@ export function TrustStrip() {
           <Picture
             src="/photos/workshop-exterior.jpg"
             thumb="/photos/workshop-exterior-thumb.jpg"
-            alt="Elite Motors Workshop sign above the blue perimeter fence in Mussafah"
+            alt={t.about.photoAlt}
             width={1400}
             height={788}
             sizes="(min-width: 1024px) 38vw, 100vw"
@@ -24,25 +34,21 @@ export function TrustStrip() {
           />
           <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
             <span aria-hidden="true" className="h-px w-6 bg-linear-to-r from-primary to-secondary" />
-            Why drivers choose us
+            {t.about.eyebrow}
           </p>
           <h2
             id="about-heading"
             className="font-display text-2xl font-bold tracking-tight text-balance text-fg sm:text-3xl"
           >
-            Serving Abu Dhabi from Mussafah since {workshop.foundedYear}.
+            {t.about.title(workshop.foundedYear)}
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-pretty text-fg-muted">
-            Elite Motors Workshop L.L.C has run as an all-makes repair centre since {workshop.foundedYear}.
-            A trained team supervised by a U.S.-certified auto engineer handles mechanical,
-            electrical, body and paint work in one facility — for private owners, fleets and
-            insurance companies alike — with an estimate agreed before we touch a bolt.
-          </p>
+          <p className="mt-3 text-base leading-relaxed text-pretty text-fg-muted">{t.about.body(workshop.foundedYear)}</p>
         </Reveal>
 
         <StaggerGroup as="ul" className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {stats.map((stat) => {
             const Icon = stat.icon
+            const text = copy[stat.id] ?? { value: stat.value, label: stat.label }
             return (
               <StaggerItem
                 as="li"
@@ -53,9 +59,9 @@ export function TrustStrip() {
                   <Icon className="size-5" aria-hidden="true" />
                 </span>
                 <p className="mt-4 font-display text-[1.35rem] font-bold tracking-tight text-fg sm:text-[1.7rem]">
-                  {stat.value}
+                  {text.value}
                 </p>
-                <p className="mt-1 text-sm leading-snug text-fg-muted">{stat.label}</p>
+                <p className="mt-1 text-sm leading-snug text-fg-muted">{text.label}</p>
               </StaggerItem>
             )
           })}

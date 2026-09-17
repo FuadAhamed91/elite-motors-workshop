@@ -13,6 +13,8 @@ export interface GalleryPhoto {
 /**
  * Photos of the workshop in Mussafah. All vehicle number plates in these
  * images have been blurred before publishing. Each JPEG has a WebP sibling.
+ * Captions/alt text here are the English defaults — the UI reads the active
+ * language's copy from `src/i18n` by photo id.
  */
 export const gallery: readonly GalleryPhoto[] = [
   { id: 'hall', src: '/photos/workshop-hall.jpg', thumb: '/photos/workshop-hall-thumb.jpg', alt: 'Main service hall with two-post lifts', caption: 'Main service hall', width: 1400, height: 1050 },
@@ -32,12 +34,12 @@ export const facilities: readonly (GalleryPhoto & { service: string; blurb: stri
 /** Everything the gallery viewer can browse: the gallery set followed by the three facility photos (8 photos). */
 export const photos: readonly GalleryPhoto[] = [...gallery, ...facilities]
 
-/** Equipment highlights from the company profile. */
-export const equipment: readonly { title: string; detail: string }[] = [
-  { title: 'Full-size paint booth', detail: 'with drying oven for factory-quality finishes' },
-  { title: 'Car-O-Liner measuring system', detail: 'wireless chassis measurement against a 15,000+ vehicle database' },
-  { title: 'Launch X431 diagnostics', detail: 'ECM fault codes on European, Japanese and Korean cars' },
-  { title: 'Brake lathe', detail: 'turns rotors and drums for a true, shudder-free finish' },
-  { title: 'Engine crane & bearing press', detail: '2-tonne crane; press-fit wheel bearings and bushes' },
-  { title: 'Engineer-supervised team', detail: 'trained technicians under a U.S.-certified auto engineer' },
+/** Equipment highlights from the company profile (copy lives in `src/i18n`, keyed by id). */
+export const equipment: readonly { id: string; title: string; detail: string }[] = [
+  { id: 'booth', title: 'Full-size paint booth', detail: 'with drying oven for factory-quality finishes' },
+  { id: 'caroliner', title: 'Car-O-Liner measuring system', detail: 'wireless chassis measurement against a 15,000+ vehicle database' },
+  { id: 'x431', title: 'Launch X431 diagnostics', detail: 'ECM fault codes on European, Japanese and Korean cars' },
+  { id: 'lathe', title: 'Brake lathe', detail: 'turns rotors and drums for a true, shudder-free finish' },
+  { id: 'crane', title: 'Engine crane & bearing press', detail: '2-tonne crane; press-fit wheel bearings and bushes' },
+  { id: 'team', title: 'Engineer-supervised team', detail: 'trained technicians under a U.S.-certified auto engineer' },
 ]

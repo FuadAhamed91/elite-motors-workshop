@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { useCallback, useEffect, useRef, type PointerEvent } from 'react'
 import { Picture } from '@/components/ui/Picture'
 import type { GalleryPhoto } from '@/data/gallery'
+import { useT } from '@/i18n'
 import { cn } from '@/lib/cn'
 
 const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
@@ -22,6 +23,7 @@ interface LightboxProps {
  * stepping through the gallery never shows a blank frame.
  */
 export function Lightbox({ photos, index, onChange }: LightboxProps) {
+  const t = useT()
   const reduce = useReducedMotion()
   const closeRef = useRef<HTMLButtonElement>(null)
   const swipeStart = useRef<number | null>(null)
@@ -82,7 +84,7 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
           key="lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label={`${photo.caption} — photo ${index! + 1} of ${photos.length}`}
+          aria-label={t.lightbox.photoOf(photo.caption, index! + 1, photos.length)}
           className="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-ink-900/92 p-4 sm:p-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -112,14 +114,14 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
             />
             <figcaption className="mt-3 text-center text-sm text-sand-50/90">
               {photo.caption}
-              <span className="text-sand-50/50"> · {index! + 1} / {photos.length}</span>
+              <span className="text-sand-50/50" dir="ltr"> · {index! + 1} / {photos.length}</span>
             </figcaption>
           </m.figure>
 
           {/* Thumbnail strip — desktop and tablets; phones swipe instead */}
           <ul
             className="mt-4 hidden max-w-full gap-2 overflow-x-auto px-2 pb-1 sm:flex"
-            aria-label="All photos"
+            aria-label={t.lightbox.allPhotos}
             onClick={(event) => event.stopPropagation()}
           >
             {photos.map((item, itemIndex) => (
@@ -127,7 +129,7 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
                 <button
                   type="button"
                   onClick={() => onChange(itemIndex)}
-                  aria-label={`Show photo ${itemIndex + 1}: ${item.caption}`}
+                  aria-label={t.lightbox.showPhoto(itemIndex + 1, item.caption)}
                   aria-current={itemIndex === index ? 'true' : undefined}
                   className={cn(
                     'block cursor-pointer overflow-hidden rounded-lg border-2 transition-[border-color,opacity] duration-200',
@@ -151,8 +153,8 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
             ref={closeRef}
             type="button"
             onClick={() => onChange(null)}
-            aria-label="Close"
-            className="absolute top-4 right-4 inline-flex size-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-sand-50 transition-colors hover:bg-white/20"
+            aria-label={t.lightbox.close}
+            className="absolute top-4 end-4 inline-flex size-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-sand-50 transition-colors hover:bg-white/20"
           >
             <X className="size-5" aria-hidden="true" />
           </button>
@@ -162,7 +164,7 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
               event.stopPropagation()
               step(-1)
             }}
-            aria-label="Previous photo"
+            aria-label={t.lightbox.previous}
             className="absolute top-1/2 left-2 inline-flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/10 text-sand-50 transition-colors hover:bg-white/20 sm:left-6"
           >
             <ChevronLeft className="size-6" aria-hidden="true" />
@@ -173,7 +175,7 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
               event.stopPropagation()
               step(1)
             }}
-            aria-label="Next photo"
+            aria-label={t.lightbox.next}
             className="absolute top-1/2 right-2 inline-flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/10 text-sand-50 transition-colors hover:bg-white/20 sm:right-6"
           >
             <ChevronRight className="size-6" aria-hidden="true" />

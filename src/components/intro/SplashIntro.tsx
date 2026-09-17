@@ -13,8 +13,8 @@ import { BrandMark } from '@/components/icons/BrandMark'
 import { StartLights } from '@/components/intro/StartLights'
 import { TopDownF1Car } from '@/components/intro/TopDownF1Car'
 import { intro, resolveSplash, reviewMode, splashLaunchMs } from '@/config/intro'
-import { workshop } from '@/config/workshop'
 import type { IntroGate } from '@/hooks/useIntroGate'
+import { useT } from '@/i18n'
 import { cn } from '@/lib/cn'
 
 const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
@@ -27,6 +27,7 @@ const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
  * behind is inert until then (see App). Once per session, skippable.
  */
 export function SplashIntro({ active, ready, finish }: IntroGate) {
+  const t = useT()
   const [lit, setLit] = useState(0)
   const [lightsOut, setLightsOut] = useState(false)
   const [launched, setLaunched] = useState(false)
@@ -97,7 +98,7 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
           key="splash-intro"
           role="dialog"
           aria-modal="true"
-          aria-label={`Welcome to ${workshop.name}`}
+          aria-label={t.intro.welcome(t.brand.name)}
           className="splash-backdrop fixed inset-0 z-[9999] overflow-hidden will-change-[opacity]"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: intro.splash.fadeMs / 1000, ease: EASE_OUT_CUBIC } }}
@@ -184,9 +185,9 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
           <button
             type="button"
             onClick={finish}
-            className="absolute top-5 right-5 inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-pill border border-line bg-surface/80 px-4 text-sm font-semibold text-fg backdrop-blur transition-colors duration-150 ease-out hover:border-line-strong hover:bg-surface sm:top-6 sm:right-8"
+            className="absolute top-5 end-5 inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-pill border border-line bg-surface/80 px-4 text-sm font-semibold text-fg backdrop-blur transition-colors duration-150 ease-out hover:border-line-strong hover:bg-surface sm:top-6 sm:right-8"
           >
-            Skip
+            {t.intro.skip}
             <X className="size-4" aria-hidden="true" />
           </button>
         </m.div>

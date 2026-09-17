@@ -6,19 +6,21 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import { workshop, type DaySchedule } from '@/config/workshop'
 import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
+import { hoursStrings, useT } from '@/i18n'
 import { cn } from '@/lib/cn'
 import { formatRange } from '@/lib/hours'
 import { buildTelLink } from '@/lib/whatsapp'
 
 export function Hours() {
+  const t = useT()
   return (
     <section id="hours" aria-labelledby="hours-heading" className="container-x py-20 lg:py-28">
       <Reveal>
         <SectionHeading
           id="hours-heading"
-          eyebrow="Working hours"
-          title="Open six days a week, with a lunch break."
-          description="Drop in during working hours or call ahead on the landline — the team will tell you whether to bring the car straight in."
+          eyebrow={t.hours.eyebrow}
+          title={t.hours.title}
+          description={t.hours.description}
         />
       </Reveal>
 
@@ -36,6 +38,7 @@ export function Hours() {
 
 /** Weekly schedule with today highlighted and prayer/closure indicators. */
 function ScheduleCard() {
+  const t = useT()
   const { status } = useWorkshopStatus()
 
   return (
@@ -43,9 +46,9 @@ function ScheduleCard() {
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
         <h3 className="flex items-center gap-2 font-display text-lg font-bold text-fg">
           <Clock className="size-5 text-primary" aria-hidden="true" />
-          Weekly schedule
+          {t.hours.weekly}
         </h3>
-        <span className="text-xs text-fg-muted">Times in Abu Dhabi (GST, UTC+4)</span>
+        <span className="text-xs text-fg-muted">{t.hours.timesNote}</span>
       </div>
 
       <ol className="mt-5 divide-y divide-line">
@@ -57,11 +60,11 @@ function ScheduleCard() {
       <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-4 text-xs text-fg-muted">
         <li className="flex items-center gap-1.5">
           <Coffee className="size-3.5 text-fg-muted" aria-hidden="true" />
-          {workshop.breakLabel}
+          {t.hours.breakLabel}
         </li>
         <li className="flex items-center gap-1.5">
           <CalendarX className="size-3.5 text-danger" aria-hidden="true" />
-          Sunday: closed
+          {t.hours.sundayClosed}
         </li>
       </ul>
     </GlowCard>
@@ -74,6 +77,8 @@ interface ScheduleRowProps {
 }
 
 function ScheduleRow({ day, isToday }: ScheduleRowProps) {
+  const t = useT()
+  const strings = hoursStrings(t)
   const closed = day.intervals.length === 0
 
   return (
@@ -85,10 +90,10 @@ function ScheduleRow({ day, isToday }: ScheduleRowProps) {
       )}
     >
       <span className="flex items-center gap-2 text-sm font-semibold text-fg">
-        {day.label}
+        {t.days[day.day].label}
         {isToday && (
           <span className="rounded-pill bg-primary px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-cta-fg uppercase">
-            Today
+            {t.hours.today}
           </span>
         )}
       </span>
@@ -100,7 +105,7 @@ function ScheduleRow({ day, isToday }: ScheduleRowProps) {
         )}
       >
         {closed
-          ? 'Closed'
+          ? t.hours.closed
           : day.intervals.map((range, index) => (
               <span key={range.open} className="flex items-center gap-2 whitespace-nowrap">
                 {index > 0 && (
@@ -108,7 +113,7 @@ function ScheduleRow({ day, isToday }: ScheduleRowProps) {
                     ·
                   </span>
                 )}
-                {formatRange(range)}
+                {formatRange(range, strings)}
               </span>
             ))}
       </span>
@@ -127,7 +132,7 @@ function ScheduleRow({ day, isToday }: ScheduleRowProps) {
           ) : (
             <CalendarX className="size-3" aria-hidden="true" />
           )}
-          {day.note}
+          {day.noteKind === 'closed' ? t.hours.closedAllDay : day.note}
         </span>
       )}
     </li>
@@ -138,36 +143,38 @@ const STANDARD_DAY = workshop.schedule.find((day) => day.day === 'monday')
 
 /** Live status panel — flips copy and CTA depending on whether the bay is open. */
 function LiveStatusCard() {
+  const t = useT()
+  const strings = hoursStrings(t)
   const { status, now } = useWorkshopStatus(15_000)
-  const standardHours = STANDARD_DAY?.intervals.map(formatRange).join(' · ') ?? ''
+  const standardHours = STANDARD_DAY?.intervals.map((range) => formatRange(range, strings)).join(' · ') ?? ''
 
   return (
     <GlowCard accent="secondary" innerClassName="flex h-full flex-col p-5 sm:p-6">
       <h3 className="flex items-center gap-2 font-display text-lg font-bold text-fg">
         <Sun className="size-5 text-secondary" aria-hidden="true" />
-        Live workshop status
+        {t.hours.live}
       </h3>
 
       <div className="mt-5 rounded-2xl border border-line bg-bg/60 p-4">
         <StatusBadge />
         <p className="mt-4 text-xs font-medium tracking-wide text-fg-muted uppercase">
-          Local time in Abu Dhabi
+          {t.hours.localTime}
         </p>
-        <p className="mt-1 font-display text-3xl font-bold text-fg tabular-nums">{now.clock}</p>
+        <p className="mt-1 font-display text-3xl font-bold text-fg tabular-nums" dir="ltr">{now.clock}</p>
       </div>
 
       <dl className="mt-5 space-y-2 text-sm">
         <div className="flex justify-between gap-4">
-          <dt className="text-fg-muted">Monday – Saturday</dt>
-          <dd className="text-right font-medium text-fg tabular-nums">{standardHours}</dd>
+          <dt className="text-fg-muted">{t.hours.monSat}</dt>
+          <dd className="text-end font-medium text-fg tabular-nums">{standardHours}</dd>
         </div>
         <div className="flex justify-between gap-4">
-          <dt className="text-fg-muted">Lunch break</dt>
-          <dd className="text-right font-medium text-fg tabular-nums">{workshop.breakLabel}</dd>
+          <dt className="text-fg-muted">{t.hours.lunch}</dt>
+          <dd className="text-end font-medium text-fg tabular-nums">{t.hours.breakLabel}</dd>
         </div>
         <div className="flex justify-between gap-4">
-          <dt className="text-fg-muted">Sunday</dt>
-          <dd className="text-right font-medium text-danger">Closed</dd>
+          <dt className="text-fg-muted">{t.hours.sunday}</dt>
+          <dd className="text-end font-medium text-danger">{t.hours.closed}</dd>
         </div>
       </dl>
 
@@ -175,18 +182,16 @@ function LiveStatusCard() {
         {status.isOpen ? (
           <>
             <CtaLink href={buildTelLink(workshop.phone)} icon={<Phone />} fullWidth>
-              We&rsquo;re open — call {workshop.phone}
+              {t.hours.openCall(workshop.phone)}
             </CtaLink>
-            <p className="mt-3 text-center text-xs text-fg-muted">Landline · answered during working hours</p>
+            <p className="mt-3 text-center text-xs text-fg-muted">{t.hours.landlineNote}</p>
           </>
         ) : (
           <>
             <CtaLink href={workshop.directionsLink} external variant="outline" icon={<Navigation />} fullWidth>
-              Plan your visit — get directions
+              {t.hours.planVisit}
             </CtaLink>
-            <p className="mt-3 text-center text-xs text-fg-muted">
-              {status.detail} · call {workshop.phone} once we&rsquo;re open.
-            </p>
+            <p className="mt-3 text-center text-xs text-fg-muted">{t.hours.closedHint(status.detail, workshop.phone)}</p>
           </>
         )}
       </div>
