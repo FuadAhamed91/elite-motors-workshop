@@ -157,7 +157,7 @@ export function getWorkshopStatus(
       ? next.daysAhead === 1
         ? `Opens tomorrow ${formatTime(firstRange.open)}`
         : `Opens ${next.day.short} ${formatTime(firstRange.open)}`
-      : 'Message us on WhatsApp'
+      : 'See opening hours'
 
   return { kind: 'closed', label: 'Closed', detail: when, isOpen: false, today: now.day }
 }

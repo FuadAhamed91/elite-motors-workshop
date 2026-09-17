@@ -12,7 +12,7 @@ import {
 
 export interface Service {
   id: string
-  /** Exact name passed into the WhatsApp message. */
+  /** Full service name (footer list, assistant answers). */
   name: string
   /** Short heading shown on the card (kept punchy for mobile). */
   title: string

@@ -1,10 +1,13 @@
 import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, type PointerEvent } from 'react'
 import { Picture } from '@/components/ui/Picture'
 import type { GalleryPhoto } from '@/data/gallery'
+import { cn } from '@/lib/cn'
 
 const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
+/** Horizontal drag (px) that counts as a swipe between photos. */
+const SWIPE_THRESHOLD = 48
 
 interface LightboxProps {
   photos: readonly GalleryPhoto[]
@@ -13,10 +16,15 @@ interface LightboxProps {
   onChange: (index: number | null) => void
 }
 
-/** Full-screen photo viewer with keyboard navigation and focus handling. */
+/**
+ * Full-screen photo viewer: arrows, keyboard, swipe on touch screens and a
+ * thumbnail strip on larger screens. Neighbouring photos are prefetched so
+ * stepping through the gallery never shows a blank frame.
+ */
 export function Lightbox({ photos, index, onChange }: LightboxProps) {
   const reduce = useReducedMotion()
   const closeRef = useRef<HTMLButtonElement>(null)
+  const swipeStart = useRef<number | null>(null)
   const open = index !== null
   const photo = index !== null ? photos[index] : undefined
 
@@ -46,6 +54,27 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
     }
   }, [open, onChange, step])
 
+  // Prefetch the previous and next full-size photos.
+  useEffect(() => {
+    if (index === null) return
+    for (const delta of [1, -1]) {
+      const neighbour = photos[(index + delta + photos.length) % photos.length]
+      const img = new Image()
+      img.src = neighbour.src.replace(/\.jpe?g$/i, '.webp')
+    }
+  }, [index, photos])
+
+  const onPointerDown = (event: PointerEvent) => {
+    if (event.pointerType === 'mouse') return
+    swipeStart.current = event.clientX
+  }
+  const onPointerUp = (event: PointerEvent) => {
+    if (swipeStart.current === null) return
+    const dx = event.clientX - swipeStart.current
+    swipeStart.current = null
+    if (Math.abs(dx) >= SWIPE_THRESHOLD) step(dx < 0 ? 1 : -1)
+  }
+
   return (
     <AnimatePresence>
       {open && photo && (
@@ -53,8 +82,8 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
           key="lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label={photo.caption}
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-ink-900/90 p-4 sm:p-8"
+          aria-label={`${photo.caption} — photo ${index! + 1} of ${photos.length}`}
+          className="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-ink-900/92 p-4 sm:p-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -63,11 +92,14 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
         >
           <m.figure
             key={photo.id}
-            className="relative flex max-h-full w-full max-w-6xl flex-col items-center"
+            className="relative flex w-full max-w-6xl touch-pan-y flex-col items-center select-none"
             initial={reduce ? false : { opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.22, ease: EASE_OUT_CUBIC }}
             onClick={(event) => event.stopPropagation()}
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
+            onPointerCancel={() => (swipeStart.current = null)}
           >
             <Picture
               src={photo.src}
@@ -75,13 +107,45 @@ export function Lightbox({ photos, index, onChange }: LightboxProps) {
               width={photo.width}
               height={photo.height}
               loading="eager"
-              className="max-h-[78vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+              draggable={false}
+              className="max-h-[68vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl sm:max-h-[72vh]"
             />
             <figcaption className="mt-3 text-center text-sm text-sand-50/90">
               {photo.caption}
               <span className="text-sand-50/50"> · {index! + 1} / {photos.length}</span>
             </figcaption>
           </m.figure>
+
+          {/* Thumbnail strip — desktop and tablets; phones swipe instead */}
+          <ul
+            className="mt-4 hidden max-w-full gap-2 overflow-x-auto px-2 pb-1 sm:flex"
+            aria-label="All photos"
+            onClick={(event) => event.stopPropagation()}
+          >
+            {photos.map((item, itemIndex) => (
+              <li key={item.id} className="shrink-0">
+                <button
+                  type="button"
+                  onClick={() => onChange(itemIndex)}
+                  aria-label={`Show photo ${itemIndex + 1}: ${item.caption}`}
+                  aria-current={itemIndex === index ? 'true' : undefined}
+                  className={cn(
+                    'block cursor-pointer overflow-hidden rounded-lg border-2 transition-[border-color,opacity] duration-200',
+                    itemIndex === index ? 'border-primary-bright opacity-100' : 'border-transparent opacity-60 hover:opacity-100',
+                  )}
+                >
+                  <Picture
+                    src={item.thumb}
+                    alt=""
+                    width={800}
+                    height={600}
+                    sizes="96px"
+                    className="aspect-[4/3] w-20 object-cover lg:w-24"
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
 
           <button
             ref={closeRef}

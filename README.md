@@ -1,11 +1,12 @@
 # Elite Motors Workshop — Landing Page
 
-High-conversion, WhatsApp-first landing page for **Elite Motors Workshop**, an auto service
-and repair centre in Mussafah, Abu Dhabi. Warm beige/cream palette with electric green &
-cyan accents, 21st.dev-style spotlight cards, Framer Motion reveals and Lucide icons.
+High-conversion landing page for **Elite Motors Workshop**, an auto service and repair centre
+in Mussafah, Abu Dhabi. Warm beige/cream palette with electric green & cyan accents,
+21st.dev-style spotlight cards, Framer Motion reveals and Lucide icons.
 
-The **only** conversion path is a direct WhatsApp conversation — no booking wizards,
-calendars or lead forms. Every CTA opens `wa.me` with a pre-filled, context-specific message.
+No booking wizards, calendars or lead forms. Every call to action is the landline (`tel:`) or
+Google Maps directions; WhatsApp is reached only from the floating button at the bottom right
+(and the assistant's answer when someone asks about WhatsApp).
 
 ## Stack
 
@@ -32,7 +33,7 @@ the map and the SEO schema read from it.
 | Key | What it drives |
 | --- | --- |
 | `name`, `displayTitle`, `tagline`, `city` | Navbar, hero, footer, `<title>`, JSON-LD |
-| `whatsappNumber` | All WhatsApp chat links → `https://wa.me/971565017797?text=...` (never displayed as a phone number) |
+| `whatsappNumber` | The floating WhatsApp button → `https://wa.me/971565017797?text=...` (never displayed as a phone number, never a page CTA) |
 | `phone` | Landline — the only number shown; every "Call" CTA (`tel:` link) |
 | `schedule` | Live **Open Now / Open Today / Closed** badge + weekly schedule card |
 | `hoursSummary`, `breakLabel` | Footer text and schedule legend |
@@ -62,14 +63,14 @@ the badge is correct for visitors anywhere in the world. It distinguishes:
 Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday closed. Adjust in
 `workshop.schedule`; a per-day `note` (e.g. a prayer break) renders as a badge on that row.
 
-## Pre-filled WhatsApp messages
+## Calls to action
 
-`src/lib/whatsapp.ts` exposes `waLinks`:
-
-- `quote()` — hero, navbar, FAB, services prompt, footer
-- `quickService(name)` — hero quick-quote console (estimate request, not a booking)
-- `directions()` — location section
-- `afterHours()` — shown by the status card when the workshop is closed
+- **Call** — `buildTelLink(workshop.phone)` in the navbar (text on desktop, icon on phones),
+  hero, services prompt, hours card (while open), location card and footer.
+- **Get Directions** — `workshop.directionsLink` in the hero, mobile menu, hours card (while
+  closed), location card and footer.
+- **WhatsApp** — only the floating button (`WhatsAppFab`, pre-filled quote message from
+  `src/lib/whatsapp.ts`) and the assistant's WhatsApp answer.
 
 ## Opening intro
 
@@ -101,11 +102,13 @@ Services, equipment highlights, brands and the founding year come from the compa
 (`src/data/services.ts`, `src/data/gallery.ts`, `workshop.foundedYear`). The old "basic profile"
 page (staff counts, previous phone numbers) is intentionally not used.
 
-`public/photos/` holds the workshop photos: the About banner (`entrance-canopy`), the three
-facility photos under the services grid (paint booth, body shop, lifts) and the six-photo
-Workshop gallery (`src/data/gallery.ts`). Each photo exists as `name.jpg` + `name.webp` (max
-1400px) and `name-thumb.jpg` + `name-thumb.webp` (800px, used in grids); `Picture.tsx` serves the
-WebP automatically. **Every vehicle number plate was blurred before the images were added** — if
+`public/photos/` holds the workshop photos: the hero (service hall), the About banner
+(`entrance-canopy`), the three facility photos under the services grid (paint booth, body shop,
+lifts) and the **Gallery** subsection in the Workshop section — a cover photo plus thumbnails that
+open a full-screen viewer (arrows, keyboard, swipe, thumbnail strip) over all nine photos
+(`photos` in `src/data/gallery.ts`). Each photo exists as `name.jpg` + `name.webp` (max 1400px)
+and `name-thumb.jpg` + `name-thumb.webp` (800px, used in grids and on phones via `srcset`);
+`Picture.tsx` serves the WebP automatically. **Every vehicle number plate was blurred before the images were added** — if
 you add new photos, redact plates first and keep them out of the repo otherwise.
 
 ## On-site assistant
@@ -115,7 +118,8 @@ button). It is **rule-based and runs entirely in the browser** — no API, no ke
 anywhere. `src/lib/assistant.ts` matches the question against intents (open now, hours incl.
 specific days, location/directions, phone, WhatsApp, services and each service card, body shop &
 insurance, prices, reviews, booking, parts, experience) and builds every answer from the site's own
-config and data, with call/WhatsApp/maps links. Anything outside that scope gets the landline.
+config and data, with call/maps links (a WhatsApp link only when someone asks how to get in
+touch or about WhatsApp). Anything outside that scope gets the landline.
 Copy and quick replies live in `src/config/assistant.ts`; set `enabled: false` to remove it.
 
 ## Performance notes
@@ -162,7 +166,7 @@ src/
     intro/                  SplashIntro + TopDownF1Car, RaceIntro + F1Car + StartLights
     ui/                     CtaLink, GlowCard, Lightbox, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab
-    sections/               Hero, TrustStrip, Services, Workshop (gallery), Reviews, Hours, Location
+    sections/               Hero, TrustStrip, Services, Workshop (equipment + Gallery), Reviews, Hours, Location
     SeoSchema.tsx           schema.org AutoRepair JSON-LD
   index.css                 Tailwind v4 theme tokens + base styles
 ```

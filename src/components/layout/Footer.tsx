@@ -1,5 +1,4 @@
-import { Clock, MapPin, Phone } from 'lucide-react'
-import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
+import { Clock, MapPin, Navigation, Phone } from 'lucide-react'
 import { Logo } from '@/components/layout/Logo'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
@@ -7,7 +6,7 @@ import { Reveal } from '@/components/ui/Reveal'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import { workshop } from '@/config/workshop'
 import { services } from '@/data/services'
-import { buildTelLink, waLinks } from '@/lib/whatsapp'
+import { buildTelLink } from '@/lib/whatsapp'
 
 export function Footer() {
   const year = new Date().getFullYear()
@@ -25,24 +24,25 @@ export function Footer() {
                   Ready when you are
                 </p>
                 <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-balance text-fg sm:text-4xl">
-                  Get an instant quote on WhatsApp. No forms, no waiting.
+                  Talk to the workshop directly. No forms, no waiting.
                 </h2>
                 <p className="mt-3 max-w-xl text-fg-muted">
-                  Send us your car&rsquo;s make, model and the issue. A certified technician
-                  replies with a price and the next available slot.
+                  Call the landline during working hours or drop in at Musaffah M21 — a certified
+                  technician looks at the car and gives you a clear estimate before any work starts.
                 </p>
               </div>
               <div className="flex flex-col gap-3 lg:items-end">
-                <CtaLink href={waLinks.quote()} external size="lg" icon={<WhatsAppIcon />}>
-                  Get Instant Quote
+                <CtaLink href={buildTelLink(workshop.phone)} size="lg" icon={<Phone />}>
+                  Call {workshop.phone}
                 </CtaLink>
                 <CtaLink
-                  href={buildTelLink(workshop.phone)}
+                  href={workshop.directionsLink}
+                  external
                   variant="ghost"
                   size="md"
-                  icon={<Phone />}
+                  icon={<Navigation />}
                 >
-                  or call {workshop.phone}
+                  or get directions
                 </CtaLink>
               </div>
             </div>
@@ -115,17 +115,6 @@ export function Footer() {
               </a>
             </li>
             <li className="flex gap-2.5">
-              <WhatsAppIcon className="mt-0.5 size-4 shrink-0 text-cta" />
-              <a
-                href={waLinks.general()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-primary"
-              >
-                Chat on WhatsApp
-              </a>
-            </li>
-            <li className="flex gap-2.5">
               <Clock className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
               <span>{workshop.hoursSummary}</span>
             </li>
@@ -142,7 +131,7 @@ export function Footer() {
         </p>
         <p className="max-w-2xl sm:text-right">
           {workshop.name} is an independent workshop and is not affiliated with any vehicle
-          manufacturer. Prices shared on WhatsApp are estimates until the vehicle is inspected.
+          manufacturer. Prices quoted over the phone or in chat are estimates until the vehicle is inspected.
           Brand names are used for identification only.
         </p>
       </div>

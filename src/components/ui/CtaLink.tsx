@@ -1,7 +1,7 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
-export type CtaVariant = 'whatsapp' | 'outline' | 'ghost' | 'inverse'
+export type CtaVariant = 'primary' | 'outline' | 'ghost' | 'inverse'
 export type CtaSize = 'sm' | 'md' | 'lg'
 
 interface CtaLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'className' | 'href'> {
@@ -11,7 +11,7 @@ interface CtaLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'cl
   icon?: ReactNode
   iconRight?: ReactNode
   className?: string
-  /** Opens in a new tab with a safe `rel` (WhatsApp / Maps links). */
+  /** Opens in a new tab with a safe `rel` (Maps links). */
   external?: boolean
   fullWidth?: boolean
   children: ReactNode
@@ -22,8 +22,8 @@ const BASE =
   'transition-[transform,background-color,border-color,box-shadow,color] duration-200 ease-out active:scale-[0.97] motion-reduce:active:scale-100'
 
 const VARIANTS: Record<CtaVariant, string> = {
-  whatsapp:
-    'bg-cta text-cta-fg shadow-cta hover:bg-cta-hover hover:shadow-[0_18px_44px_-12px_color-mix(in_oklab,var(--color-whatsapp)_85%,transparent)] hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
+  primary:
+    'bg-primary text-on-primary shadow-[0_12px_32px_-12px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] hover:bg-primary/90 hover:shadow-[0_18px_44px_-12px_color-mix(in_oklab,var(--color-primary)_80%,transparent)] hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
   outline:
     'border border-line-strong bg-fg/3 text-fg hover:border-primary/60 hover:bg-fg/6 hover:text-primary',
   ghost: 'text-fg-muted hover:bg-fg/5 hover:text-fg',
@@ -42,12 +42,12 @@ const SIZES: Record<CtaSize, string> = {
 }
 
 /**
- * Every conversion action on the page is a plain link (WhatsApp, tel:, maps),
- * so the CTA primitive renders an anchor — no forms, no JS handlers required.
+ * Every conversion action on the page is a plain link (tel:, maps), so the
+ * CTA primitive renders an anchor — no forms, no JS handlers required.
  */
 export function CtaLink({
   href,
-  variant = 'whatsapp',
+  variant = 'primary',
   size = 'md',
   icon,
   iconRight,

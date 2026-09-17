@@ -1,17 +1,17 @@
-import { Check, Images } from 'lucide-react'
+import { ArrowUpRight, Check, Images } from 'lucide-react'
 import { lazy, Suspense, useState } from 'react'
 import { Picture } from '@/components/ui/Picture'
-import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
+import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { equipment, gallery } from '@/data/gallery'
-import { cn } from '@/lib/cn'
+import { equipment, photos } from '@/data/gallery'
 
 /** Loaded on first tap so the viewer's code stays out of the initial bundle. */
 const Lightbox = lazy(() => import('@/components/ui/Lightbox').then((mod) => ({ default: mod.Lightbox })))
 
 /**
  * Inside the workshop: equipment highlights from the company profile and a
- * photo gallery of the facility (all number plates blurred before publishing).
+ * Gallery subsection that opens the photo viewer (all number plates blurred
+ * before publishing).
  */
 export function Workshop() {
   const [open, setOpen] = useState<number | null>(null)
@@ -45,49 +45,110 @@ export function Workshop() {
               </li>
             ))}
           </ul>
-          <p className="mt-6 flex items-center gap-2 text-xs text-fg-muted">
-            <Images className="size-4 text-primary" aria-hidden="true" />
-            Tap any photo to view it full size.
-          </p>
         </Reveal>
 
-        <StaggerGroup as="ul" className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-          {gallery.map((photo, index) => (
-            <StaggerItem
-              as="li"
-              key={photo.id}
-              className={cn(
-                index === 0 && 'col-span-2 lg:row-span-2',
-                index === gallery.length - 1 && 'col-span-2 lg:col-span-1',
-              )}
-            >
-              <button
-                type="button"
-                onClick={() => openPhoto(index)}
-                aria-label={`Open photo: ${photo.caption}`}
-                className="group relative block h-full w-full cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface shadow-card"
-              >
-                <Picture
-                  src={photo.thumb}
-                  alt={photo.alt}
-                  width={800}
-                  height={600}
-                  className="aspect-[4/3] h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
-                />
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-ink-900/70 to-transparent px-3 pt-8 pb-2.5 text-left text-xs font-medium text-sand-50 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-                  {photo.caption}
-                </span>
-              </button>
-            </StaggerItem>
-          ))}
-        </StaggerGroup>
+        <Reveal delay={0.1}>
+          <GalleryTeaser onOpen={openPhoto} />
+        </Reveal>
       </div>
 
       {viewerLoaded && (
         <Suspense fallback={null}>
-          <Lightbox photos={gallery} index={open} onChange={setOpen} />
+          <Lightbox photos={photos} index={open} onChange={setOpen} />
         </Suspense>
       )}
     </section>
+  )
+}
+
+interface GalleryTeaserProps {
+  onOpen: (index: number) => void
+}
+
+/** "Gallery" subsection: a cover photo plus a few thumbnails — every tap opens the viewer. */
+function GalleryTeaser({ onOpen }: GalleryTeaserProps) {
+  // The hero already shows the service hall, so the gallery leads with the entrance.
+  const coverIndex = Math.max(0, photos.findIndex((photo) => photo.id === 'front'))
+  const cover = photos[coverIndex]
+  const previews = photos
+    .map((photo, index) => ({ photo, index }))
+    .filter(({ index }) => index !== coverIndex)
+    .slice(0, 3)
+  const remaining = photos.length - 1 - previews.length
+
+  return (
+    <div id="gallery" aria-labelledby="gallery-heading" className="rounded-card border border-line bg-surface p-4 shadow-card sm:p-5">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">Gallery</p>
+          <h3 id="gallery-heading" className="mt-1 font-display text-xl font-bold tracking-tight text-fg">
+            Around the workshop
+          </h3>
+        </div>
+        <button
+          type="button"
+          onClick={() => onOpen(coverIndex)}
+          className="group inline-flex shrink-0 cursor-pointer items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary-bright"
+        >
+          View all {photos.length} photos
+          <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+        </button>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => onOpen(coverIndex)}
+        aria-label={`Open the gallery — ${photos.length} photos`}
+        className="group relative mt-4 block w-full cursor-pointer overflow-hidden rounded-2xl border border-line bg-sand-200"
+      >
+        <Picture
+          src={cover.thumb}
+          alt={cover.alt}
+          width={800}
+          height={600}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="aspect-[16/10] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
+        />
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-ink-900/70 to-transparent" />
+        <span className="pointer-events-none absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-pill border border-white/40 bg-surface/95 px-4 py-2 text-sm font-semibold text-fg shadow-card">
+          <Images className="size-4 text-primary" aria-hidden="true" />
+          Open gallery · {photos.length} photos
+        </span>
+      </button>
+
+      <ul className="mt-3 grid grid-cols-4 gap-2 sm:gap-3" aria-label="More photos">
+        {previews.map(({ photo, index }) => (
+          <li key={photo.id}>
+            <button
+              type="button"
+              onClick={() => onOpen(index)}
+              aria-label={`Open photo: ${photo.caption}`}
+              className="group block w-full cursor-pointer overflow-hidden rounded-xl border border-line bg-sand-200"
+            >
+              <Picture
+                src={photo.thumb}
+                alt={photo.alt}
+                width={800}
+                height={600}
+                sizes="(min-width: 1024px) 12vw, 22vw"
+                className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05] motion-reduce:group-hover:scale-100"
+              />
+            </button>
+          </li>
+        ))}
+        <li>
+          <button
+            type="button"
+            onClick={() => onOpen(previews.length + 1)}
+            aria-label={`Open the remaining ${remaining} photos`}
+            className="flex aspect-[4/3] w-full cursor-pointer flex-col items-center justify-center rounded-xl border border-line bg-bg font-display text-lg font-bold text-fg transition-colors hover:border-primary/50 hover:text-primary"
+          >
+            +{remaining}
+            <span className="font-sans text-[11px] font-medium text-fg-muted">more</span>
+          </button>
+        </li>
+      </ul>
+      <p className="mt-3 text-xs text-fg-muted">Tap any photo to browse the gallery. Number plates are blurred.</p>
+    </div>
   )
 }

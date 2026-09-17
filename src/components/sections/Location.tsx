@@ -1,13 +1,12 @@
 import { ExternalLink, MapPin, Navigation, Phone } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { workshop } from '@/config/workshop'
 import { cn } from '@/lib/cn'
-import { buildTelLink, waLinks } from '@/lib/whatsapp'
+import { buildTelLink } from '@/lib/whatsapp'
 
 export function Location() {
   return (
@@ -67,23 +66,6 @@ function AddressCard() {
               {phone}
             </a>
             <p className="text-xs text-fg-muted">Landline · call during working hours</p>
-          </dd>
-        </div>
-        <div className="flex items-center gap-4">
-          <dt className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-fg/4 text-cta">
-            <WhatsAppIcon className="size-4.5" />
-            <span className="sr-only">WhatsApp</span>
-          </dt>
-          <dd>
-            <a
-              href={waLinks.directions()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-fg transition-colors hover:text-primary"
-            >
-              Chat on WhatsApp
-            </a>
-            <p className="text-xs text-fg-muted">Send us your location for directions</p>
           </dd>
         </div>
       </dl>

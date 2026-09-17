@@ -58,8 +58,8 @@ interface Intent {
 /* ── shared links ─────────────────────────────────────────────────────── */
 
 const callLink: ReplyLink = { label: `Call ${workshop.phone}`, href: buildTelLink(workshop.phone), kind: 'call' }
-const whatsappLink: ReplyLink = { label: 'Chat on WhatsApp', href: waLinks.general(), kind: 'whatsapp' }
-const quoteLink: ReplyLink = { label: 'Get a quote on WhatsApp', href: waLinks.quote(), kind: 'whatsapp' }
+/** Only offered when the visitor asks about WhatsApp or how to get in touch — every other answer points to the landline. */
+const whatsappLink: ReplyLink = { label: 'Chat on WhatsApp', href: waLinks.quote(), kind: 'whatsapp' }
 const mapsLink: ReplyLink = { label: 'Open in Google Maps', href: workshop.mapsLink, kind: 'maps' }
 const directionsLink: ReplyLink = { label: 'Get directions', href: workshop.directionsLink, kind: 'directions' }
 
@@ -279,15 +279,15 @@ const FALLBACK_TEXT = `I can only help with what's on this website — opening h
 export function fallbackReply(): AssistantReply {
   return {
     text: FALLBACK_TEXT,
-    links: [callLink, whatsappLink],
+    links: [callLink],
     suggestions: ['Opening hours', 'Where are you located?', 'What services do you offer?'],
   }
 }
 
 function serviceReply(service: Service): AssistantReply {
   return {
-    text: `${service.title}\n${service.description}\n\nIncludes: ${service.includes.join(', ')}.\n\nEvery job starts with an estimate before any work begins — send your car details on WhatsApp or call the workshop.`,
-    links: [quoteLink, callLink],
+    text: `${service.title}\n${service.description}\n\nIncludes: ${service.includes.join(', ')}.\n\nEvery job starts with an estimate before any work begins — call the workshop with your car's make, model and the issue.`,
+    links: [callLink, { label: 'See all services', href: '#services', kind: 'anchor' }],
     suggestions: ['What services do you offer?', 'Are you open now?', 'Where are you located?'],
   }
 }
@@ -299,11 +299,11 @@ const REPLIES: Record<IntentId, () => AssistantReply> = {
   }),
   thanks: () => ({
     text: `You're welcome! If you need anything else, the workshop is a call away on ${workshop.phone}.`,
-    links: [callLink, whatsappLink],
+    links: [callLink],
   }),
   status: () => ({
     text: `${statusLine()}\n\nRegular hours:\n${describeSchedule(workshop.schedule).join('\n')}`,
-    links: [callLink, whatsappLink],
+    links: [callLink],
     suggestions: ['Where are you located?', 'What services do you offer?'],
   }),
   hours: () => ({
@@ -317,29 +317,29 @@ const REPLIES: Record<IntentId, () => AssistantReply> = {
     suggestions: ['Are you open now?', 'How do I contact you?'],
   }),
   phone: () => ({
-    text: `You can call the workshop on ${workshop.phone} (landline, during working hours). Prefer to type? Message us on WhatsApp and we'll reply as soon as we're open.`,
+    text: `You can call the workshop on ${workshop.phone} (landline, during working hours). Prefer to type? Use the green WhatsApp button at the bottom right of this page.`,
     links: [callLink, whatsappLink],
     suggestions: ['Opening hours', 'Where are you located?'],
   }),
   whatsapp: () => ({
-    text: `WhatsApp is the quickest way to get a quote — send your car's make, model and the issue. ${workshop.responseTime}.`,
-    links: [quoteLink, callLink],
+    text: `You can message the workshop on WhatsApp with the green button at the bottom right of this page — send your car's make, model and the issue. ${workshop.responseTime}.`,
+    links: [whatsappLink, callLink],
     suggestions: ['What services do you offer?', 'Opening hours'],
   }),
   services: () => ({
     text: `Services at ${workshop.name}:\n${services.map((s) => `• ${s.title}`).join('\n')}\n\nAsk about any of these for details.`,
-    links: [{ label: 'See all services', href: '#services', kind: 'anchor' }, quoteLink],
+    links: [{ label: 'See all services', href: '#services', kind: 'anchor' }, callLink],
     suggestions: services.slice(0, 3).map((s) => s.title),
   }),
   service: () => fallbackReply(), // replaced at match time with the specific service
   bodyshop: () => ({
-    text: `${workshop.name} is an insurance-approved body shop — accident, body and paint repairs are handled here alongside mechanical work. Describe the damage (photos help) on WhatsApp or call the workshop and the team will guide you through the process.`,
-    links: [quoteLink, callLink],
+    text: `${workshop.name} is an insurance-approved body shop — accident, body and paint repairs are handled here alongside mechanical work. Call the workshop or bring the car in and the team will assess the damage and guide you through the insurance process.`,
+    links: [callLink, directionsLink],
     suggestions: ['Are you open now?', 'Where are you located?'],
   }),
   price: () => ({
-    text: `Prices depend on the car and the job, so the workshop gives an estimate before any work starts — no surprises on the invoice. Send your car's make, model and the issue on WhatsApp for a quote, or call the workshop.`,
-    links: [quoteLink, callLink],
+    text: `Prices depend on the car and the job, so the workshop gives an estimate before any work starts — no surprises on the invoice. Call the workshop with your car's make, model and the issue for an estimate.`,
+    links: [callLink],
     suggestions: ['What services do you offer?', 'Opening hours'],
   }),
   reviews: () => ({
@@ -354,13 +354,13 @@ const REPLIES: Record<IntentId, () => AssistantReply> = {
     suggestions: ['What services do you offer?', 'Where are you located?'],
   }),
   booking: () => ({
-    text: `There's no online booking — just call the workshop on ${workshop.phone} to arrange a visit, or message on WhatsApp with your car details and the team will confirm a time.\n\nRight now: ${statusLine()}`,
-    links: [callLink, quoteLink],
+    text: `There's no online booking — just call the workshop on ${workshop.phone} to arrange a visit, or simply drop in during working hours.\n\nRight now: ${statusLine()}`,
+    links: [callLink, directionsLink],
     suggestions: ['Opening hours', 'Where are you located?'],
   }),
   parts: () => ({
-    text: `${stat('parts') ?? 'Genuine OEM parts only'} — the workshop fits genuine manufacturer parts. For a specific part or price, call the workshop or ask on WhatsApp.`,
-    links: [callLink, quoteLink],
+    text: `${stat('parts') ?? 'Genuine OEM parts only'} — the workshop fits genuine manufacturer parts. For a specific part or price, call the workshop.`,
+    links: [callLink],
   }),
   facility: () => ({
     text: `${workshop.name} is a full mechanical, body and paint facility in Mussafah. Equipment includes:\n${equipment
@@ -370,8 +370,8 @@ const REPLIES: Record<IntentId, () => AssistantReply> = {
     suggestions: ['What services do you offer?', 'Where are you located?'],
   }),
   brands: () => ({
-    text: `The workshop services all major makes:\nEuropean: ${brands.European.join(', ')}\nJapanese: ${brands.Japanese.join(', ')}\nKorean: ${brands.Korean.join(', ')}\n\nNot sure about yours? Ask on WhatsApp or call the workshop.`,
-    links: [quoteLink, callLink],
+    text: `The workshop services all major makes:\nEuropean: ${brands.European.join(', ')}\nJapanese: ${brands.Japanese.join(', ')}\nKorean: ${brands.Korean.join(', ')}\n\nNot sure about yours? Call the workshop.`,
+    links: [callLink],
     suggestions: ['What services do you offer?', 'Are you open now?'],
   }),
   experience: () => ({

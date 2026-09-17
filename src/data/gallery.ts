@@ -30,6 +30,9 @@ export const facilities: readonly (GalleryPhoto & { service: string; blurb: stri
   { id: 'lifts', service: 'Mechanical work', blurb: 'Two-post lifts for engine, gearbox and brake jobs', src: '/photos/lifts.jpg', thumb: '/photos/lifts-thumb.jpg', alt: 'Vehicles raised on lifts with a technician at work', caption: 'Mechanical bays', width: 1400, height: 1050 },
 ]
 
+/** Everything the gallery viewer can browse: the gallery set followed by the three facility photos. */
+export const photos: readonly GalleryPhoto[] = [...gallery, ...facilities]
+
 /** Equipment highlights from the company profile. */
 export const equipment: readonly { title: string; detail: string }[] = [
   { title: 'Full-size paint booth', detail: 'with drying oven for factory-quality finishes' },

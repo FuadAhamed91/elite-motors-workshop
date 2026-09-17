@@ -1,13 +1,13 @@
-import { ArrowUpRight, Check } from 'lucide-react'
-import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
+import { ArrowUpRight, Check, Phone } from 'lucide-react'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { facilities } from '@/data/gallery'
 import { brands, services, type Service } from '@/data/services'
+import { workshop } from '@/config/workshop'
 import { cn } from '@/lib/cn'
-import { waLinks } from '@/lib/whatsapp'
+import { buildTelLink } from '@/lib/whatsapp'
 
 export function Services() {
   return (
@@ -71,13 +71,11 @@ export function Services() {
         <p className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-fg-muted">
           Not sure what your car needs?
           <a
-            href={waLinks.quote()}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={buildTelLink(workshop.phone)}
             className="group inline-flex items-center gap-1.5 font-semibold text-primary transition-colors hover:text-primary-bright"
           >
-            <WhatsAppIcon className="size-4" />
-            Describe the problem on WhatsApp
+            <Phone className="size-4" aria-hidden="true" />
+            Call {workshop.phone} and describe the problem
             <ArrowUpRight
               className="size-3.5 transition-transform group-hover:translate-x-0.5"
               aria-hidden="true"

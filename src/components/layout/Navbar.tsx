@@ -1,12 +1,11 @@
 import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
-import { Menu, Phone, X } from 'lucide-react'
+import { Menu, Navigation, Phone, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { Logo } from '@/components/layout/Logo'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { workshop } from '@/config/workshop'
 import { cn } from '@/lib/cn'
-import { buildTelLink, waLinks } from '@/lib/whatsapp'
+import { buildTelLink } from '@/lib/whatsapp'
 
 /** Sticky, glassmorphic navigation — transparent over the hero, frosted once scrolled. */
 export function Navbar() {
@@ -78,23 +77,20 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <CtaLink
-            href={waLinks.quote()}
-            external
+            href={buildTelLink(workshop.phone)}
             size="sm"
-            icon={<WhatsAppIcon />}
+            icon={<Phone />}
             className="max-sm:hidden"
           >
-            Chat on WhatsApp
+            Call {workshop.phone}
           </CtaLink>
-          {/* Icon-only WhatsApp shortcut keeps the primary conversion one tap away on phones */}
+          {/* Icon-only call shortcut keeps the landline one tap away on phones */}
           <a
-            href={waLinks.quote()}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat on WhatsApp"
-            className="inline-flex size-11 items-center justify-center rounded-full bg-cta text-cta-fg shadow-cta transition-transform active:scale-95 sm:hidden"
+            href={buildTelLink(workshop.phone)}
+            aria-label={`Call ${workshop.phone}`}
+            className="inline-flex size-11 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_10px_24px_-10px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] transition-transform active:scale-95 sm:hidden"
           >
-            <WhatsAppIcon className="size-5" />
+            <Phone className="size-5" aria-hidden="true" />
           </a>
           <button
             type="button"
@@ -136,16 +132,17 @@ export function Navbar() {
                 </a>
               ))}
               <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-3">
-                <CtaLink href={waLinks.quote()} external icon={<WhatsAppIcon />} fullWidth>
-                  WhatsApp
+                <CtaLink href={buildTelLink(workshop.phone)} icon={<Phone />} fullWidth>
+                  Call
                 </CtaLink>
                 <CtaLink
-                  href={buildTelLink(workshop.phone)}
+                  href={workshop.directionsLink}
+                  external
                   variant="outline"
-                  icon={<Phone />}
+                  icon={<Navigation />}
                   fullWidth
                 >
-                  Call
+                  Directions
                 </CtaLink>
               </div>
             </div>

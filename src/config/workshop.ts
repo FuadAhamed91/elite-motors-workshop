@@ -67,7 +67,8 @@ export const workshop = {
   timeZone: 'Asia/Dubai',
 
   /**
-   * WhatsApp is for chat only — the number is never displayed as a phone number.
+   * WhatsApp is chat only, reached from the floating button (and the assistant's
+   * WhatsApp answer) — never shown as a phone number and never a page CTA.
    * The link builder strips spaces/plus signs → https://wa.me/971565017797?text=...
    */
   whatsappNumber: '+971 56 501 7797',
@@ -123,7 +124,7 @@ export const workshop = {
     url: 'https://www.google.com/maps/place/Elite+Motors+Workshop/@24.3772101,54.4746864,17z/data=!4m8!3m7!1s0x3e5e41c28360946d:0x36ea5a1d1e137943!8m2!3d24.3772101!4d54.4746864!9m1!1b1!16s%2Fg%2F11h_bqg108',
   },
 
-  /** Typical WhatsApp first-reply time shown near CTAs. */
+  /** Typical WhatsApp first-reply time (quoted by the assistant). */
   responseTime: 'Replies within ~5 minutes during working hours',
 
   nav: [

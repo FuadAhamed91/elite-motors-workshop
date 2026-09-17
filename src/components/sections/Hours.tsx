@@ -1,5 +1,4 @@
-import { CalendarX, Clock, Coffee, MoonStar, Sun } from 'lucide-react'
-import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
+import { CalendarX, Clock, Coffee, MoonStar, Navigation, Phone, Sun } from 'lucide-react'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal } from '@/components/ui/Reveal'
@@ -9,7 +8,7 @@ import { workshop, type DaySchedule } from '@/config/workshop'
 import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
 import { cn } from '@/lib/cn'
 import { formatRange } from '@/lib/hours'
-import { waLinks } from '@/lib/whatsapp'
+import { buildTelLink } from '@/lib/whatsapp'
 
 export function Hours() {
   return (
@@ -19,7 +18,7 @@ export function Hours() {
           id="hours-heading"
           eyebrow="Working hours"
           title="Open six days a week, with a lunch break."
-          description="Drop in during working hours or message us any time — WhatsApp messages sent after hours are answered first thing when we open."
+          description="Drop in during working hours or call ahead on the landline — the team will tell you whether to bring the car straight in."
         />
       </Reveal>
 
@@ -175,18 +174,18 @@ function LiveStatusCard() {
       <div className="mt-auto pt-6">
         {status.isOpen ? (
           <>
-            <CtaLink href={waLinks.quote()} external icon={<WhatsAppIcon />} fullWidth>
-              We&rsquo;re open — chat now
+            <CtaLink href={buildTelLink(workshop.phone)} icon={<Phone />} fullWidth>
+              We&rsquo;re open — call {workshop.phone}
             </CtaLink>
-            <p className="mt-3 text-center text-xs text-fg-muted">{workshop.responseTime}</p>
+            <p className="mt-3 text-center text-xs text-fg-muted">Landline · answered during working hours</p>
           </>
         ) : (
           <>
-            <CtaLink href={waLinks.afterHours()} external icon={<WhatsAppIcon />} fullWidth>
-              Message us — we&rsquo;ll reply when we open
+            <CtaLink href={workshop.directionsLink} external variant="outline" icon={<Navigation />} fullWidth>
+              Plan your visit — get directions
             </CtaLink>
             <p className="mt-3 text-center text-xs text-fg-muted">
-              Leave your car details now and skip the queue.
+              {status.detail} · call {workshop.phone} once we&rsquo;re open.
             </p>
           </>
         )}

@@ -1,13 +1,11 @@
-import { Check, ChevronRight, Phone, Star, Timer } from 'lucide-react'
-import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
+import { Check, MapPin, Navigation, Phone, Star } from 'lucide-react'
 import { CtaLink } from '@/components/ui/CtaLink'
-import { GlowCard } from '@/components/ui/GlowCard'
+import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import { workshop } from '@/config/workshop'
-import { services } from '@/data/services'
-import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
-import { buildTelLink, waLinks } from '@/lib/whatsapp'
+import { gallery } from '@/data/gallery'
+import { buildTelLink } from '@/lib/whatsapp'
 
 const HERO_PROOF_POINTS = [
   'In Mussafah since 2003',
@@ -15,8 +13,8 @@ const HERO_PROOF_POINTS = [
   'Estimate before any work starts',
 ] as const
 
-/** Four most-requested services surfaced as one-tap WhatsApp shortcuts. */
-const QUICK_SERVICES = services.slice(0, 4)
+/** The main service hall — the first photo of the gallery. */
+const HERO_PHOTO = gallery[0]
 
 export function Hero() {
   return (
@@ -33,7 +31,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-bg to-transparent" />
       </div>
 
-      <div className="container-x grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <div className="container-x grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div>
           <Reveal>
             <StatusBadge />
@@ -55,27 +53,28 @@ export function Hero() {
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-pretty text-fg-muted sm:text-xl">
               Trusted diagnostics, transparent pricing and fast turnaround — right here in
-              Mussafah. Message us on WhatsApp and get a real quote in minutes, not days.
+              Mussafah. Call the workshop or drop in; every job starts with a clear estimate.
             </p>
           </Reveal>
 
           <Reveal delay={0.15}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <CtaLink href={waLinks.quote()} external size="lg" icon={<WhatsAppIcon />}>
-                Get Instant Quote on WhatsApp
+              <CtaLink href={buildTelLink(workshop.phone)} size="lg" icon={<Phone />}>
+                Call {workshop.phone}
               </CtaLink>
               <CtaLink
-                href={buildTelLink(workshop.phone)}
+                href={workshop.directionsLink}
+                external
                 variant="outline"
                 size="lg"
-                icon={<Phone />}
+                icon={<Navigation />}
               >
-                Call Workshop
+                Get Directions
               </CtaLink>
             </div>
             <p className="mt-4 flex items-center gap-2 text-sm text-fg-muted">
-              <Timer className="size-4 text-primary" aria-hidden="true" />
-              {workshop.responseTime}
+              <MapPin className="size-4 shrink-0 text-primary" aria-hidden="true" />
+              {workshop.address.line2} · landline answered during working hours
             </p>
           </Reveal>
 
@@ -93,82 +92,45 @@ export function Hero() {
           </Reveal>
         </div>
 
-        <Reveal delay={0.2} y={32} className="relative lg:justify-self-end">
-          <QuickQuoteConsole />
+        <Reveal delay={0.2} y={32} className="relative">
+          <HeroPhoto />
         </Reveal>
       </div>
     </section>
   )
 }
 
-/**
- * Hero visual with a job: a glass "console" that opens a pre-filled WhatsApp
- * chat for the four most-requested services, plus the live Abu Dhabi clock.
- */
-function QuickQuoteConsole() {
-  const { status, now } = useWorkshopStatus(15_000)
-
+/** Hero visual: the actual service hall in Mussafah (plates redacted) with the Google review count. */
+function HeroPhoto() {
   return (
-    <div className="relative w-full max-w-md lg:max-w-[440px]">
-      {/* Floating rating chip */}
+    <figure className="relative">
+      {/* Floating review chip */}
       <div
         aria-hidden="true"
-        className="absolute -top-4 -right-2 z-20 flex items-center gap-2 rounded-pill border border-line bg-surface-elevated px-3 py-1.5 text-xs font-semibold text-fg shadow-card motion-safe:animate-float sm:-right-5"
+        className="absolute -top-4 left-4 z-20 flex items-center gap-2 rounded-pill border border-line bg-surface-elevated px-3 py-1.5 text-xs font-semibold text-fg shadow-card motion-safe:animate-float sm:-left-3"
       >
         <Star className="size-3.5 fill-star text-star" />
         {workshop.googleReviews.count} reviews on Google
       </div>
 
-      <GlowCard accent="secondary" animatedBorder innerClassName="p-5 sm:p-6">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.18em] text-secondary uppercase">
-              Quick quote
-            </p>
-            <p className="mt-1 font-display text-xl font-bold text-fg">
-              Tap a service, we pre-fill your message
-            </p>
-          </div>
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-cta/15 text-cta">
-            <WhatsAppIcon className="size-5" />
-          </span>
-        </div>
+      <div className="overflow-hidden rounded-card border border-line bg-surface shadow-card">
+        <Picture
+          src={HERO_PHOTO.src}
+          thumb={HERO_PHOTO.thumb}
+          alt={HERO_PHOTO.alt}
+          width={HERO_PHOTO.width}
+          height={HERO_PHOTO.height}
+          sizes="(min-width: 1024px) 45vw, 100vw"
+          loading="eager"
+          fetchPriority="high"
+          className="aspect-[16/11] w-full object-cover lg:aspect-[4/3]"
+        />
+      </div>
 
-        <ul className="mt-5 space-y-2">
-          {QUICK_SERVICES.map((service) => {
-            const Icon = service.icon
-            return (
-              <li key={service.id}>
-                <a
-                  href={waLinks.quickService(service.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/row flex min-h-12 items-center gap-3 rounded-xl border border-line bg-fg/3 px-3 py-2.5 transition-[background-color,border-color,transform] duration-200 hover:border-primary/40 hover:bg-fg/6 active:scale-[0.99]"
-                >
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
-                    <Icon className="size-4.5" aria-hidden="true" />
-                  </span>
-                  <span className="flex-1 text-sm font-medium text-fg">{service.title}</span>
-                  <ChevronRight
-                    className="size-4 shrink-0 text-fg-muted transition-transform duration-200 group-hover/row:translate-x-0.5 group-hover/row:text-primary"
-                    aria-hidden="true"
-                  />
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-
-        <div className="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4 text-xs text-fg-muted">
-          <span>
-            Abu Dhabi time{' '}
-            <span className="font-semibold text-fg tabular-nums" aria-live="off">
-              {now.clock}
-            </span>
-          </span>
-          <span className="text-right">{status.detail}</span>
-        </div>
-      </GlowCard>
-    </div>
+      <figcaption className="pointer-events-none absolute right-3 bottom-3 left-3 flex items-center justify-between gap-3 rounded-2xl border border-white/30 bg-ink-900/55 px-4 py-2.5 text-xs text-sand-50 sm:text-sm">
+        <span className="font-semibold">{HERO_PHOTO.caption}</span>
+        <span className="text-sand-50/80">Musaffah M21</span>
+      </figcaption>
+    </figure>
   )
 }

@@ -27,32 +27,20 @@ export function buildTelLink(phone: string): string {
 const greeting = `Hi ${workshop.name}! 👋`
 
 /**
- * Pre-filled conversation starters. Each section/CTA picks the message that
- * matches its intent so the workshop instantly knows what the driver needs.
+ * Pre-filled conversation starters. WhatsApp is reached from exactly two
+ * places — the floating button and the assistant's "WhatsApp" answer — every
+ * other call to action on the page is the landline.
  */
 export const whatsappMessages = {
   quote: () =>
     `${greeting}\n\nI'd like an instant quote for my car.\n\n🚗 Car (make / model / year): \n🔧 Issue or service needed: \n\nThank you!`,
-
-  quickService: (serviceName: string) =>
-    `${greeting} I need *${serviceName}* for my car. Could you share an estimate?\n\n🚗 Car (make / model / year): `,
-
-  directions: () =>
-    `${greeting}\n\nI'm on my way to the workshop in ${workshop.city}. Could you share the exact pin location / directions?`,
-
-  afterHours: () =>
-    `${greeting}\n\nI know you're currently closed — could you get back to me when you open?\n\n🚗 Car: \n🔧 Issue: `,
 
   general: () => `${greeting} I have a question about your services in ${workshop.city}.`,
 } as const
 
 export type WhatsAppIntent = keyof typeof whatsappMessages
 
-/** Convenience helpers used by CTAs across the page. */
 export const waLinks = {
   quote: () => buildWhatsAppLink(whatsappMessages.quote()),
-  quickService: (name: string) => buildWhatsAppLink(whatsappMessages.quickService(name)),
-  directions: () => buildWhatsAppLink(whatsappMessages.directions()),
-  afterHours: () => buildWhatsAppLink(whatsappMessages.afterHours()),
   general: () => buildWhatsAppLink(whatsappMessages.general()),
 }
