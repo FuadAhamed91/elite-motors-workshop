@@ -128,12 +128,13 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
           />
 
           {/* grid slot at the launch position + twin skid marks */}
-          <div aria-hidden="true" className="absolute bottom-0 left-1/2 h-[30vh] w-[min(46vw,320px)] -translate-x-1/2">
+          <div aria-hidden="true" className="absolute bottom-0 left-1/2 h-[30vh] w-[min(46vw,270px)] -translate-x-1/2">
             <div className="splash-grid-box absolute inset-x-0 bottom-0 h-[10vh] opacity-50" />
             {launched && (
               <>
-                <span className="splash-skid absolute bottom-0 left-[16%] h-full w-[13%] rounded-t-full motion-safe:animate-skid" />
-                <span className="splash-skid absolute right-[16%] bottom-0 h-full w-[13%] rounded-t-full motion-safe:animate-skid" />
+                {/* rear tyres sit at 15% / 85% of the car's width — skids are centred on them */}
+                <span className="splash-skid absolute bottom-0 left-[8.5%] h-full w-[13%] rounded-t-full motion-safe:animate-skid" />
+                <span className="splash-skid absolute right-[8.5%] bottom-0 h-full w-[13%] rounded-t-full motion-safe:animate-skid" />
               </>
             )}
           </div>
@@ -141,7 +142,7 @@ export function SplashIntro({ active, ready, finish }: IntroGate) {
           {/* the car */}
           <motion.div
             aria-hidden="true"
-            className="absolute top-0 left-1/2 w-[min(40vw,270px)] will-change-transform"
+            className="absolute top-0 left-1/2 w-[min(46vw,270px)] will-change-transform"
             style={{ transform: carTransform, transformOrigin: '50% 100%' }}
           >
             {/* motion-blur trail behind (below) the car */}
