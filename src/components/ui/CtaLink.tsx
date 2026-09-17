@@ -25,9 +25,9 @@ const VARIANTS: Record<CtaVariant, string> = {
   whatsapp:
     'bg-cta text-cta-fg shadow-cta hover:bg-cta-hover hover:shadow-[0_18px_44px_-12px_color-mix(in_oklab,var(--color-whatsapp)_85%,transparent)] hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
   outline:
-    'border border-line-strong bg-white/3 text-fg hover:border-primary/60 hover:bg-white/6 hover:text-primary',
-  ghost: 'text-fg-muted hover:bg-white/5 hover:text-fg',
-  inverse: 'bg-fg text-bg hover:bg-white',
+    'border border-line-strong bg-fg/3 text-fg hover:border-primary/60 hover:bg-fg/6 hover:text-primary',
+  ghost: 'text-fg-muted hover:bg-fg/5 hover:text-fg',
+  inverse: 'bg-fg text-bg hover:bg-fg/90',
 }
 
 /* Heights keep every CTA ≥ 44px on touch devices (Apple HIG / WCAG target size). */

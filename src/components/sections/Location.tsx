@@ -55,7 +55,7 @@ function AddressCard() {
 
       <dl className="mt-8 space-y-4 border-t border-line pt-6">
         <div className="flex items-center gap-4">
-          <dt className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-white/4 text-secondary">
+          <dt className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-fg/4 text-secondary">
             <Phone className="size-4.5" aria-hidden="true" />
             <span className="sr-only">Phone</span>
           </dt>
@@ -70,7 +70,7 @@ function AddressCard() {
           </dd>
         </div>
         <div className="flex items-center gap-4">
-          <dt className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-white/4 text-cta">
+          <dt className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-fg/4 text-cta">
             <WhatsAppIcon className="size-4.5" />
             <span className="sr-only">WhatsApp</span>
           </dt>
@@ -126,7 +126,7 @@ function MapEmbed() {
         referrerPolicy="no-referrer-when-downgrade"
         onLoad={() => setLoaded(true)}
         className={cn(
-          'map-dark absolute inset-0 h-full w-full border-0 transition-opacity duration-700',
+          'map-tone absolute inset-0 h-full w-full border-0 transition-opacity duration-700',
           loaded ? 'opacity-100' : 'opacity-0',
         )}
       />

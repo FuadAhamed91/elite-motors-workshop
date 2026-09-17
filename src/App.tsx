@@ -1,3 +1,4 @@
+import { RaceIntro } from '@/components/intro/RaceIntro'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
@@ -24,6 +25,7 @@ export default function App() {
       </main>
       <Footer />
       <WhatsAppFab />
+      <RaceIntro />
     </>
   )
 }

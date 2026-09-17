@@ -34,7 +34,7 @@ export function Services() {
             href={waLinks.quote()}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-1.5 font-semibold text-primary transition-colors hover:text-volt-300"
+            className="group inline-flex items-center gap-1.5 font-semibold text-primary transition-colors hover:text-primary-bright"
           >
             <WhatsAppIcon className="size-4" />
             Describe the problem on WhatsApp

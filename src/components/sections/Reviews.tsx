@@ -103,7 +103,7 @@ function ReviewCard({ review }: ReviewCardProps) {
               <p className="mt-0.5 text-xs text-fg-muted">{review.when}</p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-pill border border-line bg-white/3 px-2 py-1 text-[11px] font-medium text-fg-muted">
+          <span className="inline-flex items-center gap-1 rounded-pill border border-line bg-fg/3 px-2 py-1 text-[11px] font-medium text-fg-muted">
             <BadgeCheck className="size-3.5 text-secondary" aria-hidden="true" />
             Google
           </span>

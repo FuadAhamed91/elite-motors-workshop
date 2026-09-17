@@ -2,67 +2,77 @@
 
 /* ──────────────────────────────────────────────────────────────
    Design tokens — three layers (primitive → semantic → component)
-   Primitives live here; semantic aliases reference them so the
-   palette can be retuned in one place. Components never use raw hex.
+   Warm "sand" light theme: beige surfaces, ink text, electric
+   green/cyan accents tuned for light backgrounds (all text pairs
+   ≥ 4.5:1). Components never use raw hex — only the tokens below.
    ────────────────────────────────────────────────────────────── */
 @theme {
   /* Typography */
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Primitive colors — carbon/slate surfaces */
-  --color-carbon-950: #09090b; /* zinc-950 */
-  --color-carbon-900: #0f172a; /* slate-900 */
-  --color-carbon-800: #1e293b; /* slate-800 */
-  --color-carbon-700: #334155; /* slate-700 */
+  /* Primitive colors — sand / beige surfaces */
+  --color-sand-50: #fcf9f3; /* cream — cards */
+  --color-sand-100: #f6f0e4; /* beige — page background */
+  --color-sand-200: #ede3d1; /* deeper beige — section tints */
+  --color-sand-300: #dccdb4; /* warm border / empty stars */
+  --color-ink-900: #1c1917; /* stone-900 — text */
+  --color-ink-700: #44403c; /* stone-700 */
+  --color-ink-600: #57534e; /* stone-600 — 6.3:1 on sand-100 */
 
   /* Primitive colors — electric accents */
-  --color-volt-300: #6ee7b7;
-  --color-volt-400: #34d399; /* emerald-400 — 10.3:1 on carbon-950 */
-  --color-volt-500: #10b981;
-  --color-electric-300: #67e8f9;
-  --color-electric-400: #22d3ee; /* cyan-400 */
-  --color-electric-500: #06b6d4;
+  --color-volt-500: #10b981; /* emerald-500 — gradients & glows */
+  --color-volt-600: #059669;
+  --color-volt-700: #047857; /* emerald-700 — 4.8:1 on sand-100 */
+  --color-electric-500: #06b6d4; /* cyan-500 — gradients & glows */
+  --color-electric-700: #0e7490; /* cyan-700 — 4.6:1 on sand-100 */
   --color-whatsapp: #25d366; /* official WhatsApp green */
   --color-whatsapp-dark: #1fb457;
-  --color-star: #fbbf24; /* amber-400 */
+  --color-star: #f59e0b; /* amber-500 */
+  --color-warn: #b45309; /* amber-700 */
+  --color-danger: #be123c; /* rose-700 */
 
   /* Primitive colors — EMW logo tiles (brand mark only, not UI accents) */
   --color-brand-red: #e2231a;
   --color-brand-blue: #2149b0;
   --color-brand-yellow: #f8c21c;
-  --color-warn: #fbbf24;
-  --color-danger: #fb7185; /* rose-400 */
 
   /* Semantic tokens */
-  --color-bg: var(--color-carbon-950);
-  --color-surface: var(--color-carbon-900);
-  --color-surface-elevated: var(--color-carbon-800);
-  --color-line: color-mix(in oklab, white 8%, transparent);
-  --color-line-strong: color-mix(in oklab, white 16%, transparent);
-  --color-fg: #f8fafc; /* slate-50 */
-  --color-fg-muted: #94a3b8; /* slate-400 — 7.7:1 on carbon-950, 7:1 on carbon-900 */
-  --color-primary: var(--color-volt-400);
-  --color-secondary: var(--color-electric-400);
+  --color-bg: var(--color-sand-100);
+  --color-surface: var(--color-sand-50);
+  --color-surface-elevated: #ffffff;
+  --color-line: color-mix(in oklab, var(--color-ink-900) 9%, transparent);
+  --color-line-strong: color-mix(in oklab, var(--color-ink-900) 18%, transparent);
+  --color-fg: var(--color-ink-900);
+  --color-fg-muted: var(--color-ink-600);
+  --color-primary: var(--color-volt-700);
+  --color-primary-bright: var(--color-volt-500);
+  --color-on-primary: #ffffff;
+  --color-secondary: var(--color-electric-700);
+  --color-secondary-bright: var(--color-electric-500);
   --color-cta: var(--color-whatsapp);
   --color-cta-hover: var(--color-whatsapp-dark);
-  --color-cta-fg: var(--color-carbon-950);
+  --color-cta-fg: #062d17; /* near-black green — 9.6:1 on WhatsApp green */
+  --color-asphalt: #3a3531; /* intro track — lighter than the car's carbon parts */
 
   /* Shape */
   --radius-card: 1.25rem;
   --radius-pill: 999px;
 
-  /* Elevation & glow */
-  --shadow-card: 0 1px 0 0 color-mix(in oklab, white 6%, transparent) inset, 0 20px 50px -30px rgb(0 0 0 / 0.8);
-  --shadow-cta: 0 12px 32px -12px color-mix(in oklab, var(--color-whatsapp) 70%, transparent);
-  --shadow-glow-primary: 0 0 0 1px color-mix(in oklab, var(--color-volt-400) 35%, transparent),
-    0 24px 60px -24px color-mix(in oklab, var(--color-volt-400) 55%, transparent);
+  /* Elevation & glow (warm shadows) */
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.7) inset, 0 24px 48px -28px rgb(68 52 30 / 0.35);
+  --shadow-cta: 0 12px 32px -12px color-mix(in oklab, var(--color-whatsapp) 65%, transparent);
+  --shadow-glow-primary: 0 0 0 1px color-mix(in oklab, var(--color-volt-500) 35%, transparent),
+    0 24px 60px -24px color-mix(in oklab, var(--color-volt-500) 55%, transparent);
 
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-border-spin: border-spin 7s linear infinite;
   --animate-float: float 7s ease-in-out infinite;
+  --animate-wheel-spin: wheel-spin 0.18s linear infinite;
+  --animate-speed-lines: speed-lines 0.35s linear infinite;
+  --animate-road-dash: road-dash 0.4s linear infinite;
 
   @keyframes pulse-ring {
     0% {
@@ -92,6 +102,27 @@
       transform: translateY(-10px);
     }
   }
+  @keyframes wheel-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes speed-lines {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -120px 0;
+    }
+  }
+  @keyframes road-dash {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -96px 0;
+    }
+  }
 }
 
 /* Registered custom property so the conic border angle can animate */
@@ -103,15 +134,23 @@
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
   body {
     @apply bg-bg font-sans text-fg antialiased;
+    /* Overall page gradient: cream at the top fading into deeper beige */
+    background-image: linear-gradient(
+      180deg,
+      var(--color-sand-50) 0%,
+      var(--color-sand-100) 22%,
+      var(--color-sand-100) 78%,
+      var(--color-sand-200) 100%
+    );
     overflow-x: clip;
   }
   ::selection {
-    background: color-mix(in oklab, var(--color-primary) 35%, transparent);
+    background: color-mix(in oklab, var(--color-primary) 25%, transparent);
   }
   /* Visible, on-brand focus ring for keyboard users (2px + offset) */
   :focus-visible {
@@ -139,8 +178,8 @@
   /* Subtle blueprint grid used behind the hero */
   .bg-grid {
     background-image:
-      linear-gradient(to right, color-mix(in oklab, white 5%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in oklab, white 5%, transparent) 1px, transparent 1px);
+      linear-gradient(to right, color-mix(in oklab, var(--color-ink-900) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--color-ink-900) 6%, transparent) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
@@ -151,11 +190,11 @@
     background:
       conic-gradient(
         from var(--border-angle),
-        transparent 0%,
-        transparent 62%,
-        var(--color-primary) 78%,
-        var(--color-secondary) 88%,
-        transparent 100%
+        var(--color-line) 0%,
+        var(--color-line) 62%,
+        var(--color-primary-bright) 78%,
+        var(--color-secondary-bright) 88%,
+        var(--color-line) 100%
       );
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -164,8 +203,38 @@
     }
   }
 
-  /* Dark-mode treatment for the Google Maps embed */
-  .map-dark {
-    filter: invert(0.92) hue-rotate(180deg) saturate(0.55) brightness(0.92) contrast(0.95);
+  /* Warm tone for the Google Maps embed so it sits with the beige palette */
+  .map-tone {
+    filter: sepia(0.22) saturate(0.9) contrast(0.96);
+  }
+
+  /* Intro race track: asphalt strip with a dashed centre line */
+  .race-track {
+    background-color: var(--color-asphalt);
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent 0 48px,
+      rgb(255 255 255 / 0.75) 48px 96px
+    );
+    background-size: 96px 4px;
+    background-repeat: repeat-x;
+    background-position: 0 50%;
+  }
+  /* F1-style red/white kerb along the track edges */
+  .race-kerb {
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--color-brand-red) 0 32px,
+      #ffffff 32px 64px
+    );
+  }
+  .race-speed-lines {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent 0 70px,
+      color-mix(in oklab, var(--color-ink-900) 35%, transparent) 70px 120px
+    );
+    background-size: 120px 100%;
+    mask-image: linear-gradient(90deg, transparent, black 30%, black 70%, transparent);
   }
 }

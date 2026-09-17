@@ -45,7 +45,7 @@ export function Hero() {
               className="mt-6 font-display text-[2.6rem] leading-[1.05] font-extrabold tracking-tight text-balance text-fg sm:text-5xl lg:text-6xl xl:text-[4.4rem]"
             >
               Precision Auto Care &amp;{' '}
-              <span className="bg-linear-to-r from-primary via-volt-300 to-secondary bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-primary via-primary-bright to-secondary bg-clip-text text-transparent">
                 Mechanical Excellence
               </span>{' '}
               in Abu Dhabi
@@ -113,7 +113,7 @@ function QuickQuoteConsole() {
       {/* Floating rating chip */}
       <div
         aria-hidden="true"
-        className="absolute -top-4 -right-2 z-20 flex items-center gap-2 rounded-pill border border-line bg-surface-elevated/90 px-3 py-1.5 text-xs font-semibold text-fg shadow-card backdrop-blur-md motion-safe:animate-float sm:-right-5"
+        className="absolute -top-4 -right-2 z-20 flex items-center gap-2 rounded-pill border border-line bg-surface-elevated/95 px-3 py-1.5 text-xs font-semibold text-fg shadow-card backdrop-blur-md motion-safe:animate-float sm:-right-5"
       >
         <Star className="size-3.5 fill-star text-star" />
         {workshop.googleReviews.count} reviews on Google
@@ -143,7 +143,7 @@ function QuickQuoteConsole() {
                   href={waLinks.quickService(service.name)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group/row flex min-h-12 items-center gap-3 rounded-xl border border-line bg-white/3 px-3 py-2.5 transition-[background-color,border-color,transform] duration-200 hover:border-primary/40 hover:bg-white/6 active:scale-[0.99]"
+                  className="group/row flex min-h-12 items-center gap-3 rounded-xl border border-line bg-fg/3 px-3 py-2.5 transition-[background-color,border-color,transform] duration-200 hover:border-primary/40 hover:bg-fg/6 active:scale-[0.99]"
                 >
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
                     <Icon className="size-4.5" aria-hidden="true" />

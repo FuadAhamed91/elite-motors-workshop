@@ -1,7 +1,7 @@
 # Elite Motors Workshop — Landing Page
 
 High-conversion, WhatsApp-first landing page for **Elite Motors Workshop**, an auto service
-and repair centre in Mussafah, Abu Dhabi. Dark carbon/slate palette with electric green &
+and repair centre in Mussafah, Abu Dhabi. Warm beige/cream palette with electric green &
 cyan accents, 21st.dev-style spotlight cards, Framer Motion reveals and Lucide icons.
 
 The **only** conversion path is a direct WhatsApp conversation — no booking wizards,
@@ -10,7 +10,8 @@ calendars or lead forms. Every CTA opens `wa.me` with a pre-filled, context-spec
 ## Stack
 
 - Vite 8 + React 19 + TypeScript (strict)
-- Tailwind CSS v4 (design tokens in `src/index.css` — primitive → semantic layers)
+- Tailwind CSS v4 (design tokens in `src/index.css` — primitive → semantic layers; the whole
+  palette, including the beige theme, is defined there)
 - framer-motion (scroll reveals, stagger, mobile nav) — honours `prefers-reduced-motion`
 - lucide-react icons
 
@@ -70,6 +71,18 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 - `directions()` — location section
 - `afterHours()` — shown by the status card when the workshop is closed
 
+## Opening race intro
+
+`src/components/intro/RaceIntro.tsx` shows an F1 car (EMW livery) racing across a track when
+the site opens, then a short "Where to?" menu (WhatsApp quote, call, services, location).
+
+- Sound: browsers block autoplay, so the intro shows a **Start engine** button — tapping it
+  plays a synthesized engine pass (`src/lib/engineSound.ts`, Web Audio, no audio file). If
+  nobody taps, the race starts silently after 2.5 s. Drop a licensed clip in `/public` and set
+  `soundUrl` in `src/config/intro.ts` to use a real recording instead.
+- Shown once per browser session, skippable (button / Escape), and disabled for visitors who
+  prefer reduced motion. Tune or switch it off in `src/config/intro.ts`.
+
 ## Deployment (Vercel)
 
 Vercel auto-detects Vite. Either import the GitHub repo in the Vercel dashboard, or:
@@ -89,7 +102,10 @@ src/
   data/                     services, reviews, stats
   lib/                      whatsapp link builder, hours engine, cn()
   hooks/useWorkshopStatus   live status (re-evaluated every 30s)
+  config/intro.ts           opening race intro settings
+  lib/engineSound.ts        Web Audio engine-sound synth
   components/
+    intro/                  RaceIntro overlay + F1Car SVG
     ui/                     CtaLink, GlowCard, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab
     sections/               Hero, TrustStrip, Services, Reviews, Hours, Location

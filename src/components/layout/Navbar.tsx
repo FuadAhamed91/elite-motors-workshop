@@ -46,7 +46,7 @@ export function Navbar() {
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300',
         frosted
-          ? 'border-b border-line bg-bg/75 shadow-[0_12px_40px_-24px_rgb(0_0_0/0.9)] backdrop-blur-xl'
+          ? 'border-b border-line bg-bg/75 shadow-[0_12px_40px_-24px_rgb(68_52_30/0.35)] backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent',
       )}
     >
@@ -68,7 +68,7 @@ export function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="inline-flex h-10 items-center rounded-pill px-4 text-sm font-medium text-fg-muted transition-colors duration-200 hover:bg-white/5 hover:text-fg"
+                className="inline-flex h-10 items-center rounded-pill px-4 text-sm font-medium text-fg-muted transition-colors duration-200 hover:bg-fg/5 hover:text-fg"
               >
                 {link.label}
               </a>
@@ -102,7 +102,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-line bg-white/3 text-fg transition-colors hover:bg-white/8 lg:hidden"
+            className="inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-line bg-fg/3 text-fg transition-colors hover:bg-fg/8 lg:hidden"
           >
             {open ? (
               <X className="size-5" aria-hidden="true" />
@@ -130,7 +130,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="flex h-12 items-center rounded-xl px-3 text-base font-medium text-fg transition-colors hover:bg-white/5"
+                  className="flex h-12 items-center rounded-xl px-3 text-base font-medium text-fg transition-colors hover:bg-fg/5"
                 >
                   {link.label}
                 </a>

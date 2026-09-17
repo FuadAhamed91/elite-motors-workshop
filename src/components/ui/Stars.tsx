@@ -21,7 +21,7 @@ export function Stars({ rating, outOf = 5, className, size = 'sm' }: StarsProps)
         <Star
           key={index}
           aria-hidden="true"
-          className={cn(dimension, index < Math.round(rating) ? 'fill-star text-star' : 'text-carbon-700')}
+          className={cn(dimension, index < Math.round(rating) ? 'fill-star text-star' : 'text-sand-300')}
           strokeWidth={1.5}
         />
       ))}
