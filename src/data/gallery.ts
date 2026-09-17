@@ -20,7 +20,6 @@ export const gallery: readonly GalleryPhoto[] = [
   { id: 'front', src: '/photos/workshop-front.jpg', thumb: '/photos/workshop-front-thumb.jpg', alt: 'Workshop entrance with signage and palm trees', caption: 'The entrance on Mussafah M21', width: 1400, height: 1050 },
   { id: 'reception', src: '/photos/reception.jpg', thumb: '/photos/reception-thumb.jpg', alt: 'Reception desk with the EMW logo', caption: 'Reception', width: 1400, height: 1050 },
   { id: 'lounge', src: '/photos/lounge.jpg', thumb: '/photos/lounge-thumb.jpg', alt: 'Customer waiting lounge with sofas', caption: 'Customer lounge', width: 1400, height: 1050 },
-  { id: 'paint-wide', src: '/photos/paint-booth-wide.jpg', thumb: '/photos/paint-booth-wide-thumb.jpg', alt: 'Paint booth seen from the workshop floor', caption: 'Paint booth entry', width: 1400, height: 1050 },
 ]
 
 /** The facilities that back specific services — shown with the services grid. */
@@ -30,7 +29,7 @@ export const facilities: readonly (GalleryPhoto & { service: string; blurb: stri
   { id: 'lifts', service: 'Mechanical work', blurb: 'Two-post lifts for engine, gearbox and brake jobs', src: '/photos/lifts.jpg', thumb: '/photos/lifts-thumb.jpg', alt: 'Vehicles raised on lifts with a technician at work', caption: 'Mechanical bays', width: 1400, height: 1050 },
 ]
 
-/** Everything the gallery viewer can browse: the gallery set followed by the three facility photos. */
+/** Everything the gallery viewer can browse: the gallery set followed by the three facility photos (8 photos). */
 export const photos: readonly GalleryPhoto[] = [...gallery, ...facilities]
 
 /** Equipment highlights from the company profile. */

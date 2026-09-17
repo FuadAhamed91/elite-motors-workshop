@@ -102,11 +102,12 @@ Services, equipment highlights, brands and the founding year come from the compa
 (`src/data/services.ts`, `src/data/gallery.ts`, `workshop.foundedYear`). The old "basic profile"
 page (staff counts, previous phone numbers) is intentionally not used.
 
-`public/photos/` holds the workshop photos: the hero (service hall), the About banner
-(`entrance-canopy`), the three facility photos under the services grid (paint booth, body shop,
-lifts) and the **Gallery** subsection in the Workshop section — a cover photo plus thumbnails that
-open a full-screen viewer (arrows, keyboard, swipe, thumbnail strip) over all nine photos
-(`photos` in `src/data/gallery.ts`). Each photo exists as `name.jpg` + `name.webp` (max 1400px)
+`public/photos/` holds the workshop photos: the About banner (`entrance-canopy`), the three
+facility photos under the services grid (paint booth, body shop, lifts) and the **Gallery**
+subsection in the Workshop section — a cover photo plus thumbnails that open a full-screen viewer
+(arrows, keyboard, swipe, thumbnail strip) over all eight photos (`photos` in
+`src/data/gallery.ts`). The hero itself has no photo — headline, live status and the two calls
+to action. Each photo exists as `name.jpg` + `name.webp` (max 1400px)
 and `name-thumb.jpg` + `name-thumb.webp` (800px, used in grids and on phones via `srcset`);
 `Picture.tsx` serves the WebP automatically. **Every vehicle number plate was blurred before the images were added** — if
 you add new photos, redact plates first and keep them out of the repo otherwise.
