@@ -6,7 +6,7 @@
   "description": "High-conversion WhatsApp-first landing page for Elite Motors Workshop, Mussafah, Abu Dhabi",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --ssr src/shell/entry-server.tsx --outDir .prerender && node scripts/prerender.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b"
   },

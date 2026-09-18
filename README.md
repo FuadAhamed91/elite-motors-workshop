@@ -147,14 +147,22 @@ Copy and quick replies live in `src/config/assistant.ts`; set `enabled: false` t
   border rotates a gradient behind the card); no `backdrop-filter` on cards; hero glows are
   gradients, not large blurs.
 - Page reveals are held while the intro is up and play as it fades (`IntroActiveContext`).
-- framer-motion is loaded through `LazyMotion` + `m` components; fonts load without blocking first
-  paint; the Google Maps iframe mounts only when the location section is near the viewport.
+- framer-motion is loaded through `LazyMotion` + `m` components; the Google Maps iframe mounts only
+  when the location section is near the viewport.
 - Code splitting: the assistant loads in idle time after the page is interactive, the photo
   lightbox on the first tap, and the unused intro variant never.
 - The rotating card border is sized to the card's diagonal (not a 300% box) and only animates
   while the card is on screen; the navbar uses a solid tint instead of `backdrop-filter` on phones.
 - Photos are WebP with JPEG fallback, 800px thumbnails in grids, all lazy-loaded with explicit
   dimensions (no layout shift).
+- **Pre-rendered shell.** `npm run build` also builds `src/shell/entry-server.tsx` (server bundle in
+  `.prerender/`) and `scripts/prerender.mjs` writes the navbar + hero, in both languages, straight
+  into `dist/index.html`. A small inline script in `<head>` sets `<html lang dir>`, the title and
+  (for first-time visitors) the intro backdrop before the first paint, and only imports the app
+  bundle once the browser has reported the headline as its largest paint — so the page shows in
+  about a second on a slow phone and React takes over without any visible change. Time-dependent
+  bits (the live status badge) render a neutral placeholder in the shell (`ShellContext`).
+- Fonts are self-hosted latin subsets (`public/fonts`, preloaded); Cairo is fetched only for Arabic.
 - Below-the-fold sections mount one frame after the hero and use `content-visibility: auto`, so
   the first JavaScript task and the initial layout only cover what is on screen.
   `useAnchorNavigation` renders the sections above an anchor target before any in-page jump so

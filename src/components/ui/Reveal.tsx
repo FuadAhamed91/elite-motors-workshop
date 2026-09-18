@@ -1,5 +1,5 @@
 import { m, useReducedMotion, type Variants } from 'framer-motion'
-import { useState, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useIntroActive } from '@/hooks/useIntroGate'
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const
@@ -14,10 +14,10 @@ interface RevealProps {
   /** Render as a different element (defaults to div). */
   as?: 'div' | 'section' | 'article' | 'li' | 'header' | 'footer'
   /**
-   * Paint the final state straight away even while the intro overlay is up.
-   * Used for the hero so the page's largest text is painted (and counted as
-   * the LCP) during the intro instead of 2 s later — the overlay hides it,
-   * and it is simply there when the overlay fades.
+   * No entrance animation at all — the block is simply there. Used for the
+   * hero: it is already on screen from the build-time shell before React
+   * runs, so animating it in would make it vanish and fade back, and the
+   * page's largest text must count as painted at the first paint.
    */
   eager?: boolean
 }
@@ -30,10 +30,8 @@ export function Reveal({ children, className, delay = 0, y = 24, as = 'div', eag
   const reduce = useReducedMotion()
   const introActive = useIntroActive()
   const Tag = m[as]
-  // Decided once per mount: an eager block that mounted under the intro never animates.
-  const [staticRender] = useState(() => eager && introActive && !reduce)
 
-  if (staticRender) {
+  if (eager) {
     return <Tag className={className}>{children}</Tag>
   }
 

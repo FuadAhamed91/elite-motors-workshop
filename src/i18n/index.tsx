@@ -63,11 +63,17 @@ export function hoursStrings(t: Dictionary): HoursStrings {
   return { ...t.status, dayShort: (day) => t.days[day].short }
 }
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(detectLocale)
+interface LocaleProviderProps {
+  children: ReactNode
+  /** Fixed language for build-time rendering of the static shell; the browser detects it otherwise. */
+  initialLocale?: Locale
+}
+
+export function LocaleProvider({ children, initialLocale }: LocaleProviderProps) {
+  const [locale, setLocaleState] = useState<Locale>(() => initialLocale ?? detectLocale())
 
   useEffect(() => {
-    applyToDocument(DICTIONARIES[locale])
+    if (typeof document !== 'undefined') applyToDocument(DICTIONARIES[locale])
   }, [locale])
 
   const setLocale = useCallback((next: Locale) => {

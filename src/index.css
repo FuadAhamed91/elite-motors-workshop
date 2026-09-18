@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* ── Fonts: self-hosted latin subsets (variable), preloaded from index.html ──
+   Outfit for display, Inter for text. Cairo (Arabic) is added at runtime
+   only when the Arabic UI is shown. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("/fonts/outfit-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* ──────────────────────────────────────────────────────────────
    Design tokens — three layers (primitive → semantic → component)
    Warm "sand" light theme: beige surfaces, ink text, electric
@@ -247,6 +267,29 @@
   /* Page gutter + max width used by every section */
   .container-x {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Static shell (build-time navbar + hero, see src/shell) ───────────
+     Both languages are in the HTML; the bootstrap script in <head> sets
+     <html dir> before the first paint and this picks the matching one. */
+  .shell-ar {
+    display: none;
+  }
+  html[dir="rtl"] .shell-en {
+    display: none;
+  }
+  html[dir="rtl"] .shell-ar {
+    display: block;
+  }
+  /* First-time visitors: the intro backdrop is painted before React so the intro still comes first. */
+  .shell-intro {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+  }
+  html.intro-pending .shell-intro {
+    display: block;
   }
 
   /* Below-the-fold sections: the browser skips their style, layout and paint
