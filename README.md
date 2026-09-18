@@ -84,7 +84,7 @@ and keeps `<html lang dir>`, the title and the description in step. The toggle s
 Arabic details: `dir="rtl"` flips the layout (logical `start/end` utilities, mirrored arrows), the
 **Cairo** font loads only when Arabic is shown, letter-spacing is disabled for the connected
 script, and times/phone numbers are wrapped in bidi isolates so "8:00 ص – 1:00 م" and
-"+971 2 558 3441" never reorder inside Arabic text. Review quotes stay in their original English.
+"+971 2 550 1080" never reorder inside Arabic text. Review quotes stay in their original English.
 The assistant answers in the language of the question (Arabic script → Arabic, with Gulf terms
 such as الجير، الرديتر، السمكرة، الصبغ) using Arabic keyword sets in `src/lib/assistant.ts`.
 

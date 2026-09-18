@@ -73,7 +73,7 @@ export const workshop = {
    */
   whatsappNumber: '+971 56 501 7797',
   /** Landline — the only number shown on the page and used by every "Call" button. */
-  phone: '+971 2 558 3441',
+  phone: '+971 2 550 1080',
 
   /** Human-readable summary used in the footer and SEO schema. */
   hoursSummary: 'Monday – Saturday: 8:00 AM – 1:00 PM & 2:00 PM – 5:30 PM | Sunday: Closed',
