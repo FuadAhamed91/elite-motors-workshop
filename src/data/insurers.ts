@@ -21,4 +21,5 @@ export const insurers: readonly Insurer[] = [
   { id: 'watania-takaful', name: 'Watania Takaful (formerly Noor Takaful)', url: 'https://www.watania.ae/', logo: '/logos/insurers/watania-takaful.svg', ratio: 185.12 / 70.09 },
   { id: 'tokio-marine', name: 'Tokio Marine', url: 'https://www.tokiomarine.com/ae/en.html', logo: '/logos/insurers/tokio-marine.png', ratio: 600 / 149 },
   { id: 'qic', name: 'Qatar Insurance Company (QIC)', url: 'https://qicuae.com/', logo: '/logos/insurers/qic.png', ratio: 600 / 212 },
+  { id: 'dni', name: 'Dubai National Insurance', url: 'https://www.dni.ae/', logo: '/logos/insurers/dubai-national-insurance.png', ratio: 400 / 93 },
 ]

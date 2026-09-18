@@ -1,6 +1,7 @@
 import { BrandMark } from '@/components/icons/BrandMark'
 import { useT } from '@/i18n'
 import { cn } from '@/lib/cn'
+import { useHref } from '@/lib/page'
 
 interface LogoProps {
   className?: string
@@ -14,12 +15,13 @@ interface LogoProps {
 
 export function Logo({ className, variant = 'inline' }: LogoProps) {
   const t = useT()
+  const href = useHref()
   const label = t.common.backToTop(t.brand.legalName)
 
   if (variant === 'stacked') {
     return (
       <a
-        href="#top"
+        href={href('#top')}
         aria-label={label}
         className={cn('group inline-flex flex-col items-start gap-3 rounded-lg', className)}
       >
@@ -36,7 +38,7 @@ export function Logo({ className, variant = 'inline' }: LogoProps) {
 
   return (
     <a
-      href="#top"
+      href={href('#top')}
       aria-label={label}
       className={cn('group inline-flex shrink-0 items-center gap-2 rounded-lg sm:gap-2.5', className)}
     >

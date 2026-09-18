@@ -72,13 +72,21 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 - **WhatsApp** — only the floating button (`WhatsAppFab`, pre-filled quote message from
   `src/lib/whatsapp.ts`) and the assistant's WhatsApp answer.
 
-## Insurance section
+## Insurance page — `/insurance`
 
-`src/data/insurers.ts` lists the insurers the workshop is an approved repairer for (names/notes per
-language in `src/i18n`, logos in `public/logos/insurers/`, each tile links to the insurer's site).
-The section also explains how a claim runs and what to bring; the assistant answers insurance
-questions from the same list. The logos are the insurers' own marks, shown only to state the
-approved-repairer relationship — remove an insurer here if that approval ends.
+The site has two pages. `insurance.html` → `src/insurance-main.tsx` → `src/pages/InsurancePage.tsx`
+is the dedicated claims page (Vercel `cleanUrls` serves it at `/insurance`; the dev server does the
+same via a tiny plugin in `vite.config.ts`). It shows the insurers the workshop is an approved
+repairer for (`src/data/insurers.ts`; names/notes per language in `src/i18n`; logos in
+`public/logos/insurers/`, each tile linking to the insurer's site), the three claim steps, the
+document checklist (owner's and driver's documents, trade licence for company cars), first steps
+after an accident in Abu Dhabi, and a short FAQ. The home page keeps a teaser section with the logo
+wall and a button to the page; the hero has an "Insurance claim" button; the assistant answers
+insurance questions from the same data. The logos are the insurers' own marks, shown only to state
+the approved-repairer relationship — remove an insurer if that approval ends.
+
+Section anchors from the insurance page point back to the home page (`/#hours`) via
+`resolveHref` in `src/lib/page.tsx`; both pages get the pre-rendered shell.
 
 ## Languages — English & Arabic
 
@@ -166,7 +174,7 @@ Copy and quick replies live in `src/config/assistant.ts`; set `enabled: false` t
   dimensions (no layout shift).
 - **Pre-rendered shell.** `npm run build` also builds `src/shell/entry-server.tsx` (server bundle in
   `.prerender/`) and `scripts/prerender.mjs` writes the navbar + hero, in both languages, straight
-  into `dist/index.html`. A small inline script in `<head>` sets `<html lang dir>`, the title and
+  into `dist/index.html` and `dist/insurance.html`. A small inline script in `<head>` sets `<html lang dir>`, the title and
   (for first-time visitors) the intro backdrop before the first paint, and only imports the app
   bundle once the browser has reported the headline as its largest paint — so the page shows in
   about a second on a slow phone and React takes over without any visible change. Time-dependent

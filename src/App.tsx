@@ -15,6 +15,7 @@ import { SeoSchema } from '@/components/SeoSchema'
 import { assistant } from '@/config/assistant'
 import { intro } from '@/config/intro'
 import { useAnchorNavigation } from '@/hooks/useAnchorNavigation'
+import { useIdle } from '@/hooks/useIdle'
 import { IntroActiveContext, useIntroGate } from '@/hooks/useIntroGate'
 
 /** The assistant (chat panel + answer engine) loads in idle time, after the page is interactive. */
@@ -23,21 +24,6 @@ const AssistantWidget = lazy(() =>
 )
 /** The alternate intro (with its car SVG and engine-sound synth) only loads if it is selected. */
 const RaceIntro = lazy(() => import('@/components/intro/RaceIntro').then((mod) => ({ default: mod.RaceIntro })))
-
-/** True once the main thread has gone idle after load (or after `timeout` ms at the latest). */
-function useIdle(timeout = 2500): boolean {
-  const [idle, setIdle] = useState(false)
-  useEffect(() => {
-    // Safari has no requestIdleCallback — fall back to a short timer.
-    if (typeof window.requestIdleCallback !== 'function') {
-      const id = window.setTimeout(() => setIdle(true), 1200)
-      return () => window.clearTimeout(id)
-    }
-    const id = window.requestIdleCallback(() => setIdle(true), { timeout })
-    return () => window.cancelIdleCallback(id)
-  }, [timeout])
-  return idle
-}
 
 /**
  * True from the second animation frame after mount. The first commit paints

@@ -7,6 +7,7 @@ import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
 import { useLocale, type Locale } from '@/i18n'
 import { answerQuestion, type AssistantReply, type ReplyLink } from '@/lib/assistant'
 import { cn } from '@/lib/cn'
+import { useHref } from '@/lib/page'
 
 const EASE_OUT_CUBIC = [0.215, 0.61, 0.355, 1] as const
 
@@ -215,6 +216,7 @@ interface MessageBubbleProps {
 }
 
 function MessageBubble({ message, isLast, onSuggestion }: MessageBubbleProps) {
+  const href = useHref()
   const isUser = message.role === 'user'
   return (
     <div className={cn('flex flex-col gap-2', isUser ? 'items-end' : 'items-start')}>
@@ -236,7 +238,7 @@ function MessageBubble({ message, isLast, onSuggestion }: MessageBubbleProps) {
             return (
               <a
                 key={link.href + link.label}
-                href={link.href}
+                href={link.kind === 'anchor' ? href(link.href) : link.href}
                 {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 className={cn(
                   'inline-flex min-h-9 items-center gap-1.5 rounded-pill border px-3 py-1.5 text-xs font-semibold transition-colors',

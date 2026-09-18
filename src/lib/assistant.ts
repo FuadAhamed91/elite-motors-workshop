@@ -97,7 +97,7 @@ const INTENTS_EN: readonly Intent[] = [
   { id: 'bodyshop', patterns: ['body', 'paint', 'dent', 'accident', 'scratch', 'collision', 'bumper', 'crash', 'panel'], weight: 2 },
   {
     id: 'insurance',
-    patterns: ['insurance', 'insurer', 'insured', 'claim', 'policy', 'takaful', 'excess', 'deductible', 'approved', 'sukoon', 'adamjee', 'fidelity', 'watania', 'noor', 'tokio', 'qic', 'qatar insurance', 'dubai insurance', 'oman insurance'],
+    patterns: ['insurance', 'insurer', 'insured', 'claim', 'policy', 'takaful', 'excess', 'deductible', 'approved', 'sukoon', 'adamjee', 'fidelity', 'watania', 'noor', 'tokio', 'qic', 'qatar insurance', 'dubai insurance', 'dubai national', 'dni', 'oman insurance', 'company car', 'trade licen'],
     weight: 3,
   },
   { id: 'price', patterns: ['price', 'cost', 'how much', 'quote', 'estimate', 'rate', 'charge', 'fee', 'aed', 'dirham', 'expensive', 'cheap'], weight: 2 },
@@ -159,7 +159,7 @@ const INTENTS_AR: readonly Intent[] = [
   { id: 'bodyshop', patterns: ['سمكره', 'صبغ', 'دهان', 'حادث', 'حوادث', 'خدش', 'صدمه', 'بودي', 'صدام'], weight: 2 },
   {
     id: 'insurance',
-    patterns: ['تامين', 'مطالبه', 'بوليصه', 'وثيقه', 'تكافل', 'معتمد', 'معتمدين', 'تحمل', 'سكون', 'ادمجي', 'آدمجي', 'فيدلتي', 'وطنيه', 'نور', 'طوكيو', 'قطر للتامين', 'دبي للتامين', 'شركه التامين', 'شركات التامين'],
+    patterns: ['تامين', 'مطالبه', 'بوليصه', 'وثيقه', 'تكافل', 'معتمد', 'معتمدين', 'تحمل', 'سكون', 'ادمجي', 'آدمجي', 'فيدلتي', 'وطنيه', 'نور', 'طوكيو', 'قطر للتامين', 'دبي للتامين', 'دبي الوطنيه', 'شركه التامين', 'شركات التامين', 'سياره شركه', 'رخصه تجاريه'],
     weight: 3,
   },
   { id: 'price', patterns: ['سعر', 'اسعار', 'بكم', 'كم يكلف', 'تكلفه', 'تسعيره', 'عرض سعر', 'تقدير', 'درهم', 'غالي', 'رخيص', 'رسوم', 'كم تاخذون'], weight: 2 },
@@ -248,7 +248,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       reviewsSection: 'Reviews section',
       aboutSection: 'About the workshop',
       workshopSection: 'See the workshop photos',
-      insuranceSection: 'Insurance section',
+      insuranceSection: 'Insurance claims page',
       readReviews: 'Read reviews on Google',
     },
     suggestions: {
@@ -279,7 +279,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     bodyshop: (name) =>
       `${name} is an insurance-approved body shop — accident, body and paint repairs are handled here alongside mechanical work. Call the workshop or bring the car in and the team will assess the damage and guide you through the insurance process.`,
     insurance: (name, list, phone) =>
-      `${name} is an approved repairer for:\n${list.map((l) => `• ${l}`).join('\n')}\n\nBring the police report, the registration card, your insurance policy, and the Emirates ID and driving licence of both the driver and the car's owner. We prepare the estimate and photos, the insurer's surveyor inspects the car here, and after approval you pay only your policy excess. Insured with another company? Call ${phone} and we'll check with them.`,
+      `${name} is an approved repairer for:\n${list.map((l) => `• ${l}`).join('\n')}\n\nBring the police report, the registration card, your insurance policy, and the Emirates ID and driving licence of both the driver and the car's owner (for a company car, add the company's trade licence). We prepare the estimate and photos, the insurer's surveyor inspects the car here, and after approval you pay only your policy excess. Insured with another company? Call ${phone} and we'll check with them.`,
     price: `Prices depend on the car and the job, so the workshop gives an estimate before any work starts — no surprises on the invoice. Call the workshop with your car's make, model and the issue for an estimate.`,
     reviews: (name, count, quotes) => `${name} has ${count} reviews on Google. A couple of recent ones:\n${quotes.join('\n')}`,
     booking: (phone, now) => `There's no online booking — just call the workshop on ${phone} to arrange a visit, or simply drop in during working hours.\n\nRight now: ${now}`,
@@ -301,7 +301,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       reviewsSection: 'قسم التقييمات',
       aboutSection: 'عن الورشة',
       workshopSection: 'صور الورشة',
-      insuranceSection: 'قسم التأمين',
+      insuranceSection: 'صفحة مطالبات التأمين',
       readReviews: 'اقرأ التقييمات على جوجل',
     },
     suggestions: {
@@ -332,7 +332,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     bodyshop: (name) =>
       `${name} ورشة سمكرة معتمدة لدى شركات التأمين — إصلاح الحوادث والسمكرة والصبغ تتم هنا إلى جانب الأعمال الميكانيكية. اتصل بالورشة أو أحضر السيارة وسيقيّم الفريق الضرر ويرشدك في إجراءات التأمين.`,
     insurance: (name, list, phone) =>
-      `${name} ورشة معتمدة لدى:\n${list.map((l) => `• ${l}`).join('\n')}\n\nأحضر تقرير الشرطة وملكية السيارة ووثيقة التأمين، والهوية الإماراتية ورخصة القيادة لكلٍّ من السائق ومالك السيارة. نجهّز التقدير والصور، ويعاين خبير شركة التأمين السيارة عندنا، وبعد الموافقة تدفع فقط مبلغ التحمّل. مؤمَّن لدى شركة أخرى؟ اتصل على ${ltr(phone)} ونتأكد منها.`,
+      `${name} ورشة معتمدة لدى:\n${list.map((l) => `• ${l}`).join('\n')}\n\nأحضر تقرير الشرطة وملكية السيارة ووثيقة التأمين، والهوية الإماراتية ورخصة القيادة لكلٍّ من السائق ومالك السيارة (ولسيارة الشركة أضف الرخصة التجارية). نجهّز التقدير والصور، ويعاين خبير شركة التأمين السيارة عندنا، وبعد الموافقة تدفع فقط مبلغ التحمّل. مؤمَّن لدى شركة أخرى؟ اتصل على ${ltr(phone)} ونتأكد منها.`,
     price: 'تعتمد الأسعار على السيارة ونوع العمل، لذلك تقدّم الورشة تقديراً للتكلفة قبل بدء أي عمل — بلا مفاجآت في الفاتورة. اتصل بالورشة مع ذكر نوع السيارة والموديل والمشكلة للحصول على تقدير.',
     reviews: (name, count, quotes) => `لدى ${name} ${count} تقييماً على جوجل. بعض التقييمات الأخيرة (بالإنجليزية):\n${quotes.join('\n')}`,
     booking: (phone, now) => `لا يوجد حجز إلكتروني — اتصل بالورشة على ${ltr(phone)} لترتيب زيارتك، أو تفضّل بالحضور مباشرة خلال ساعات العمل.\n\nالآن: ${now}`,
@@ -520,7 +520,7 @@ function buildReply(id: IntentId, ctx: ReplyContext): AssistantReply {
       })
       return {
         text: s.insurance(name, list, workshop.phone),
-        links: [L.anchor(s.links.insuranceSection, '#insurance'), L.call],
+        links: [L.anchor(s.links.insuranceSection, '/insurance'), L.call],
         suggestions: [sg.status, sg.location],
         locale,
       }

@@ -15,6 +15,9 @@ export const en = {
   switchAria: 'التبديل إلى العربية — switch to Arabic',
 
   meta: {
+    insuranceTitle: 'Insurance Claims & Accident Repair | Elite Motors Workshop, Abu Dhabi',
+    insuranceDescription:
+      'Approved repairer for Dubai Insurance, Sukoon, Adamjee, Fidelity United, Watania Takaful, Tokio Marine, QIC and Dubai National Insurance. We handle the estimate, surveyor and paperwork in Mussafah, Abu Dhabi.',
     title: 'Elite Motors Workshop | Auto Service & Repair in Mussafah, Abu Dhabi',
     description:
       'Elite Motors Workshop — mechanical, electrical, body and paint repairs in Mussafah M21, Abu Dhabi. Engineer-supervised team, insurance-approved body shop, genuine parts.',
@@ -40,6 +43,8 @@ export const en = {
     callWorkshop: 'Call Workshop',
     getDirections: 'Get Directions',
     directions: 'Directions',
+    insuranceClaim: 'Insurance claim',
+    backHome: 'Back to the main page',
     openInGoogleMaps: 'Open in Google Maps',
     largerMap: 'Larger map',
     backToTop: (title: string) => `${title} — back to top`,
@@ -205,6 +210,26 @@ export const en = {
       'Insurance policy or card',
       'Driver’s Emirates ID and driving licence',
       'Car owner’s Emirates ID and driving licence (if the owner is not the driver)',
+      'Company car: the company’s trade licence',
+    ],
+    /* Dedicated page */
+    pageTitle: 'Accident? We handle the claim with your insurer.',
+    pageLead:
+      'Elite Motors Workshop is an approved repairer for the insurers below. Bring the car and your documents — we prepare the estimate and photos, host the surveyor at the workshop and follow the claim through approval, repair and hand-over.',
+    homeLead: 'Approved repairer for eight UAE insurers. Bring the car and your policy — we handle the estimate, the surveyor and the paperwork.',
+    openPage: 'How claims work & what to bring',
+    afterAccidentTitle: 'Just had an accident?',
+    afterAccident: [
+      'If anyone is hurt or the road is blocked, call 999. For minor accidents in Abu Dhabi, move the cars to a safe spot (the police require it) and request the report through the Saaed app or 800 72233.',
+      'Photograph both cars, the plates and the damage before anything is moved further.',
+      'Bring the car to us with the police report — or call us and we will tell you what to do next.',
+    ],
+    faqTitle: 'Common questions',
+    faq: [
+      { q: 'Do I pay anything?', a: 'Only the excess (deductible) written in your policy, if any. The insurer settles the rest of the approved repair with us directly.' },
+      { q: 'How long does approval take?', a: 'It depends on the insurer and the damage. We send the estimate and photos the same day the surveyor has inspected the car, and we follow up until it is approved.' },
+      { q: 'Do you use genuine parts?', a: 'Yes — genuine manufacturer parts, fitted by a team supervised by a U.S.-certified auto engineer. Body repairs are measured on a Car-O-Liner bench and painted in a full-size booth with a drying oven.' },
+      { q: 'My insurer is not on the list', a: 'Call us. Many insurers accept repairs at approved workshops on request, and we check with them before you bring the car.' },
     ],
     otherInsurer: 'Insured with another company?',
     otherInsurerCall: (phone: string) => `Call ${phone} — we check with your insurer whether they accept repairs here.`,
@@ -216,6 +241,7 @@ export const en = {
       'watania-takaful': 'Watania Takaful',
       'tokio-marine': 'Tokio Marine',
       qic: 'Qatar Insurance Company',
+      dni: 'Dubai National Insurance',
     } as Record<string, string>,
     notes: {
       'fidelity-united': 'United Fidelity Insurance Co.',

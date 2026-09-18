@@ -6,6 +6,7 @@ import { CtaLink } from '@/components/ui/CtaLink'
 import { workshop } from '@/config/workshop'
 import { useLocale } from '@/i18n'
 import { cn } from '@/lib/cn'
+import { useHref } from '@/lib/page'
 import { buildTelLink } from '@/lib/whatsapp'
 
 /** Sticky, glassmorphic navigation — transparent over the hero, frosted once scrolled. */
@@ -14,6 +15,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
   const reduce = useReducedMotion()
   const { t, toggle } = useLocale()
+  const href = useHref()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -60,7 +62,7 @@ export function Navbar() {
       )}
     >
       <a
-        href="#main"
+        href={href('#main')}
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:start-3 focus:z-[60] focus:rounded-pill focus:bg-cta focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-cta-fg"
       >
         {t.common.skipToContent}
@@ -76,7 +78,7 @@ export function Navbar() {
           {workshop.nav.map((link) => (
             <li key={link.href}>
               <a
-                href={link.href}
+                href={href(link.href)}
                 className="inline-flex h-10 items-center rounded-pill px-4 text-sm font-medium text-fg-muted transition-colors duration-200 hover:bg-fg/5 hover:text-fg"
               >
                 {navLabels[link.href] ?? link.label}
@@ -146,7 +148,7 @@ export function Navbar() {
               {workshop.nav.map((link) => (
                 <a
                   key={link.href}
-                  href={link.href}
+                  href={href(link.href)}
                   onClick={() => setOpen(false)}
                   className="flex h-12 items-center rounded-xl px-3 text-base font-medium text-fg transition-colors hover:bg-fg/5"
                 >

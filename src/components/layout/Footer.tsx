@@ -7,10 +7,12 @@ import { StatusBadge } from '@/components/ui/StatusBadge'
 import { workshop } from '@/config/workshop'
 import { services } from '@/data/services'
 import { useT } from '@/i18n'
+import { useHref } from '@/lib/page'
 import { buildTelLink } from '@/lib/whatsapp'
 
 export function Footer() {
   const t = useT()
+  const href = useHref()
   const year = new Date().getFullYear()
   const navLabels: Record<string, string> = {
     '#services': t.nav.services,
@@ -72,7 +74,7 @@ export function Footer() {
             {workshop.nav.map((link) => (
               <li key={link.href}>
                 <a
-                  href={link.href}
+                  href={href(link.href)}
                   className="text-sm text-fg-muted transition-colors hover:text-primary"
                 >
                   {navLabels[link.href] ?? link.label}
@@ -80,7 +82,7 @@ export function Footer() {
               </li>
             ))}
             <li>
-              <a href="#location" className="text-sm text-fg-muted transition-colors hover:text-primary">
+              <a href={href('#location')} className="text-sm text-fg-muted transition-colors hover:text-primary">
                 {t.footer.googleMaps}
               </a>
             </li>
@@ -93,7 +95,7 @@ export function Footer() {
             {services.map((service) => (
               <li key={service.id}>
                 <a
-                  href="#services"
+                  href={href('#services')}
                   className="text-sm text-fg-muted transition-colors hover:text-primary"
                 >
                   {t.services.items[service.id]?.title ?? service.title}

@@ -39,7 +39,8 @@ export interface DaySchedule {
 
 export interface NavLink {
   label: string
-  href: `#${string}`
+  /** A section anchor (`#hours`) or a page path (`/insurance`). */
+  href: string
 }
 
 /** Monday – Saturday: morning shift, one-hour lunch break, afternoon shift. */
@@ -129,7 +130,7 @@ export const workshop = {
 
   nav: [
     { label: 'Services', href: '#services' },
-    { label: 'Insurance', href: '#insurance' },
+    { label: 'Insurance', href: '/insurance' },
     { label: 'Workshop', href: '#workshop' },
     { label: 'About', href: '#about' },
     { label: 'Reviews', href: '#reviews' },

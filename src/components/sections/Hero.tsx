@@ -1,4 +1,4 @@
-import { Check, ExternalLink, MapPin, Navigation, Phone, Star } from 'lucide-react'
+import { Check, ExternalLink, MapPin, Navigation, Phone, ShieldCheck, Star } from 'lucide-react'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { Reveal } from '@/components/ui/Reveal'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -73,6 +73,9 @@ export function Hero() {
               icon={<Navigation />}
             >
               {t.common.getDirections}
+            </CtaLink>
+            <CtaLink href="/insurance" variant="outline" size="lg" icon={<ShieldCheck />}>
+              {t.common.insuranceClaim}
             </CtaLink>
           </div>
           <p className="mt-4 flex items-center justify-center gap-2 text-sm text-fg-muted">

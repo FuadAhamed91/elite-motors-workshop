@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { ar } from '@/i18n/ar'
 import { en, type Dictionary, type Locale } from '@/i18n/en'
 import type { HoursStrings } from '@/lib/hours'
+import type { PageId } from '@/lib/page'
 
 export type { Dictionary, Locale }
 
@@ -49,12 +50,14 @@ function ensureArabicFont() {
 }
 
 /** Keeps <html lang/dir>, the title and the description in step with the UI language. */
-function applyToDocument(dict: Dictionary) {
+function applyToDocument(dict: Dictionary, page: PageId) {
   const root = document.documentElement
   root.lang = dict.locale
   root.dir = dict.dir
-  document.title = dict.meta.title
-  document.querySelector('meta[name="description"]')?.setAttribute('content', dict.meta.description)
+  document.title = page === 'insurance' ? dict.meta.insuranceTitle : dict.meta.title
+  document
+    .querySelector('meta[name="description"]')
+    ?.setAttribute('content', page === 'insurance' ? dict.meta.insuranceDescription : dict.meta.description)
   if (dict.locale === 'ar') ensureArabicFont()
 }
 
@@ -67,14 +70,16 @@ interface LocaleProviderProps {
   children: ReactNode
   /** Fixed language for build-time rendering of the static shell; the browser detects it otherwise. */
   initialLocale?: Locale
+  /** Which entry page this is (title, description). */
+  page?: PageId
 }
 
-export function LocaleProvider({ children, initialLocale }: LocaleProviderProps) {
+export function LocaleProvider({ children, initialLocale, page = 'home' }: LocaleProviderProps) {
   const [locale, setLocaleState] = useState<Locale>(() => initialLocale ?? detectLocale())
 
   useEffect(() => {
-    if (typeof document !== 'undefined') applyToDocument(DICTIONARIES[locale])
-  }, [locale])
+    if (typeof document !== 'undefined') applyToDocument(DICTIONARIES[locale], page)
+  }, [locale, page])
 
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next)
