@@ -106,7 +106,7 @@ fades (400 ms) and the overlay unmounts.
 and wipes the overlay away behind it; synthesized engine sound on tap.
 
 Shared behaviour (`src/hooks/useIntroGate.ts`): the site DOM is `inert` while an intro is up,
-it plays once per visitor (`localStorage.hasSeenIntro`; `frequency: 'session' | 'always'` are
+it plays once per browser session (`sessionStorage.hasSeenIntro`; `frequency: 'once' | 'always'` are
 available), it is skipped on Save-Data / very low-end phones, a **Skip** button and
 Escape bypass it, it is disabled for `prefers-reduced-motion`, and it waits for the tab to be
 visible before playing. Dev review switches: `?intro=replay`, `?intro=slow`, `?intro=freeze`

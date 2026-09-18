@@ -13,7 +13,7 @@ export const intro = {
    * 'once' = once per visitor (localStorage), 'session' = once per browser
    * session, 'always' = every load, 'never' = off.
    */
-  frequency: 'once' as 'once' | 'session' | 'always' | 'never',
+  frequency: 'session' as 'once' | 'session' | 'always' | 'never',
   /**
    * Skip the intro on phones that would struggle with it: Save-Data on, or
    * two CPU cores / 2 GB of memory or less. The site simply loads instead.
