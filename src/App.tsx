@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
 import { Hero } from '@/components/sections/Hero'
 import { Hours } from '@/components/sections/Hours'
+import { Insurance } from '@/components/sections/Insurance'
 import { Location } from '@/components/sections/Location'
 import { Reviews } from '@/components/sections/Reviews'
 import { Services } from '@/components/sections/Services'
@@ -72,6 +73,7 @@ export default function App() {
           {belowFold && (
             <>
               <Services />
+              <Insurance />
               <Workshop />
               <Reviews />
               <Hours />

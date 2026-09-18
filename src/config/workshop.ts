@@ -129,6 +129,7 @@ export const workshop = {
 
   nav: [
     { label: 'Services', href: '#services' },
+    { label: 'Insurance', href: '#insurance' },
     { label: 'Workshop', href: '#workshop' },
     { label: 'About', href: '#about' },
     { label: 'Reviews', href: '#reviews' },

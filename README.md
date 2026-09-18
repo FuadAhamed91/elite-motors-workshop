@@ -72,6 +72,14 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 - **WhatsApp** — only the floating button (`WhatsAppFab`, pre-filled quote message from
   `src/lib/whatsapp.ts`) and the assistant's WhatsApp answer.
 
+## Insurance section
+
+`src/data/insurers.ts` lists the insurers the workshop is an approved repairer for (names/notes per
+language in `src/i18n`, logos in `public/logos/insurers/`, each tile links to the insurer's site).
+The section also explains how a claim runs and what to bring; the assistant answers insurance
+questions from the same list. The logos are the insurers' own marks, shown only to state the
+approved-repairer relationship — remove an insurer here if that approval ends.
+
 ## Languages — English & Arabic
 
 The whole site is bilingual. `src/i18n/en.ts` is the source of every string (typed as
@@ -199,7 +207,7 @@ src/
     intro/                  SplashIntro + TopDownF1Car, RaceIntro + F1Car + StartLights
     ui/                     CtaLink, GlowCard, Lightbox, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab
-    sections/               Hero, TrustStrip, Services, Workshop (equipment + Gallery), Reviews, Hours, Location
+    sections/               Hero, TrustStrip, Services, Insurance, Workshop (equipment + Gallery), Reviews, Hours, Location
     SeoSchema.tsx           schema.org AutoRepair JSON-LD
   index.css                 Tailwind v4 theme tokens + base styles
 ```

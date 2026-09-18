@@ -43,6 +43,7 @@ export function Navbar() {
   const frosted = scrolled || open
   const navLabels: Record<string, string> = {
     '#services': t.nav.services,
+    '#insurance': t.nav.insurance,
     '#workshop': t.nav.workshop,
     '#about': t.nav.about,
     '#reviews': t.nav.reviews,

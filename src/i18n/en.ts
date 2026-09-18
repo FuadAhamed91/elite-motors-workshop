@@ -48,6 +48,7 @@ export const en = {
 
   nav: {
     services: 'Services',
+    insurance: 'Insurance',
     workshop: 'Workshop',
     about: 'About',
     reviews: 'Reviews',
@@ -181,6 +182,39 @@ export const en = {
       body: { service: 'Denting & accident repair', caption: 'Body shop', blurb: 'Measuring bench for chassis and panel work', alt: 'Body shop bench with panels being repaired' },
       lifts: { service: 'Mechanical work', caption: 'Mechanical bays', blurb: 'Two-post lifts for engine, gearbox and brake jobs', alt: 'Vehicles raised on lifts with a technician at work' },
     } as Record<string, { service: string; caption: string; blurb: string; alt: string }>,
+  },
+
+  insurance: {
+    eyebrow: 'Insurance claims',
+    title: 'Approved repairer for the UAE’s leading insurers.',
+    description:
+      'Had an accident? Bring the car and your policy — we prepare the estimate and photos, deal with your insurer’s surveyor and follow the claim through to approval, so you don’t run between offices.',
+    approvedBy: 'Approved by',
+    logoAlt: (name: string) => `${name} logo`,
+    visit: (name: string) => `Visit ${name}`,
+    stepsTitle: 'How a claim works here',
+    steps: [
+      { title: 'Report and bring the car', body: 'Get your police report (Abu Dhabi Police / Saaed), then drive in or have the car recovered to us.' },
+      { title: 'We handle the paperwork', body: 'We photograph the damage, write the estimate and send everything to your insurer. Their surveyor inspects the car at our workshop.' },
+      { title: 'Approval, repair, hand-over', body: 'Once approved, the repair starts on the Car-O-Liner bench and in the paint booth. You pay only your policy excess, as stated in your policy.' },
+    ],
+    bringTitle: 'What to bring',
+    bring: ['Police report', 'Registration card (Mulkiya)', 'Driving licence', 'Emirates ID', 'Insurance policy or card'],
+    otherInsurer: 'Insured with another company?',
+    otherInsurerCall: (phone: string) => `Call ${phone} — we check with your insurer whether they accept repairs here.`,
+    names: {
+      'dubai-insurance': 'Dubai Insurance Company',
+      sukoon: 'Sukoon Insurance',
+      adamjee: 'Adamjee Insurance',
+      'fidelity-united': 'Fidelity United',
+      'watania-takaful': 'Watania Takaful',
+      'tokio-marine': 'Tokio Marine',
+      qic: 'Qatar Insurance Company',
+    } as Record<string, string>,
+    notes: {
+      'fidelity-united': 'United Fidelity Insurance Co.',
+      'watania-takaful': 'formerly Noor Takaful',
+    } as Record<string, string>,
   },
 
   workshop: {
@@ -325,7 +359,7 @@ export const en = {
     name: 'EMW Assistant',
     greeting:
       "Hi! I can help with the workshop's opening hours, location, services and how to get in touch. What would you like to know?",
-    quickReplies: ['Are you open now?', 'Opening hours', 'Where are you located?', 'What services do you offer?', 'How do I contact you?'],
+    quickReplies: ['Are you open now?', 'Opening hours', 'Where are you located?', 'Which insurers do you work with?', 'What services do you offer?'],
     open: (name: string) => `Open ${name}`,
     close: 'Close assistant',
     inputLabel: 'Ask about hours, location or services',
