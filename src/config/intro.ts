@@ -84,16 +84,20 @@ export function resolveTimeline(): IntroTimeline {
 export type IntroReviewMode = 'normal' | 'slow' | 'replay' | 'freeze' | 'skip'
 
 /**
- * Dev-only review switches (ignored in production builds):
- *   ?intro=replay — ignore the once-per-session rule
- *   ?intro=slow   — run 4–8× slower
- *   ?intro=freeze — splash only: park the car mid-screen with no motion
+ * URL switches. `replay` and `skip` work everywhere (share ?intro=replay to show
+ * the intro to someone who has already seen it); `slow` and `freeze` are
+ * development-only review aids.
+ *   ?intro=replay — ignore the once-per-visitor rule
  *   ?intro=skip   — never play (layout review, headless screenshots)
+ *   ?intro=slow   — run 4–8× slower (dev)
+ *   ?intro=freeze — splash only: park the car mid-screen with no motion (dev)
  */
 export function reviewMode(): IntroReviewMode {
-  if (!import.meta.env.DEV || typeof window === 'undefined') return 'normal'
+  if (typeof window === 'undefined') return 'normal'
   const mode = new URLSearchParams(window.location.search).get('intro')
-  return mode === 'slow' || mode === 'replay' || mode === 'freeze' || mode === 'skip' ? mode : 'normal'
+  if (mode === 'replay' || mode === 'skip') return mode
+  if (import.meta.env.DEV && (mode === 'slow' || mode === 'freeze')) return mode
+  return 'normal'
 }
 
 /** Same dev aid for the splash variant: `?intro=slow` stretches the launch 4×. */

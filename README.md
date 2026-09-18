@@ -110,7 +110,8 @@ it plays once per visitor (`localStorage.hasSeenIntro`; `frequency: 'session' | 
 available), it is skipped on Save-Data / very low-end phones, a **Skip** button and
 Escape bypass it, it is disabled for `prefers-reduced-motion`, and it waits for the tab to be
 visible before playing. Dev review switches: `?intro=replay`, `?intro=slow`, `?intro=freeze`
-(splash: car parked mid-screen), `?intro=skip` (no intro — for layout reviews and screenshots).
+(splash: car parked mid-screen, dev only), `?intro=skip` (no intro — for layout reviews and screenshots).
+`?intro=replay` and `?intro=skip` also work on the live site.
 Only the selected variant ships in the main bundle; the other is a lazy chunk.
 
 ## Content & photos
