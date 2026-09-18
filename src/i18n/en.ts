@@ -201,7 +201,6 @@ export const en = {
       title: 'Around the workshop',
       viewAll: (n: number) => `View all ${n} photos`,
       openGallery: (n: number) => `Open gallery · ${n} photos`,
-      openGalleryAria: (n: number) => `Open the gallery — ${n} photos`,
       openPhoto: (caption: string) => `Open photo: ${caption}`,
       remainingAria: (n: number) => `Open the remaining ${n} photos`,
       more: 'more',

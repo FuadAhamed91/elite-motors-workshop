@@ -199,7 +199,6 @@ export const ar: Dictionary = {
       title: 'جولة في الورشة',
       viewAll: (n) => `عرض كل الصور (${n})`,
       openGallery: (n) => `افتح المعرض · ${n} صور`,
-      openGalleryAria: (n) => `افتح معرض الصور — ${n} صور`,
       openPhoto: (caption) => `افتح الصورة: ${caption}`,
       remainingAria: (n) => `افتح الصور المتبقية (${n})`,
       more: 'أخرى',

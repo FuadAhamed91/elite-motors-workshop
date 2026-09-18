@@ -116,7 +116,6 @@ function GalleryTeaser({ photos, onOpen }: GalleryTeaserProps) {
       <button
         type="button"
         onClick={() => onOpen(coverIndex)}
-        aria-label={g.openGalleryAria(photos.length)}
         className="group relative mt-4 block w-full cursor-pointer overflow-hidden rounded-2xl border border-line bg-sand-200"
       >
         <Picture
@@ -158,7 +157,7 @@ function GalleryTeaser({ photos, onOpen }: GalleryTeaserProps) {
           <button
             type="button"
             onClick={() => onOpen(previews.length + 1)}
-            aria-label={g.remainingAria(remaining)}
+            title={g.remainingAria(remaining)}
             className="flex aspect-[4/3] w-full cursor-pointer flex-col items-center justify-center rounded-xl border border-line bg-bg font-display text-lg font-bold text-fg transition-colors hover:border-primary/50 hover:text-primary"
           >
             +{remaining}
