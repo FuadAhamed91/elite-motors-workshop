@@ -199,7 +199,13 @@ export const en = {
       { title: 'Approval, repair, hand-over', body: 'Once approved, the repair starts on the Car-O-Liner bench and in the paint booth. You pay only your policy excess, as stated in your policy.' },
     ],
     bringTitle: 'What to bring',
-    bring: ['Police report', 'Registration card (Mulkiya)', 'Driving licence', 'Emirates ID', 'Insurance policy or card'],
+    bring: [
+      'Police report',
+      'Registration card (Mulkiya)',
+      'Insurance policy or card',
+      'Driver’s Emirates ID and driving licence',
+      'Car owner’s Emirates ID and driving licence (if the owner is not the driver)',
+    ],
     otherInsurer: 'Insured with another company?',
     otherInsurerCall: (phone: string) => `Call ${phone} — we check with your insurer whether they accept repairs here.`,
     names: {
