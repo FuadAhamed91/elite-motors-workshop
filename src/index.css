@@ -249,6 +249,13 @@
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
+  /* Below-the-fold sections: the browser skips their style, layout and paint
+     until they come near the viewport (anchors and find-in-page still work). */
+  .below-fold {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+
   /* ── Arabic (dir="rtl") ─────────────────────────────────────────────
      Cairo carries both scripts; letter-spacing breaks the connected script,
      and Arabic glyphs need a little more line-height than Outfit/Inter. */

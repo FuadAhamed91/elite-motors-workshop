@@ -14,7 +14,7 @@ import { buildTelLink } from '@/lib/whatsapp'
 export function Hours() {
   const t = useT()
   return (
-    <section id="hours" aria-labelledby="hours-heading" className="container-x py-20 lg:py-28">
+    <section id="hours" aria-labelledby="hours-heading" className="below-fold container-x py-20 lg:py-28">
       <Reveal>
         <SectionHeading
           id="hours-heading"

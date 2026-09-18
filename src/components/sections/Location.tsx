@@ -12,7 +12,7 @@ import { buildTelLink } from '@/lib/whatsapp'
 export function Location() {
   const t = useT()
   return (
-    <section id="location" aria-labelledby="location-heading" className="container-x pb-20 lg:pb-28">
+    <section id="location" aria-labelledby="location-heading" className="below-fold container-x pb-20 lg:pb-28">
       <Reveal>
         <SectionHeading
           id="location-heading"

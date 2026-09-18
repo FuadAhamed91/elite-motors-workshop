@@ -21,7 +21,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="relative border-t border-line bg-surface/40 pb-28 sm:pb-12 lg:pb-10">
+    <footer className="below-fold relative border-t border-line bg-surface/40 pb-28 sm:pb-12 lg:pb-10">
       {/* Final conversion callout */}
       <div className="container-x -mt-px py-16 lg:py-20">
         <Reveal>

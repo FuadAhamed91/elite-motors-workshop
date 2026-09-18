@@ -1,5 +1,6 @@
 import { ArrowUpRight, Check, Images } from 'lucide-react'
 import { lazy, Suspense, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -35,7 +36,7 @@ export function Workshop() {
   }
 
   return (
-    <section id="workshop" aria-labelledby="workshop-heading" className="container-x py-20 lg:py-28">
+    <section id="workshop" aria-labelledby="workshop-heading" className="below-fold container-x py-20 lg:py-28">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-16">
         <Reveal>
           <SectionHeading
@@ -67,11 +68,14 @@ export function Workshop() {
         </Reveal>
       </div>
 
-      {viewerLoaded && (
-        <Suspense fallback={null}>
-          <Lightbox photos={localised} index={open} onChange={setOpen} />
-        </Suspense>
-      )}
+      {/* Portalled to <body>: the section is paint-contained (content-visibility), which would clip a fixed viewer inside it. */}
+      {viewerLoaded &&
+        createPortal(
+          <Suspense fallback={null}>
+            <Lightbox photos={localised} index={open} onChange={setOpen} />
+          </Suspense>,
+          document.body,
+        )}
     </section>
   )
 }

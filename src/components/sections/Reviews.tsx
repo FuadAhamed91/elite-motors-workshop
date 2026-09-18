@@ -10,7 +10,7 @@ import { useT } from '@/i18n'
 export function Reviews() {
   const t = useT()
   return (
-    <section id="reviews" aria-labelledby="reviews-heading" className="relative py-20 lg:py-28">
+    <section id="reviews" aria-labelledby="reviews-heading" className="below-fold relative py-20 lg:py-28">
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-1/3 -z-10 h-[480px] bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,color-mix(in_oklab,var(--color-secondary)_10%,transparent),transparent_70%)]"

@@ -13,6 +13,7 @@ import { Workshop } from '@/components/sections/Workshop'
 import { SeoSchema } from '@/components/SeoSchema'
 import { assistant } from '@/config/assistant'
 import { intro } from '@/config/intro'
+import { useAnchorNavigation } from '@/hooks/useAnchorNavigation'
 import { IntroActiveContext, useIntroGate } from '@/hooks/useIntroGate'
 
 /** The assistant (chat panel + answer engine) loads in idle time, after the page is interactive. */
@@ -37,9 +38,26 @@ function useIdle(timeout = 2500): boolean {
   return idle
 }
 
+/**
+ * True from the second animation frame after mount. The first commit paints
+ * only the navbar and the hero (the largest text on the page), everything
+ * below the fold mounts one frame later — the same content, but the initial
+ * JavaScript task is a fraction of the size on slow phones.
+ */
+function useAfterFirstPaint(): boolean {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => setReady(true))
+    return () => window.cancelAnimationFrame(id)
+  }, [])
+  return ready
+}
+
 export default function App() {
   const gate = useIntroGate()
   const idle = useIdle()
+  const belowFold = useAfterFirstPaint()
+  useAnchorNavigation(belowFold)
   const Intro = intro.variant === 'splash' ? SplashIntro : RaceIntro
 
   return (
@@ -51,13 +69,17 @@ export default function App() {
         <main id="main">
           <Hero />
           <TrustStrip />
-          <Services />
-          <Workshop />
-          <Reviews />
-          <Hours />
-          <Location />
+          {belowFold && (
+            <>
+              <Services />
+              <Workshop />
+              <Reviews />
+              <Hours />
+              <Location />
+            </>
+          )}
         </main>
-        <Footer />
+        {belowFold && <Footer />}
         <WhatsAppFab />
         {assistant.enabled && idle && (
           <Suspense fallback={null}>

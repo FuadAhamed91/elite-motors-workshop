@@ -14,7 +14,7 @@ export function Services() {
   const t = useT()
 
   return (
-    <section id="services" aria-labelledby="services-heading" className="container-x py-20 lg:py-28">
+    <section id="services" aria-labelledby="services-heading" className="below-fold container-x py-20 lg:py-28">
       <Reveal>
         <SectionHeading
           id="services-heading"

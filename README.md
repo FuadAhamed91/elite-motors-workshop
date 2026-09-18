@@ -155,6 +155,11 @@ Copy and quick replies live in `src/config/assistant.ts`; set `enabled: false` t
   while the card is on screen; the navbar uses a solid tint instead of `backdrop-filter` on phones.
 - Photos are WebP with JPEG fallback, 800px thumbnails in grids, all lazy-loaded with explicit
   dimensions (no layout shift).
+- Below-the-fold sections mount one frame after the hero and use `content-visibility: auto`, so
+  the first JavaScript task and the initial layout only cover what is on screen.
+  `useAnchorNavigation` renders the sections above an anchor target before any in-page jump so
+  "#hours" lands in the right place. The hero paints under the intro (`Reveal eager`), so the
+  largest text counts as painted during the intro rather than after it.
 
 ## Deployment (Vercel)
 
