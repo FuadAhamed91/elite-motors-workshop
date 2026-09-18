@@ -15,11 +15,27 @@ export interface IntroGate {
   finish: () => void
 }
 
+/** Where "seen" is remembered: per visitor or per browser session. */
+function seenStore(): Storage {
+  return intro.frequency === 'once' ? window.localStorage : window.sessionStorage
+}
+
+/** Save-Data, or a phone with very few cores / little memory — not worth a 2 s animation. */
+function isWeakDevice(): boolean {
+  const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number }
+  if (nav.connection?.saveData) return true
+  if (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 2) return true
+  if (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 2) return true
+  return false
+}
+
 function shouldShowIntro(): boolean {
   if (!intro.enabled || intro.frequency === 'never' || forceSkip()) return false
-  if (intro.frequency === 'always' || forceReplay()) return true
+  if (forceReplay()) return true
+  if (intro.skipOnWeakDevices && isWeakDevice()) return false
+  if (intro.frequency === 'always') return true
   try {
-    return !window.sessionStorage.getItem(intro.storageKey)
+    return !seenStore().getItem(intro.storageKey)
   } catch {
     return true
   }
@@ -27,7 +43,7 @@ function shouldShowIntro(): boolean {
 
 function markIntroSeen() {
   try {
-    window.sessionStorage.setItem(intro.storageKey, '1')
+    seenStore().setItem(intro.storageKey, '1')
   } catch {
     /* private mode — ignore */
   }

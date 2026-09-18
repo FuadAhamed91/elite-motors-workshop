@@ -25,7 +25,7 @@ export function Hero() {
       </div>
 
       <div className="container-x flex flex-col items-center text-center">
-        <Reveal>
+        <Reveal eager>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <StatusBadge />
             <a
@@ -41,7 +41,7 @@ export function Hero() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.05}>
+        <Reveal delay={0.05} eager>
           <h1
             id="hero-heading"
             className="mx-auto mt-6 max-w-4xl font-display text-[2.6rem] leading-[1.05] font-extrabold tracking-tight text-balance text-fg sm:text-5xl lg:text-6xl xl:text-[4.4rem]"
@@ -54,13 +54,13 @@ export function Hero() {
           </h1>
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} eager>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted sm:text-xl">
             {t.hero.lead}
           </p>
         </Reveal>
 
-        <Reveal delay={0.15}>
+        <Reveal delay={0.15} eager>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
             <CtaLink href={buildTelLink(workshop.phone)} size="lg" icon={<Phone />}>
               {t.common.call(workshop.phone)}
@@ -81,7 +81,7 @@ export function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.2}>
+        <Reveal delay={0.2} eager>
           <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2">
             {t.hero.proofPoints(workshop.foundedYear).map((point) => (
               <li key={point} className="flex items-center gap-2 text-sm text-fg/90">

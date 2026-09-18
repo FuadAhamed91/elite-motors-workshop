@@ -9,8 +9,16 @@
 export const intro = {
   enabled: true,
   variant: 'splash' as 'splash' | 'lights-out',
-  /** 'session' = once per browser session, 'always' = every load, 'never' = off. */
-  frequency: 'session' as 'session' | 'always' | 'never',
+  /**
+   * 'once' = once per visitor (localStorage), 'session' = once per browser
+   * session, 'always' = every load, 'never' = off.
+   */
+  frequency: 'once' as 'once' | 'session' | 'always' | 'never',
+  /**
+   * Skip the intro on phones that would struggle with it: Save-Data on, or
+   * two CPU cores / 2 GB of memory or less. The site simply loads instead.
+   */
+  skipOnWeakDevices: true,
   /** Vertical launch splash. */
   splash: {
     /** Start lights (single row) that gate the launch. */

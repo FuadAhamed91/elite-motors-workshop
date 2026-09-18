@@ -106,7 +106,8 @@ fades (400 ms) and the overlay unmounts.
 and wipes the overlay away behind it; synthesized engine sound on tap.
 
 Shared behaviour (`src/hooks/useIntroGate.ts`): the site DOM is `inert` while an intro is up,
-`sessionStorage.hasSeenIntro` skips it on refresh within the session, a **Skip** button and
+it plays once per visitor (`localStorage.hasSeenIntro`; `frequency: 'session' | 'always'` are
+available), it is skipped on Save-Data / very low-end phones, a **Skip** button and
 Escape bypass it, it is disabled for `prefers-reduced-motion`, and it waits for the tab to be
 visible before playing. Dev review switches: `?intro=replay`, `?intro=slow`, `?intro=freeze`
 (splash: car parked mid-screen), `?intro=skip` (no intro — for layout reviews and screenshots).
@@ -175,7 +176,7 @@ src/
   lib/                      whatsapp link builder, hours engine, cn()
   hooks/useWorkshopStatus   live status (re-evaluated every 30s)
   config/intro.ts           intro variant + timing settings
-  hooks/useIntroGate.ts     once-per-session / inert / visibility gate
+  hooks/useIntroGate.ts     once-per-visitor / weak-device / inert / visibility gate
   lib/engineSound.ts        Web Audio engine-sound synth
   lib/assistant.ts          rule-based assistant (intents → answers from site data)
   config/assistant.ts       assistant copy, quick replies, on/off
