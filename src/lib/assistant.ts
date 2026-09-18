@@ -288,7 +288,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       `${name} is a full mechanical, body and paint facility in Mussafah. Equipment includes:\n${lines.map((l) => `• ${l}`).join('\n')}\n\nPhotos are in the Gallery in the Workshop section of this site.`,
     brands: (eu, jp, kr) => `The workshop services all major makes:\nEuropean: ${eu}\nJapanese: ${jp}\nKorean: ${kr}\n\nNot sure about yours? Call the workshop.`,
     experience: (name, year, years) =>
-      `${name} has been in Mussafah since ${year} — ${years}+ years of all-makes repairs, with a team supervised by a U.S.-certified auto engineer and an insurance-approved body & paint shop.`,
+      `${name} has been in Mussafah since ${year} — ${years}+ years of all-makes repairs, with trained technicians and an insurance-approved body & paint shop.`,
   },
   ar: {
     links: {
@@ -341,7 +341,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       `${name} منشأة متكاملة للميكانيكا والسمكرة والصبغ في المصفح. من المعدات:\n${lines.map((l) => `• ${l}`).join('\n')}\n\nالصور في معرض الصور ضمن قسم الورشة في هذا الموقع.`,
     brands: (eu, jp, kr) => `تخدم الورشة جميع الماركات الرئيسية:\nأوروبية: ${eu}\nيابانية: ${jp}\nكورية: ${kr}\n\nغير متأكد من سيارتك؟ اتصل بالورشة.`,
     experience: (name, year, years) =>
-      `${name} في المصفح منذ ${year} — أكثر من ${years} سنوات من إصلاح جميع الماركات، بفريق يشرف عليه مهندس سيارات معتمد من الولايات المتحدة وورشة سمكرة وصبغ معتمدة لدى شركات التأمين.`,
+      `${name} في المصفح منذ ${year} — أكثر من ${years} سنوات من إصلاح جميع الماركات، بفنيين مدرّبين وورشة سمكرة وصبغ معتمدة لدى شركات التأمين.`,
   },
 }
 

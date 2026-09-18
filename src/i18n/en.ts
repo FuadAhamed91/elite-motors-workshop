@@ -20,7 +20,7 @@ export const en = {
       'Approved repairer for Dubai Insurance, Sukoon, Adamjee, Fidelity United, Watania Takaful, Tokio Marine, QIC and Dubai National Insurance. We handle the estimate, surveyor and paperwork in Mussafah, Abu Dhabi.',
     title: 'Elite Motors Workshop | Auto Service & Repair in Mussafah, Abu Dhabi',
     description:
-      'Elite Motors Workshop — mechanical, electrical, body and paint repairs in Mussafah M21, Abu Dhabi. Engineer-supervised team, insurance-approved body shop, genuine parts.',
+      'Elite Motors Workshop — mechanical, electrical, body and paint repairs in Mussafah M21, Abu Dhabi. Trained technicians, insurance-approved body shop, genuine parts.',
   },
 
   brand: {
@@ -107,14 +107,14 @@ export const en = {
     eyebrow: 'Why drivers choose us',
     title: (year: number) => `Serving Abu Dhabi from Mussafah since ${year}.`,
     body: (year: number) =>
-      `Elite Motors Workshop L.L.C has run as an all-makes repair centre since ${year}. A trained team supervised by a U.S.-certified auto engineer handles mechanical, electrical, body and paint work in one facility — for private owners, fleets and insurance companies alike — with an estimate agreed before we touch a bolt.`,
+      `Elite Motors Workshop L.L.C has run as an all-makes repair centre since ${year}. A trained, experienced team handles mechanical, electrical, body and paint work in one facility — for private owners, fleets and insurance companies alike — with an estimate agreed before we touch a bolt.`,
     photoAlt: 'Elite Motors Workshop sign above the blue perimeter fence in Mussafah',
   },
 
   stats: {
     years: { value: (n: number) => `${n}+`, label: (year: number) => `Years in Mussafah · since ${year}` },
     insurance: { value: 'Insurance', label: 'Approved Body & Paint Shop' },
-    techs: { value: 'Engineer-led', label: 'U.S.-certified supervision' },
+    techs: { value: 'All makes', label: 'European, Japanese & Korean cars' },
     parts: { value: 'Genuine', label: 'OEM Parts Only' },
   },
 
@@ -228,7 +228,7 @@ export const en = {
     faq: [
       { q: 'Do I pay anything?', a: 'Only the excess (deductible) written in your policy, if any. The insurer settles the rest of the approved repair with us directly.' },
       { q: 'How long does approval take?', a: 'It depends on the insurer and the damage. We send the estimate and photos the same day the surveyor has inspected the car, and we follow up until it is approved.' },
-      { q: 'Do you use genuine parts?', a: 'Yes — genuine manufacturer parts, fitted by a team supervised by a U.S.-certified auto engineer. Body repairs are measured on a Car-O-Liner bench and painted in a full-size booth with a drying oven.' },
+      { q: 'Do you use genuine parts?', a: 'Yes — genuine manufacturer parts, fitted by trained technicians. Body repairs are measured on a Car-O-Liner bench and painted in a full-size booth with a drying oven.' },
       { q: 'My insurer is not on the list', a: 'Call us. Many insurers accept repairs at approved workshops on request, and we check with them before you bring the car.' },
     ],
     otherInsurer: 'Insured with another company?',
@@ -260,7 +260,7 @@ export const en = {
       x431: { title: 'Launch X431 diagnostics', detail: 'ECM fault codes on European, Japanese and Korean cars' },
       lathe: { title: 'Brake lathe', detail: 'turns rotors and drums for a true, shudder-free finish' },
       crane: { title: 'Engine crane & bearing press', detail: '2-tonne crane; press-fit wheel bearings and bushes' },
-      team: { title: 'Engineer-supervised team', detail: 'trained technicians under a U.S.-certified auto engineer' },
+      team: { title: 'Trained technicians', detail: 'an experienced team across mechanical, electrical, body and paint work' },
     } as Record<string, { title: string; detail: string }>,
     gallery: {
       eyebrow: 'Gallery',
@@ -365,7 +365,7 @@ export const en = {
     body: 'Call the landline during working hours or drop in at Musaffah M21 — a certified technician looks at the car and gives you a clear estimate before any work starts.',
     orDirections: 'or get directions',
     blurb: (city: string, year: number) =>
-      `Mechanical, electrical, body and paint repairs in ${city} since ${year}. Engineer-supervised team, genuine parts and honest pricing.`,
+      `Mechanical, electrical, body and paint repairs in ${city} since ${year}. Trained technicians, genuine parts and honest pricing.`,
     quickLinks: 'Quick links',
     services: 'Services',
     googleMaps: 'Google Maps',

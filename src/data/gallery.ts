@@ -41,5 +41,5 @@ export const equipment: readonly { id: string; title: string; detail: string }[]
   { id: 'x431', title: 'Launch X431 diagnostics', detail: 'ECM fault codes on European, Japanese and Korean cars' },
   { id: 'lathe', title: 'Brake lathe', detail: 'turns rotors and drums for a true, shudder-free finish' },
   { id: 'crane', title: 'Engine crane & bearing press', detail: '2-tonne crane; press-fit wheel bearings and bushes' },
-  { id: 'team', title: 'Engineer-supervised team', detail: 'trained technicians under a U.S.-certified auto engineer' },
+  { id: 'team', title: 'Trained technicians', detail: 'an experienced team across mechanical, electrical, body and paint work' },
 ]
