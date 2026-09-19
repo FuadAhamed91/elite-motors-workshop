@@ -5,6 +5,7 @@ import { CtaLink } from '@/components/ui/CtaLink'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { beforeAfterConfig } from '@/config/beforeAfter'
 import { workshop } from '@/config/workshop'
 import type { GalleryPhoto } from '@/data/gallery'
 import { repairs, repairSrc, type RepairPair, type RepairStage } from '@/data/repairs'
@@ -160,6 +161,7 @@ function SwitchCard({ pair, photos, firstIndex, onOpen }: SwitchCardProps) {
   const copy = c.cars[pair.id] ?? { name: pair.id, work: '' }
   const [stage, setStage] = useState<RepairStage>('after')
   const label = (which: RepairStage) => (which === 'before' ? c.before : c.after)
+  const glass = beforeAfterConfig.toggle === 'glass'
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface shadow-card">
@@ -198,7 +200,10 @@ function SwitchCard({ pair, photos, firstIndex, onOpen }: SwitchCardProps) {
         <div
           role="group"
           aria-label={c.toggleLabel}
-          className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 rounded-pill border border-white/40 bg-surface/70 p-0.5 shadow-card"
+          className={cn(
+            'absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 rounded-pill border p-0.5',
+            glass ? 'border-white/30 bg-ink-900/20 sm:backdrop-blur-sm' : 'border-white/40 bg-surface/70 shadow-card',
+          )}
         >
           {STAGES.map((which) => (
             <button
@@ -208,7 +213,14 @@ function SwitchCard({ pair, photos, firstIndex, onOpen }: SwitchCardProps) {
               onClick={() => setStage(which)}
               className={cn(
                 'min-h-8 cursor-pointer rounded-pill px-3 text-[11px] font-semibold whitespace-nowrap transition-colors duration-200 sm:text-xs',
-                which === stage ? 'bg-primary/85 text-on-primary shadow-sm' : 'text-fg/80 hover:text-fg',
+                glass && 'text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.45)]',
+                which === stage
+                  ? glass
+                    ? 'bg-white/25 ring-1 ring-white/40 ring-inset'
+                    : 'bg-primary/85 text-on-primary shadow-sm'
+                  : glass
+                    ? 'text-white/80 hover:text-white'
+                    : 'text-fg/80 hover:text-fg',
               )}
             >
               {label(which)}

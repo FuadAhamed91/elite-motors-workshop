@@ -158,7 +158,9 @@ section (three pairs + a button), the hero has a "Before & after" button, and th
 like the others) shows every car in a 2-column grid. Each card is one photo with an
 "On arrival | After repair" switch that cross-fades between the two shots (the repaired car shows
 first — the owner did not want BEFORE/AFTER words printed on the photos); tapping the photo opens
-the same Lightbox (14 photos, on arrival → after repair order). The insurance page shows the first three pairs
+the same Lightbox (14 photos, on arrival → after repair order). The switch is a see-through
+"glass" pill; `src/config/beforeAfter.ts` (`toggle: 'solid'`) brings back the opaque cream pill
+(also tagged `v5-toggle-solid`). The insurance page shows the first three pairs
 with a link to the page, and the assistant answers "before and after / examples / results" with a
 link to it. Owner's rules applied to these photos:
 all plates blurred (including a plate lying on a dashboard and cars in the background), the wash
