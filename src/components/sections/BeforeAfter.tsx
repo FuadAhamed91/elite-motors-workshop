@@ -198,7 +198,7 @@ function SwitchCard({ pair, photos, firstIndex, onOpen }: SwitchCardProps) {
         <div
           role="group"
           aria-label={c.toggleLabel}
-          className="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 rounded-pill border border-white/50 bg-surface/95 p-1 shadow-card"
+          className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 rounded-pill border border-white/40 bg-surface/70 p-0.5 shadow-card"
         >
           {STAGES.map((which) => (
             <button
@@ -207,8 +207,8 @@ function SwitchCard({ pair, photos, firstIndex, onOpen }: SwitchCardProps) {
               aria-pressed={which === stage}
               onClick={() => setStage(which)}
               className={cn(
-                'min-h-9 cursor-pointer rounded-pill px-3.5 text-xs font-semibold whitespace-nowrap transition-colors duration-200 sm:px-4 sm:text-[13px]',
-                which === stage ? 'bg-primary text-on-primary shadow-sm' : 'text-fg-muted hover:text-fg',
+                'min-h-8 cursor-pointer rounded-pill px-3 text-[11px] font-semibold whitespace-nowrap transition-colors duration-200 sm:text-xs',
+                which === stage ? 'bg-primary/85 text-on-primary shadow-sm' : 'text-fg/80 hover:text-fg',
               )}
             >
               {label(which)}
