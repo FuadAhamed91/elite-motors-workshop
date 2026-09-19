@@ -1,15 +1,16 @@
-import { ArrowRight, ArrowUpRight, ShieldCheck } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Phone } from 'lucide-react'
 import { lazy, Suspense, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { workshop } from '@/config/workshop'
 import type { GalleryPhoto } from '@/data/gallery'
 import { repairs, repairSrc, type RepairPair, type RepairStage } from '@/data/repairs'
 import { useT, type Dictionary } from '@/i18n'
 import { cn } from '@/lib/cn'
-import { useHref } from '@/lib/page'
+import { buildTelLink } from '@/lib/whatsapp'
 
 /** Loaded on first tap so the viewer's code stays out of the initial bundle. */
 const Lightbox = lazy(() => import('@/components/ui/Lightbox').then((mod) => ({ default: mod.Lightbox })))
@@ -32,24 +33,20 @@ export function repairPhotos(t: Dictionary, pairs: readonly RepairPair[] = repai
   })
 }
 
-interface BeforeAfterProps {
-  /**
-   * Compact strip (used on the insurance page): the first `limit` pairs in a
-   * plain row, an h3 heading and a link to the full section on the home page.
-   */
-  limit?: number
+interface RepairGridProps {
+  pairs?: readonly RepairPair[]
+  /** Show the first pair at full width (the /before-after page); off for the teasers. */
+  featured?: boolean
+  className?: string
 }
 
 /**
- * Before/after photos of accident repairs from the body shop. Each card shows
- * the same car on arrival and after the repair; any photo opens the viewer.
+ * The before/after cards plus the shared viewer: any photo opens the Lightbox
+ * over every shot in `pairs` (before → after order).
  */
-export function BeforeAfter({ limit }: BeforeAfterProps) {
+export function RepairGrid({ pairs = repairs, featured = false, className }: RepairGridProps) {
   const t = useT()
   const c = t.beforeAfter
-  const href = useHref()
-  const compact = limit !== undefined
-  const pairs = compact ? repairs.slice(0, limit) : repairs
   const photos = repairPhotos(t, pairs)
   const [open, setOpen] = useState<number | null>(null)
   const [viewerLoaded, setViewerLoaded] = useState(false)
@@ -59,67 +56,86 @@ export function BeforeAfter({ limit }: BeforeAfterProps) {
     setOpen(index)
   }
 
-  const viewer =
-    viewerLoaded &&
-    createPortal(
-      <Suspense fallback={null}>
-        <Lightbox photos={photos} index={open} onChange={setOpen} />
-      </Suspense>,
-      document.body,
-    )
-
-  if (compact) {
-    return (
-      <div>
-        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-          <h3 className="font-display text-xl font-bold tracking-tight text-fg">{c.compactTitle}</h3>
-          <a
-            href={href('#before-after')}
-            className="group inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary-bright"
-          >
-            {c.seeAll(repairs.length)}
-            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
-          </a>
-        </div>
-        <StaggerGroup as="ul" className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label={c.listLabel}>
-          {pairs.map((pair, index) => (
-            <StaggerItem as="li" key={pair.id}>
-              <PairCard pair={pair} photos={photos} firstIndex={index * 2} onOpen={openPhoto} />
+  return (
+    <>
+      <StaggerGroup as="ul" className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5', className)} aria-label={c.listLabel}>
+        {pairs.map((pair, index) => {
+          const big = featured && index === 0
+          return (
+            <StaggerItem as="li" key={pair.id} className={cn(big && 'sm:col-span-2 lg:col-span-3')}>
+              <PairCard pair={pair} photos={photos} firstIndex={index * 2} featured={big} onOpen={openPhoto} />
             </StaggerItem>
-          ))}
-        </StaggerGroup>
-        <p className="mt-3 text-xs text-fg-muted">{c.hint}</p>
-        {viewer}
-      </div>
-    )
-  }
+          )
+        })}
+      </StaggerGroup>
+      <p className="mt-4 text-xs text-fg-muted">{c.hint}</p>
+
+      {/* Portalled to <body>: sections are paint-contained (content-visibility), which would clip a fixed viewer inside them. */}
+      {viewerLoaded &&
+        createPortal(
+          <Suspense fallback={null}>
+            <Lightbox photos={photos} index={open} onChange={setOpen} />
+          </Suspense>,
+          document.body,
+        )}
+    </>
+  )
+}
+
+/**
+ * Home-page teaser (same pattern as the insurance section): three pairs and a
+ * button to the dedicated /before-after page with the full set.
+ */
+export function BeforeAfter() {
+  const t = useT()
+  const c = t.beforeAfter
 
   return (
     <section id="before-after" aria-labelledby="before-after-heading" className="below-fold container-x py-20 lg:py-28">
       <Reveal>
-        <SectionHeading id="before-after-heading" eyebrow={c.eyebrow} title={c.title} description={c.description} />
+        <SectionHeading id="before-after-heading" eyebrow={c.eyebrow} title={c.title} description={c.homeLead} />
       </Reveal>
 
-      <StaggerGroup as="ul" className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5" aria-label={c.listLabel}>
-        {pairs.map((pair, index) => (
-          <StaggerItem as="li" key={pair.id} className={cn(index === 0 && 'sm:col-span-2 lg:col-span-3')}>
-            <PairCard pair={pair} photos={photos} firstIndex={index * 2} featured={index === 0} onOpen={openPhoto} />
-          </StaggerItem>
-        ))}
-      </StaggerGroup>
-      <p className="mt-4 text-xs text-fg-muted">{c.hint}</p>
+      <RepairGrid pairs={repairs.slice(0, 3)} className="mt-10" />
 
       <Reveal delay={0.1}>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <CtaLink href="/insurance" variant="outline" size="lg" icon={<ShieldCheck />}>
-            {c.insuranceCta}
+          <CtaLink href="/before-after" size="lg" iconRight={<ArrowUpRight className="rtl:-scale-x-100" />}>
+            {c.openPage(repairs.length)}
+          </CtaLink>
+          <CtaLink href={buildTelLink(workshop.phone)} variant="outline" size="lg" icon={<Phone />}>
+            {t.common.call(workshop.phone)}
           </CtaLink>
         </div>
       </Reveal>
-
-      {/* Portalled to <body>: the section is paint-contained (content-visibility), which would clip a fixed viewer inside it. */}
-      {viewer}
     </section>
+  )
+}
+
+interface BeforeAfterStripProps {
+  /** How many pairs to show. */
+  limit: number
+}
+
+/** Compact strip for other pages (the insurance page): an h3, a few pairs and a link to the full page. */
+export function BeforeAfterStrip({ limit }: BeforeAfterStripProps) {
+  const t = useT()
+  const c = t.beforeAfter
+
+  return (
+    <div>
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+        <h3 className="font-display text-xl font-bold tracking-tight text-fg">{c.compactTitle}</h3>
+        <a
+          href="/before-after"
+          className="group inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary-bright"
+        >
+          {c.seeAll(repairs.length)}
+          <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
+        </a>
+      </div>
+      <RepairGrid pairs={repairs.slice(0, limit)} className="mt-5" />
+    </div>
   )
 }
 

@@ -17,7 +17,7 @@ export function Footer() {
   const navLabels: Record<string, string> = {
     '#services': t.nav.services,
     '/insurance': t.nav.insurance,
-    '#before-after': t.nav.beforeAfter,
+    '/before-after': t.nav.beforeAfter,
     '#workshop': t.nav.workshop,
     '#about': t.nav.about,
     '#reviews': t.nav.reviews,

@@ -1,4 +1,4 @@
-import { Check, ExternalLink, MapPin, Navigation, Phone, ShieldCheck, Star } from 'lucide-react'
+import { Check, ExternalLink, Images, MapPin, Navigation, Phone, ShieldCheck, Star } from 'lucide-react'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { Reveal } from '@/components/ui/Reveal'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -74,9 +74,15 @@ export function Hero() {
             >
               {t.common.getDirections}
             </CtaLink>
-            <CtaLink href="/insurance" variant="outline" size="lg" icon={<ShieldCheck />}>
-              {t.common.insuranceClaim}
-            </CtaLink>
+            {/* The two page links share a row on phones so four pills don't push the fold down. */}
+            <div className="grid grid-cols-2 gap-3 sm:contents">
+              <CtaLink href="/insurance" variant="outline" size="lg" icon={<ShieldCheck />} className="max-sm:gap-1 max-sm:px-2.5 max-sm:text-[13px]">
+                {t.common.insuranceClaim}
+              </CtaLink>
+              <CtaLink href="/before-after" variant="outline" size="lg" icon={<Images />} className="max-sm:gap-1 max-sm:px-2.5 max-sm:text-[13px]">
+                {t.common.beforeAfter}
+              </CtaLink>
+            </div>
           </div>
           <p className="mt-4 flex items-center justify-center gap-2 text-sm text-fg-muted">
             <MapPin className="size-4 shrink-0 text-primary" aria-hidden="true" />

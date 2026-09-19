@@ -18,6 +18,9 @@ export const en = {
     insuranceTitle: 'Insurance Claims & Accident Repair | Elite Motors Workshop, Abu Dhabi',
     insuranceDescription:
       'Approved repairer for Dubai Insurance, Sukoon, Adamjee, Fidelity United, Watania Takaful, Tokio Marine, QIC and Dubai National Insurance. We handle the estimate, surveyor and paperwork in Mussafah, Abu Dhabi.',
+    beforeAfterTitle: 'Before & After Accident Repairs | Elite Motors Workshop, Abu Dhabi',
+    beforeAfterDescription:
+      'Real accident repairs from our body shop in Mussafah, Abu Dhabi — BMW, Toyota, Nissan, Honda, Alfa Romeo and more, photographed on arrival and after the repair.',
     title: 'Elite Motors Workshop | Auto Service & Repair in Mussafah, Abu Dhabi',
     description:
       'Elite Motors Workshop — mechanical, electrical, body and paint repairs in Mussafah M21, Abu Dhabi. Trained technicians, insurance-approved body shop, genuine parts.',
@@ -44,6 +47,7 @@ export const en = {
     getDirections: 'Get Directions',
     directions: 'Directions',
     insuranceClaim: 'Insurance claim',
+    beforeAfter: 'Before & after',
     backHome: 'Back to the main page',
     openInGoogleMaps: 'Open in Google Maps',
     largerMap: 'Larger map',
@@ -262,6 +266,14 @@ export const en = {
     hint: 'Tap any photo to view it full size.',
     insuranceCta: 'How an insurance claim works',
     seeAll: (n: number) => `See all ${n} repairs`,
+    /* Home-page teaser + dedicated page */
+    homeLead: 'Real cars from our body shop, photographed on arrival and again when the repair was finished — see the full set on its own page.',
+    openPage: (n: number) => `See all ${n} before & after repairs`,
+    pageTitle: 'Accident repairs — before and after.',
+    pageLead:
+      'Every car here came in after an accident and left repaired and repainted at Elite Motors Workshop in Mussafah. Each pair shows the same car on arrival and on hand-over. Number plates are blurred for the owners’ privacy.',
+    accidentTitle: 'Had an accident?',
+    accidentBody: 'We are an approved repairer for eight UAE insurers — bring the car and your policy and we handle the estimate, the surveyor and the paperwork.',
     compactTitle: 'Recent accident repairs',
     captionBefore: (car: string) => `${car} — before repair`,
     captionAfter: (car: string) => `${car} — after repair`,

@@ -74,7 +74,7 @@ Hours are Monday–Saturday 8:00 AM–1:00 PM and 2:00 PM–5:30 PM with Sunday 
 
 ## Insurance page — `/insurance`
 
-The site has two pages. `insurance.html` → `src/insurance-main.tsx` → `src/pages/InsurancePage.tsx`
+The site has three pages (home, `/insurance`, `/before-after`). `insurance.html` → `src/insurance-main.tsx` → `src/pages/InsurancePage.tsx`
 is the dedicated claims page (Vercel `cleanUrls` serves it at `/insurance`; the dev server does the
 same via a tiny plugin in `vite.config.ts`). It shows the insurers the workshop is an approved
 repairer for (`src/data/insurers.ts`; names/notes per language in `src/i18n`; logos in
@@ -147,15 +147,18 @@ and `name-thumb.jpg` + `name-thumb.webp` (800px, used in grids and on phones via
 `Picture.tsx` serves the WebP automatically. **Every vehicle number plate was blurred before the images were added** — if
 you add new photos, redact plates first and keep them out of the repo otherwise.
 
-### Before & after (`#before-after`)
+### Before & after — `/before-after`
 
 `public/photos/repairs/` holds seven accident repairs from the body shop as pairs
 (`<id>-before` / `<id>-after`, same sizes and siblings as above); `src/data/repairs.ts` lists the
 pairs with per-shot `focus` (object-position for the cropped card thumbnails) and the copy lives in
-`beforeAfter.cars` in both dictionaries. The section shows the first pair large and the rest in a
-3-column grid; any photo opens the same Lightbox (14 photos, before → after order). The insurance
-page shows the first three pairs with a link to the full section, and the assistant answers
-"before and after / examples / results" with a link to it. Owner's rules applied to these photos:
+`beforeAfter.cars` in both dictionaries. Same structure as insurance: the home page has a teaser
+section (three pairs + a button), the hero has a "Before & after" button, and the dedicated page
+(`before-after.html` → `src/before-after-main.tsx` → `src/pages/BeforeAfterPage.tsx`, pre-rendered
+like the others) shows the first pair large and the rest in a 3-column grid; any photo opens the
+same Lightbox (14 photos, before → after order). The insurance page shows the first three pairs
+with a link to the page, and the assistant answers "before and after / examples / results" with a
+link to it. Owner's rules applied to these photos:
 all plates blurred (including a plate lying on a dashboard and cars in the background), the wash
 bay's green floor paint retouched to plain concrete (also in the gallery's wash-bay photo) and the
 phones' date/model stamps removed.

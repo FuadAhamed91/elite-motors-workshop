@@ -54,11 +54,22 @@ function applyToDocument(dict: Dictionary, page: PageId) {
   const root = document.documentElement
   root.lang = dict.locale
   root.dir = dict.dir
-  document.title = page === 'insurance' ? dict.meta.insuranceTitle : dict.meta.title
-  document
-    .querySelector('meta[name="description"]')
-    ?.setAttribute('content', page === 'insurance' ? dict.meta.insuranceDescription : dict.meta.description)
+  const meta = pageMeta(dict, page)
+  document.title = meta.title
+  document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description)
   if (dict.locale === 'ar') ensureArabicFont()
+}
+
+/** Title + description of an entry page in the dictionary's language. */
+export function pageMeta(dict: Dictionary, page: PageId): { title: string; description: string } {
+  switch (page) {
+    case 'insurance':
+      return { title: dict.meta.insuranceTitle, description: dict.meta.insuranceDescription }
+    case 'before-after':
+      return { title: dict.meta.beforeAfterTitle, description: dict.meta.beforeAfterDescription }
+    default:
+      return { title: dict.meta.title, description: dict.meta.description }
+  }
 }
 
 /** Hours-engine strings for a dictionary (status labels + short day names). */

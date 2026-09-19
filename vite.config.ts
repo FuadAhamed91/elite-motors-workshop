@@ -3,13 +3,14 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-/** Dev only: serve /insurance like production does (Vercel cleanUrls). */
+/** Dev only: serve /insurance and /before-after like production does (Vercel cleanUrls). */
 function cleanUrls(): Plugin {
   return {
     name: 'clean-urls',
     configureServer(server) {
       server.middlewares.use((req, _res, next) => {
-        if (req.url?.split('?')[0] === '/insurance') req.url = req.url.replace('/insurance', '/insurance.html')
+        const path = req.url?.split('?')[0]
+        if (path === '/insurance' || path === '/before-after') req.url = req.url!.replace(path, `${path}.html`)
         next()
       })
     },
@@ -29,6 +30,6 @@ export default defineConfig(({ isSsrBuild }) => ({
     copyPublicDir: !isSsrBuild,
     rollupOptions: isSsrBuild
       ? undefined
-      : { input: { main: fileURLToPath(new URL('./index.html', import.meta.url)), insurance: fileURLToPath(new URL('./insurance.html', import.meta.url)) } },
+      : { input: { main: fileURLToPath(new URL('./index.html', import.meta.url)), insurance: fileURLToPath(new URL('./insurance.html', import.meta.url)), beforeAfter: fileURLToPath(new URL('./before-after.html', import.meta.url)) } },
   },
 }))

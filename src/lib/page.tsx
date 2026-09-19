@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 
 /** Which entry page is rendering — decides how section anchors are written. */
-export type PageId = 'home' | 'insurance'
+export type PageId = 'home' | 'insurance' | 'before-after'
 
 export const PageContext = createContext<PageId>('home')
 

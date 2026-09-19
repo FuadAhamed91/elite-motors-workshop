@@ -4,10 +4,11 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Hero } from '@/components/sections/Hero'
 import { intro } from '@/config/intro'
 import { IntroActiveContext } from '@/hooks/useIntroGate'
-import { LocaleProvider, type Locale } from '@/i18n'
+import { LocaleProvider, pageMeta, type Locale } from '@/i18n'
 import { ar } from '@/i18n/ar'
 import { en } from '@/i18n/en'
 import { PageContext, type PageId } from '@/lib/page'
+import { BeforeAfterHero } from '@/pages/BeforeAfterPage'
 import { InsuranceHero } from '@/pages/InsurancePage'
 import { ShellContext } from '@/shell/context'
 
@@ -28,7 +29,7 @@ export function renderShell(locale: Locale, page: PageId = 'home'): string {
           <IntroActiveContext.Provider value={true}>
             <ShellContext.Provider value={true}>
               <Navbar />
-              <main id="main">{page === 'insurance' ? <InsuranceHero /> : <Hero />}</main>
+              <main id="main">{page === 'insurance' ? <InsuranceHero /> : page === 'before-after' ? <BeforeAfterHero /> : <Hero />}</main>
             </ShellContext.Provider>
           </IntroActiveContext.Provider>
         </LazyMotion>
@@ -37,16 +38,12 @@ export function renderShell(locale: Locale, page: PageId = 'home'): string {
   )
 }
 
+const PAGES: readonly PageId[] = ['home', 'insurance', 'before-after']
+
 /** What the inline head script needs to know. */
 export const shellMeta = {
-  titles: {
-    home: { en: en.meta.title, ar: ar.meta.title },
-    insurance: { en: en.meta.insuranceTitle, ar: ar.meta.insuranceTitle },
-  },
-  descriptions: {
-    home: { en: en.meta.description, ar: ar.meta.description },
-    insurance: { en: en.meta.insuranceDescription, ar: ar.meta.insuranceDescription },
-  },
+  titles: Object.fromEntries(PAGES.map((page) => [page, { en: pageMeta(en, page).title, ar: pageMeta(ar, page).title }])) as Record<PageId, Record<Locale, string>>,
+  descriptions: Object.fromEntries(PAGES.map((page) => [page, { en: pageMeta(en, page).description, ar: pageMeta(ar, page).description }])) as Record<PageId, Record<Locale, string>>,
   /** The splash overlay is pre-painted for first-time visitors so the intro still comes first. */
   introOverlay: intro.enabled && intro.frequency !== 'never' && intro.variant === 'splash',
   introStorageKey: intro.storageKey,

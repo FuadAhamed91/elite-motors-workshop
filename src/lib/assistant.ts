@@ -487,7 +487,7 @@ function serviceReply(service: Service, ctx: ReplyContext): AssistantReply {
   const L = links(ctx)
   const copy = t.services.items[service.id] ?? { title: service.title, description: service.description, includes: [...service.includes] }
   // Body and paint answers point at the before/after photos of real repairs.
-  const proof = service.id === 'body' || service.id === 'paint' ? [L.anchor(s.links.resultsSection, '#before-after')] : []
+  const proof = service.id === 'body' || service.id === 'paint' ? [L.anchor(s.links.resultsSection, '/before-after')] : []
   return {
     text: s.service(copy.title, copy.description, copy.includes),
     links: [...proof, L.call, L.anchor(s.links.servicesSection, '#services')],
@@ -533,11 +533,11 @@ function buildReply(id: IntentId, ctx: ReplyContext): AssistantReply {
         locale,
       }
     case 'bodyshop':
-      return { text: s.bodyshop(name), links: [L.anchor(s.links.resultsSection, '#before-after'), L.call], suggestions: [sg.status, sg.location], locale }
+      return { text: s.bodyshop(name), links: [L.anchor(s.links.resultsSection, '/before-after'), L.call], suggestions: [sg.status, sg.location], locale }
     case 'results':
       return {
         text: s.results(name, repairs.map((pair) => t.beforeAfter.cars[pair.id]?.name ?? pair.id)),
-        links: [L.anchor(s.links.resultsSection, '#before-after'), L.anchor(s.links.insuranceSection, '/insurance')],
+        links: [L.anchor(s.links.resultsSection, '/before-after'), L.anchor(s.links.insuranceSection, '/insurance')],
         suggestions: [sg.status, sg.location],
         locale,
       }

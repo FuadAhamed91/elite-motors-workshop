@@ -7,6 +7,7 @@ const { renderShell, shellMeta } = await import(pathToFileURL('.prerender/entry-
 const PAGES = [
   { file: 'dist/index.html', page: 'home', intro: true },
   { file: 'dist/insurance.html', page: 'insurance', intro: false },
+  { file: 'dist/before-after.html', page: 'before-after', intro: false },
 ]
 
 for (const { file, page, intro } of PAGES) {
