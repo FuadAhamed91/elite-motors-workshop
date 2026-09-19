@@ -265,10 +265,10 @@ export const en = {
     openPhoto: (car: string, stage: string) => `Open photo: ${car}, ${stage.toLowerCase()} repair`,
     hint: 'Tap any photo to view it full size.',
     insuranceCta: 'How an insurance claim works',
-    seeAll: (n: number) => `See all ${n} repairs`,
+    seeAll: 'See more repairs',
     /* Home-page teaser + dedicated page */
     homeLead: 'Real cars from our body shop, photographed on arrival and again when the repair was finished — see the full set on its own page.',
-    openPage: (n: number) => `See all ${n} before & after repairs`,
+    openPage: 'See more before & after repairs',
     pageTitle: 'Accident repairs — before and after.',
     pageLead:
       'Every car here came in after an accident and left repaired and repainted at Elite Motors Workshop in Mussafah. Each pair shows the same car on arrival and on hand-over. Number plates are blurred for the owners’ privacy.',

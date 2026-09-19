@@ -101,7 +101,7 @@ export function BeforeAfter() {
       <Reveal delay={0.1}>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <CtaLink href="/before-after" size="lg" iconRight={<ArrowUpRight className="rtl:-scale-x-100" />}>
-            {c.openPage(repairs.length)}
+            {c.openPage}
           </CtaLink>
           <CtaLink href={buildTelLink(workshop.phone)} variant="outline" size="lg" icon={<Phone />}>
             {t.common.call(workshop.phone)}
@@ -130,7 +130,7 @@ export function BeforeAfterStrip({ limit }: BeforeAfterStripProps) {
           href="/before-after"
           className="group inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary-bright"
         >
-          {c.seeAll(repairs.length)}
+          {c.seeAll}
           <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
         </a>
       </div>
