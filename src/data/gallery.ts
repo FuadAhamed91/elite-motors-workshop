@@ -12,7 +12,9 @@ export interface GalleryPhoto {
 
 /**
  * Photos of the workshop in Mussafah. All vehicle number plates in these
- * images have been blurred before publishing. Each JPEG has a WebP sibling.
+ * images have been blurred before publishing, and the wash bay's green floor
+ * paint was retouched to plain concrete (owner's request). Each JPEG has a
+ * WebP sibling.
  * Captions/alt text here are the English defaults — the UI reads the active
  * language's copy from `src/i18n` by photo id.
  */

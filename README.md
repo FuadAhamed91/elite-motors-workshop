@@ -147,6 +147,19 @@ and `name-thumb.jpg` + `name-thumb.webp` (800px, used in grids and on phones via
 `Picture.tsx` serves the WebP automatically. **Every vehicle number plate was blurred before the images were added** — if
 you add new photos, redact plates first and keep them out of the repo otherwise.
 
+### Before & after (`#before-after`)
+
+`public/photos/repairs/` holds seven accident repairs from the body shop as pairs
+(`<id>-before` / `<id>-after`, same sizes and siblings as above); `src/data/repairs.ts` lists the
+pairs with per-shot `focus` (object-position for the cropped card thumbnails) and the copy lives in
+`beforeAfter.cars` in both dictionaries. The section shows the first pair large and the rest in a
+3-column grid; any photo opens the same Lightbox (14 photos, before → after order). The insurance
+page shows the first three pairs with a link to the full section, and the assistant answers
+"before and after / examples / results" with a link to it. Owner's rules applied to these photos:
+all plates blurred (including a plate lying on a dashboard and cars in the background), the wash
+bay's green floor paint retouched to plain concrete (also in the gallery's wash-bay photo) and the
+phones' date/model stamps removed.
+
 ## On-site assistant
 
 `src/components/assistant/AssistantWidget.tsx` is a small chat panel (launcher above the WhatsApp
@@ -215,7 +228,7 @@ src/
     intro/                  SplashIntro + TopDownF1Car, RaceIntro + F1Car + StartLights
     ui/                     CtaLink, GlowCard, Lightbox, Reveal/Stagger, SectionHeading, StatusBadge, Stars
     layout/                 Navbar, Footer, Logo, WhatsAppFab
-    sections/               Hero, TrustStrip, Services, Insurance, Workshop (equipment + Gallery), Reviews, Hours, Location
+    sections/               Hero, TrustStrip, Services, Insurance, BeforeAfter, Workshop (equipment + Gallery), Reviews, Hours, Location
     SeoSchema.tsx           schema.org AutoRepair JSON-LD
   index.css                 Tailwind v4 theme tokens + base styles
 ```

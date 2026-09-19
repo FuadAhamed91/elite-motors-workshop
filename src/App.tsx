@@ -3,6 +3,7 @@ import { SplashIntro } from '@/components/intro/SplashIntro'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
+import { BeforeAfter } from '@/components/sections/BeforeAfter'
 import { Hero } from '@/components/sections/Hero'
 import { Hours } from '@/components/sections/Hours'
 import { Insurance } from '@/components/sections/Insurance'
@@ -60,6 +61,7 @@ export default function App() {
             <>
               <Services />
               <Insurance />
+              <BeforeAfter />
               <Workshop />
               <Reviews />
               <Hours />

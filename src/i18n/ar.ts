@@ -53,6 +53,7 @@ export const ar: Dictionary = {
   nav: {
     services: 'الخدمات',
     insurance: 'التأمين',
+    beforeAfter: 'قبل وبعد',
     workshop: 'الورشة',
     about: 'من نحن',
     reviews: 'التقييمات',
@@ -244,6 +245,33 @@ export const ar: Dictionary = {
       'fidelity-united': 'يونايتد فيدلتي للتأمين',
       'watania-takaful': 'نور تكافل سابقاً',
     },
+  },
+
+  beforeAfter: {
+    eyebrow: 'قبل وبعد',
+    title: 'إصلاح الحوادث — قبل وبعد.',
+    description: 'سيارات حقيقية من ورشة السمكرة لدينا، صُوِّرت عند وصولها ثم بعد اكتمال الإصلاح. لوحات الأرقام مموَّهة حفاظاً على خصوصية أصحابها.',
+    before: 'قبل',
+    after: 'بعد',
+    listLabel: 'صور الإصلاح قبل وبعد',
+    openPhoto: (car: string, stage: string) => `فتح الصورة: ${car}، ${stage} الإصلاح`,
+    hint: 'اضغط على أي صورة لعرضها بالحجم الكامل.',
+    insuranceCta: 'كيف تتم مطالبة التأمين',
+    seeAll: (n: number) => `عرض كل الإصلاحات (${n})`,
+    compactTitle: 'إصلاحات حوادث حديثة',
+    captionBefore: (car: string) => `${car} — قبل الإصلاح`,
+    captionAfter: (car: string) => `${car} — بعد الإصلاح`,
+    altBefore: (car: string) => `${car} بأضرار حادث عند وصولها إلى الورشة`,
+    altAfter: (car: string) => `${car} بعد الإصلاح والصبغ`,
+    cars: {
+      'bmw-5-series': { name: 'بي إم دبليو الفئة الخامسة', work: 'حادث أمامي: غطاء المحرك والصدام والمصباح' },
+      'toyota-hilux': { name: 'تويوتا هايلكس', work: 'صدمة أمامية: غطاء المحرك والشبك والصدام' },
+      'alfa-romeo-giulia': { name: 'ألفا روميو جوليا', work: 'إصلاح الصدام الأمامي وغطاء المحرك مع الصبغ' },
+      'nissan-x-trail': { name: 'نيسان إكس تريل', work: 'إعادة بناء المقدمة بعد حادث' },
+      'toyota-land-cruiser': { name: 'تويوتا لاندكروزر', work: 'صدمة في الزاوية الأمامية: الصدام والرفرف والمصباح' },
+      'honda-civic': { name: 'هوندا سيفيك', work: 'إعادة بناء المقدمة بالكامل' },
+      'changan-suv': { name: 'شانجان (دفع رباعي)', work: 'إصلاح وصبغ المقدمة بعد حادث' },
+    } as Record<string, { name: string; work: string }>,
   },
 
   workshop: {

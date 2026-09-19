@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
+import { BeforeAfter } from '@/components/sections/BeforeAfter'
 import { AfterAccident, BringChecklist, ClaimSteps, InsuranceFaq, InsurerWall } from '@/components/sections/InsuranceContent'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { Reveal } from '@/components/ui/Reveal'
@@ -79,7 +80,13 @@ export default function InsurancePage() {
           </div>
         </section>
 
-        <section className="container-x grid gap-10 py-16 lg:grid-cols-2 lg:gap-14 lg:py-20" aria-label={t.insurance.faqTitle}>
+        <section className="container-x py-16 lg:py-20" aria-label={t.beforeAfter.compactTitle}>
+          <Reveal>
+            <BeforeAfter limit={3} />
+          </Reveal>
+        </section>
+
+        <section className="container-x grid gap-10 border-t border-line py-16 lg:grid-cols-2 lg:gap-14 lg:py-20" aria-label={t.insurance.faqTitle}>
           <Reveal>
             <AfterAccident />
           </Reveal>

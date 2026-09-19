@@ -131,6 +131,7 @@ export const workshop = {
   nav: [
     { label: 'Services', href: '#services' },
     { label: 'Insurance', href: '/insurance' },
+    { label: 'Before & After', href: '#before-after' },
     { label: 'Workshop', href: '#workshop' },
     { label: 'About', href: '#about' },
     { label: 'Reviews', href: '#reviews' },

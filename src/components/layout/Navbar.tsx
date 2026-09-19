@@ -30,7 +30,7 @@ export function Navbar() {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setOpen(false)
     }
-    const mq = window.matchMedia('(min-width: 1024px)')
+    const mq = window.matchMedia('(min-width: 1280px)')
     const onChange = () => {
       if (mq.matches) setOpen(false)
     }
@@ -45,7 +45,8 @@ export function Navbar() {
   const frosted = scrolled || open
   const navLabels: Record<string, string> = {
     '#services': t.nav.services,
-    '#insurance': t.nav.insurance,
+    '/insurance': t.nav.insurance,
+    '#before-after': t.nav.beforeAfter,
     '#workshop': t.nav.workshop,
     '#about': t.nav.about,
     '#reviews': t.nav.reviews,
@@ -74,12 +75,12 @@ export function Navbar() {
       >
         <Logo />
 
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-0.5 xl:flex">
           {workshop.nav.map((link) => (
             <li key={link.href}>
               <a
                 href={href(link.href)}
-                className="inline-flex h-10 items-center rounded-pill px-4 text-sm font-medium text-fg-muted transition-colors duration-200 hover:bg-fg/5 hover:text-fg"
+                className="inline-flex h-10 items-center rounded-pill px-3.5 text-sm font-medium whitespace-nowrap text-fg-muted transition-colors duration-200 hover:bg-fg/5 hover:text-fg"
               >
                 {navLabels[link.href] ?? link.label}
               </a>
@@ -122,7 +123,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            className="inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-line bg-fg/3 text-fg transition-colors hover:bg-fg/8 lg:hidden"
+            className="inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-line bg-fg/3 text-fg transition-colors hover:bg-fg/8 xl:hidden"
           >
             {open ? (
               <X className="size-5" aria-hidden="true" />
@@ -142,7 +143,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8, transition: { duration: 0.15 } }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="border-t border-line lg:hidden"
+            className="border-t border-line xl:hidden"
           >
             <div className="container-x flex flex-col gap-1 py-3">
               {workshop.nav.map((link) => (

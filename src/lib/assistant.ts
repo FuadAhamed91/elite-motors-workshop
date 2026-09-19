@@ -2,6 +2,7 @@ import { workshop, type DaySchedule } from '@/config/workshop'
 import { equipment } from '@/data/gallery'
 import { reviews } from '@/data/reviews'
 import { insurers } from '@/data/insurers'
+import { repairs } from '@/data/repairs'
 import { brands, services, type Service } from '@/data/services'
 import { hoursStrings, type Dictionary, type Locale } from '@/i18n'
 import { ar } from '@/i18n/ar'
@@ -47,6 +48,7 @@ type IntentId =
   | 'service'
   | 'bodyshop'
   | 'insurance'
+  | 'results'
   | 'price'
   | 'reviews'
   | 'booking'
@@ -98,6 +100,11 @@ const INTENTS_EN: readonly Intent[] = [
   {
     id: 'insurance',
     patterns: ['insurance', 'insurer', 'insured', 'claim', 'policy', 'takaful', 'excess', 'deductible', 'approved', 'sukoon', 'adamjee', 'fidelity', 'watania', 'noor', 'tokio', 'qic', 'qatar insurance', 'dubai insurance', 'dubai national', 'dni', 'oman insurance', 'company car', 'trade licen'],
+    weight: 3,
+  },
+  {
+    id: 'results',
+    patterns: ['before and after', 'before & after', 'before/after', 'before-and-after', 'before after', 'after repair', 'before repair', 'result', 'example', 'previous work', 'past work', 'portfolio', 'repaired car', 'fixed car', 'proof', 'your work', 'sample', 'showcase', 'how good', 'quality of'],
     weight: 3,
   },
   { id: 'price', patterns: ['price', 'cost', 'how much', 'quote', 'estimate', 'rate', 'charge', 'fee', 'aed', 'dirham', 'expensive', 'cheap'], weight: 2 },
@@ -162,6 +169,11 @@ const INTENTS_AR: readonly Intent[] = [
     patterns: ['تامين', 'مطالبه', 'بوليصه', 'وثيقه', 'تكافل', 'معتمد', 'معتمدين', 'تحمل', 'سكون', 'ادمجي', 'آدمجي', 'فيدلتي', 'وطنيه', 'نور', 'طوكيو', 'قطر للتامين', 'دبي للتامين', 'دبي الوطنيه', 'شركه التامين', 'شركات التامين', 'سياره شركه', 'رخصه تجاريه'],
     weight: 3,
   },
+  {
+    id: 'results',
+    patterns: ['قبل وبعد', 'قبل و بعد', 'نتائج', 'نتيجه', 'امثله', 'مثال', 'اعمالكم', 'اعمال سابقه', 'شغلكم', 'شغل سابق', 'صلحتوها', 'صلحتوه', 'صور حوادث', 'صور الحوادث', 'صور اصلاح', 'صور الاصلاح', 'بعد الاصلاح', 'قبل الاصلاح', 'جوده الشغل', 'جوده العمل', 'نماذج'],
+    weight: 3,
+  },
   { id: 'price', patterns: ['سعر', 'اسعار', 'بكم', 'كم يكلف', 'تكلفه', 'تسعيره', 'عرض سعر', 'تقدير', 'درهم', 'غالي', 'رخيص', 'رسوم', 'كم تاخذون'], weight: 2 },
   { id: 'reviews', patterns: ['تقييم', 'تقييمات', 'مراجعات', 'جوجل', 'قوقل', 'راي', 'اراء', 'ثقه', 'انصح', 'توصيه', 'سمعه', 'ممتازين'], weight: 2 },
   { id: 'booking', patterns: ['حجز', 'احجز', 'موعد', 'اجي', 'اجيكم', 'اجيب السياره', 'ازوركم', 'زياره', 'اروح لكم', 'اخذ موعد'], weight: 2 },
@@ -200,6 +212,7 @@ interface AssistantStrings {
     aboutSection: string
     workshopSection: string
     insuranceSection: string
+    resultsSection: string
     readReviews: string
   }
   suggestions: {
@@ -234,6 +247,7 @@ interface AssistantStrings {
   facility: (name: string, lines: string[]) => string
   brands: (eu: string, jp: string, kr: string) => string
   experience: (name: string, year: number, years: number) => string
+  results: (name: string, cars: string[]) => string
 }
 
 const STRINGS: Record<Locale, AssistantStrings> = {
@@ -249,6 +263,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       aboutSection: 'About the workshop',
       workshopSection: 'See the workshop photos',
       insuranceSection: 'Insurance claims page',
+      resultsSection: 'Before & after photos',
       readReviews: 'Read reviews on Google',
     },
     suggestions: {
@@ -289,6 +304,8 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     brands: (eu, jp, kr) => `The workshop services all major makes:\nEuropean: ${eu}\nJapanese: ${jp}\nKorean: ${kr}\n\nNot sure about yours? Call the workshop.`,
     experience: (name, year, years) =>
       `${name} has been in Mussafah since ${year} — ${years}+ years of all-makes repairs, with trained technicians and an insurance-approved body & paint shop.`,
+    results: (name, cars) =>
+      `Yes — the Before & After section shows recent accident repairs from ${name}'s body shop, each car photographed on arrival and again after the repair: ${cars.join(', ')}. Number plates are blurred for the owners' privacy.`,
   },
   ar: {
     links: {
@@ -302,6 +319,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       aboutSection: 'عن الورشة',
       workshopSection: 'صور الورشة',
       insuranceSection: 'صفحة مطالبات التأمين',
+      resultsSection: 'صور قبل وبعد',
       readReviews: 'اقرأ التقييمات على جوجل',
     },
     suggestions: {
@@ -342,6 +360,8 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     brands: (eu, jp, kr) => `تخدم الورشة جميع الماركات الرئيسية:\nأوروبية: ${eu}\nيابانية: ${jp}\nكورية: ${kr}\n\nغير متأكد من سيارتك؟ اتصل بالورشة.`,
     experience: (name, year, years) =>
       `${name} في المصفح منذ ${year} — أكثر من ${years} سنوات من إصلاح جميع الماركات، بفنيين مدرّبين وورشة سمكرة وصبغ معتمدة لدى شركات التأمين.`,
+    results: (name, cars) =>
+      `نعم — قسم «قبل وبعد» يعرض إصلاحات حوادث حديثة من ورشة السمكرة في ${name}، كل سيارة مصوَّرة عند وصولها ثم بعد الإصلاح: ${cars.join('، ')}. لوحات الأرقام مموَّهة حفاظاً على خصوصية أصحابها.`,
   },
 }
 
@@ -466,9 +486,11 @@ function serviceReply(service: Service, ctx: ReplyContext): AssistantReply {
   const { t, s, locale } = ctx
   const L = links(ctx)
   const copy = t.services.items[service.id] ?? { title: service.title, description: service.description, includes: [...service.includes] }
+  // Body and paint answers point at the before/after photos of real repairs.
+  const proof = service.id === 'body' || service.id === 'paint' ? [L.anchor(s.links.resultsSection, '#before-after')] : []
   return {
     text: s.service(copy.title, copy.description, copy.includes),
-    links: [L.call, L.anchor(s.links.servicesSection, '#services')],
+    links: [...proof, L.call, L.anchor(s.links.servicesSection, '#services')],
     suggestions: [s.suggestions.services, s.suggestions.status, s.suggestions.location],
     locale,
   }
@@ -511,7 +533,14 @@ function buildReply(id: IntentId, ctx: ReplyContext): AssistantReply {
         locale,
       }
     case 'bodyshop':
-      return { text: s.bodyshop(name), links: [L.call, L.directions], suggestions: [sg.status, sg.location], locale }
+      return { text: s.bodyshop(name), links: [L.anchor(s.links.resultsSection, '#before-after'), L.call], suggestions: [sg.status, sg.location], locale }
+    case 'results':
+      return {
+        text: s.results(name, repairs.map((pair) => t.beforeAfter.cars[pair.id]?.name ?? pair.id)),
+        links: [L.anchor(s.links.resultsSection, '#before-after'), L.anchor(s.links.insuranceSection, '/insurance')],
+        suggestions: [sg.status, sg.location],
+        locale,
+      }
     case 'insurance': {
       const list = insurers.map((insurer) => {
         const label = t.insurance.names[insurer.id] ?? insurer.name
@@ -605,7 +634,7 @@ export function answerQuestion(question: string, uiLocale: Locale): AssistantRep
     if (!best || total > best.score) best = { id: intent.id, score: total }
   }
 
-  if (service && (!best || !['price', 'booking', 'status', 'hours', 'location', 'phone', 'insurance'].includes(best.id))) {
+  if (service && (!best || !['price', 'booking', 'status', 'hours', 'location', 'phone', 'insurance', 'results'].includes(best.id))) {
     return serviceReply(service, ctx)
   }
   if (best?.id === 'hours' || best?.id === 'status') {

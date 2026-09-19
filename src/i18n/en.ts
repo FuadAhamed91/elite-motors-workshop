@@ -54,6 +54,7 @@ export const en = {
   nav: {
     services: 'Services',
     insurance: 'Insurance',
+    beforeAfter: 'Before & After',
     workshop: 'Workshop',
     about: 'About',
     reviews: 'Reviews',
@@ -247,6 +248,34 @@ export const en = {
       'fidelity-united': 'United Fidelity Insurance Co.',
       'watania-takaful': 'formerly Noor Takaful',
     } as Record<string, string>,
+  },
+
+  beforeAfter: {
+    eyebrow: 'Before & after',
+    title: 'Accident repairs — before and after.',
+    description:
+      'Real cars from our body shop, photographed on arrival and again when the repair was finished. Number plates are blurred for the owners’ privacy.',
+    before: 'Before',
+    after: 'After',
+    listLabel: 'Before and after repair photos',
+    openPhoto: (car: string, stage: string) => `Open photo: ${car}, ${stage.toLowerCase()} repair`,
+    hint: 'Tap any photo to view it full size.',
+    insuranceCta: 'How an insurance claim works',
+    seeAll: (n: number) => `See all ${n} repairs`,
+    compactTitle: 'Recent accident repairs',
+    captionBefore: (car: string) => `${car} — before repair`,
+    captionAfter: (car: string) => `${car} — after repair`,
+    altBefore: (car: string) => `${car} with accident damage, on arrival at the workshop`,
+    altAfter: (car: string) => `${car} after the repair, repainted`,
+    cars: {
+      'bmw-5-series': { name: 'BMW 5 Series', work: 'Front-end collision: bonnet, bumper and headlamp' },
+      'toyota-hilux': { name: 'Toyota Hilux', work: 'Frontal impact: bonnet, grille and bumper' },
+      'alfa-romeo-giulia': { name: 'Alfa Romeo Giulia', work: 'Front bumper and bonnet repair, repainted' },
+      'nissan-x-trail': { name: 'Nissan X-Trail', work: 'Front-end rebuild after a collision' },
+      'toyota-land-cruiser': { name: 'Toyota Land Cruiser', work: 'Front-corner impact: bumper, wing and headlamp' },
+      'honda-civic': { name: 'Honda Civic', work: 'Major front-end rebuild' },
+      'changan-suv': { name: 'Changan SUV', work: 'Front-end collision repair and paint' },
+    } as Record<string, { name: string; work: string }>,
   },
 
   workshop: {
