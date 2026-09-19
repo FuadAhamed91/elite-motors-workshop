@@ -2,7 +2,6 @@ import { workshop, type DaySchedule } from '@/config/workshop'
 import { equipment } from '@/data/gallery'
 import { reviews } from '@/data/reviews'
 import { insurers } from '@/data/insurers'
-import { repairs } from '@/data/repairs'
 import { brands, services, type Service } from '@/data/services'
 import { hoursStrings, type Dictionary, type Locale } from '@/i18n'
 import { ar } from '@/i18n/ar'
@@ -247,7 +246,7 @@ interface AssistantStrings {
   facility: (name: string, lines: string[]) => string
   brands: (eu: string, jp: string, kr: string) => string
   experience: (name: string, year: number, years: number) => string
-  results: (name: string, cars: string[]) => string
+  results: (name: string) => string
 }
 
 const STRINGS: Record<Locale, AssistantStrings> = {
@@ -304,8 +303,8 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     brands: (eu, jp, kr) => `The workshop services all major makes:\nEuropean: ${eu}\nJapanese: ${jp}\nKorean: ${kr}\n\nNot sure about yours? Call the workshop.`,
     experience: (name, year, years) =>
       `${name} has been in Mussafah since ${year} — ${years}+ years of all-makes repairs, with trained technicians and an insurance-approved body & paint shop.`,
-    results: (name, cars) =>
-      `Yes — the Before & After section shows recent accident repairs from ${name}'s body shop, each car photographed on arrival and again after the repair: ${cars.join(', ')}. Number plates are blurred for the owners' privacy.`,
+    results: (name) =>
+      `Yes — the Before & After page shows recent accident repairs from ${name}'s body shop, each car photographed on arrival and again after the repair. Number plates are blurred for the owners' privacy.`,
   },
   ar: {
     links: {
@@ -360,8 +359,8 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     brands: (eu, jp, kr) => `تخدم الورشة جميع الماركات الرئيسية:\nأوروبية: ${eu}\nيابانية: ${jp}\nكورية: ${kr}\n\nغير متأكد من سيارتك؟ اتصل بالورشة.`,
     experience: (name, year, years) =>
       `${name} في المصفح منذ ${year} — أكثر من ${years} سنوات من إصلاح جميع الماركات، بفنيين مدرّبين وورشة سمكرة وصبغ معتمدة لدى شركات التأمين.`,
-    results: (name, cars) =>
-      `نعم — قسم «قبل وبعد» يعرض إصلاحات حوادث حديثة من ورشة السمكرة في ${name}، كل سيارة مصوَّرة عند وصولها ثم بعد الإصلاح: ${cars.join('، ')}. لوحات الأرقام مموَّهة حفاظاً على خصوصية أصحابها.`,
+    results: (name) =>
+      `نعم — صفحة «قبل وبعد» تعرض إصلاحات حوادث حديثة من ورشة السمكرة في ${name}، كل سيارة مصوَّرة عند وصولها ثم بعد الإصلاح. لوحات الأرقام مموَّهة حفاظاً على خصوصية أصحابها.`,
   },
 }
 
@@ -536,7 +535,7 @@ function buildReply(id: IntentId, ctx: ReplyContext): AssistantReply {
       return { text: s.bodyshop(name), links: [L.anchor(s.links.resultsSection, '/before-after'), L.call], suggestions: [sg.status, sg.location], locale }
     case 'results':
       return {
-        text: s.results(name, repairs.map((pair) => t.beforeAfter.cars[pair.id]?.name ?? pair.id)),
+        text: s.results(name),
         links: [L.anchor(s.links.resultsSection, '/before-after'), L.anchor(s.links.insuranceSection, '/insurance')],
         suggestions: [sg.status, sg.location],
         locale,
