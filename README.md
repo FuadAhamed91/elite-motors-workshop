@@ -155,8 +155,10 @@ pairs with per-shot `focus` (object-position for the cropped card thumbnails) an
 `beforeAfter.cars` in both dictionaries. Same structure as insurance: the home page has a teaser
 section (three pairs + a button), the hero has a "Before & after" button, and the dedicated page
 (`before-after.html` → `src/before-after-main.tsx` → `src/pages/BeforeAfterPage.tsx`, pre-rendered
-like the others) shows the first pair large and the rest in a 3-column grid; any photo opens the
-same Lightbox (14 photos, before → after order). The insurance page shows the first three pairs
+like the others) shows every car in a 2-column grid. Each card is one photo with an
+"On arrival | After repair" switch that cross-fades between the two shots (the repaired car shows
+first — the owner did not want BEFORE/AFTER words printed on the photos); tapping the photo opens
+the same Lightbox (14 photos, on arrival → after repair order). The insurance page shows the first three pairs
 with a link to the page, and the assistant answers "before and after / examples / results" with a
 link to it. Owner's rules applied to these photos:
 all plates blurred (including a plate lying on a dashboard and cars in the background), the wash

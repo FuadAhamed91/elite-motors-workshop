@@ -66,7 +66,7 @@ export default function BeforeAfterPage() {
         <BeforeAfterHero />
 
         <section className="container-x pb-16 lg:pb-20" aria-label={c.listLabel}>
-          <RepairGrid featured />
+          <RepairGrid columns={2} />
         </section>
 
         <section className="border-t border-line bg-surface/40 py-16 lg:py-20" aria-labelledby="accident-heading">

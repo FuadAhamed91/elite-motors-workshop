@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Phone } from 'lucide-react'
+import { ArrowUpRight, Phone } from 'lucide-react'
 import { lazy, Suspense, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CtaLink } from '@/components/ui/CtaLink'
@@ -17,7 +17,7 @@ const Lightbox = lazy(() => import('@/components/ui/Lightbox').then((mod) => ({ 
 
 const STAGES: readonly RepairStage[] = ['before', 'after']
 
-/** Every shot as a viewer photo — pair by pair, before then after — with captions in the active language. */
+/** Every shot as a viewer photo — pair by pair, on arrival then after repair — with captions in the active language. */
 export function repairPhotos(t: Dictionary, pairs: readonly RepairPair[] = repairs): GalleryPhoto[] {
   const c = t.beforeAfter
   return pairs.flatMap((pair) => {
@@ -33,18 +33,23 @@ export function repairPhotos(t: Dictionary, pairs: readonly RepairPair[] = repai
   })
 }
 
+const COLUMNS = {
+  2: 'sm:grid-cols-2',
+  3: 'sm:grid-cols-2 lg:grid-cols-3',
+} as const
+
 interface RepairGridProps {
   pairs?: readonly RepairPair[]
-  /** Show the first pair at full width (the /before-after page); off for the teasers. */
-  featured?: boolean
+  /** Cards per row on desktop — 2 on the dedicated page (bigger photos), 3 in the teasers. */
+  columns?: keyof typeof COLUMNS
   className?: string
 }
 
 /**
- * The before/after cards plus the shared viewer: any photo opens the Lightbox
- * over every shot in `pairs` (before → after order).
+ * The repair cards plus the shared viewer: tapping a card's photo opens the
+ * Lightbox over every shot in `pairs` (on arrival → after repair order).
  */
-export function RepairGrid({ pairs = repairs, featured = false, className }: RepairGridProps) {
+export function RepairGrid({ pairs = repairs, columns = 3, className }: RepairGridProps) {
   const t = useT()
   const c = t.beforeAfter
   const photos = repairPhotos(t, pairs)
@@ -58,15 +63,12 @@ export function RepairGrid({ pairs = repairs, featured = false, className }: Rep
 
   return (
     <>
-      <StaggerGroup as="ul" className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5', className)} aria-label={c.listLabel}>
-        {pairs.map((pair, index) => {
-          const big = featured && index === 0
-          return (
-            <StaggerItem as="li" key={pair.id} className={cn(big && 'sm:col-span-2 lg:col-span-3')}>
-              <PairCard pair={pair} photos={photos} firstIndex={index * 2} featured={big} onOpen={openPhoto} />
-            </StaggerItem>
-          )
-        })}
+      <StaggerGroup as="ul" className={cn('grid gap-4 lg:gap-5', COLUMNS[columns], className)} aria-label={c.listLabel}>
+        {pairs.map((pair, index) => (
+          <StaggerItem as="li" key={pair.id}>
+            <SwitchCard pair={pair} photos={photos} firstIndex={index * 2} onOpen={openPhoto} />
+          </StaggerItem>
+        ))}
       </StaggerGroup>
       <p className="mt-4 text-xs text-fg-muted">{c.hint}</p>
 
@@ -83,7 +85,7 @@ export function RepairGrid({ pairs = repairs, featured = false, className }: Rep
 }
 
 /**
- * Home-page teaser (same pattern as the insurance section): three pairs and a
+ * Home-page teaser (same pattern as the insurance section): three cars and a
  * button to the dedicated /before-after page with the full set.
  */
 export function BeforeAfter() {
@@ -113,11 +115,11 @@ export function BeforeAfter() {
 }
 
 interface BeforeAfterStripProps {
-  /** How many pairs to show. */
+  /** How many cars to show. */
   limit: number
 }
 
-/** Compact strip for other pages (the insurance page): an h3, a few pairs and a link to the full page. */
+/** Compact strip for other pages (the insurance page): an h3, a few cars and a link to the full page. */
 export function BeforeAfterStrip({ limit }: BeforeAfterStripProps) {
   const t = useT()
   const c = t.beforeAfter
@@ -139,72 +141,84 @@ export function BeforeAfterStrip({ limit }: BeforeAfterStripProps) {
   )
 }
 
-interface PairCardProps {
+interface SwitchCardProps {
   pair: RepairPair
-  /** All viewer photos; this pair's shots are at `firstIndex` (before) and `firstIndex + 1` (after). */
+  /** All viewer photos; this car's shots are at `firstIndex` (on arrival) and `firstIndex + 1` (after repair). */
   photos: readonly GalleryPhoto[]
   firstIndex: number
-  featured?: boolean
   onOpen: (index: number) => void
 }
 
-/** One car: before and after side by side (before at the reading start, so the pair reads left→right / right→left). */
-function PairCard({ pair, photos, firstIndex, featured = false, onOpen }: PairCardProps) {
+/**
+ * One car, one photo: an "On arrival | After repair" switch cross-fades
+ * between the two shots (the repaired car shows first); tapping the photo
+ * opens the viewer on the shot being shown.
+ */
+function SwitchCard({ pair, photos, firstIndex, onOpen }: SwitchCardProps) {
   const t = useT()
   const c = t.beforeAfter
   const copy = c.cars[pair.id] ?? { name: pair.id, work: '' }
+  const [stage, setStage] = useState<RepairStage>('after')
+  const label = (which: RepairStage) => (which === 'before' ? c.before : c.after)
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface shadow-card">
-      <div className="relative grid grid-cols-2 gap-1 p-1">
-        {STAGES.map((stage, offset) => {
-          const photo = photos[firstIndex + offset]
-          const label = stage === 'before' ? c.before : c.after
-          return (
-            <button
-              key={stage}
-              type="button"
-              onClick={() => onOpen(firstIndex + offset)}
-              aria-label={c.openPhoto(copy.name, label)}
-              className="group relative block w-full cursor-pointer overflow-hidden rounded-[calc(var(--radius-card)-0.25rem)] bg-sand-200"
-            >
+      <div className="relative p-1">
+        <button
+          type="button"
+          onClick={() => onOpen(firstIndex + (stage === 'after' ? 1 : 0))}
+          aria-label={c.openPhoto(copy.name, label(stage))}
+          className="group relative block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-[calc(var(--radius-card)-0.25rem)] bg-sand-200 sm:aspect-[16/10]"
+        >
+          {STAGES.map((which, offset) => {
+            const photo = photos[firstIndex + offset]
+            const active = which === stage
+            return (
               <Picture
+                key={which}
                 src={photo.src}
                 thumb={photo.thumb}
-                alt={photo.alt}
+                alt={active ? photo.alt : ''}
+                aria-hidden={!active}
                 width={photo.width}
                 height={photo.height}
-                sizes={featured ? '(min-width: 1280px) 600px, 50vw' : '(min-width: 1024px) 20vw, (min-width: 640px) 25vw, 50vw'}
-                style={{ objectPosition: pair[stage].focus }}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                style={{ objectPosition: pair[which].focus }}
                 className={cn(
-                  'w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:group-hover:scale-100',
-                  featured ? 'aspect-[4/3] sm:aspect-[16/10]' : 'aspect-square sm:aspect-[4/3]',
+                  'absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100',
+                  active ? 'opacity-100' : 'opacity-0',
                 )}
               />
-              <span
-                className={cn(
-                  'pointer-events-none absolute top-2 start-2 rounded-pill px-2.5 py-1 text-[11px] font-bold tracking-[0.12em] uppercase shadow-sm',
-                  stage === 'before' ? 'bg-ink-900/80 text-sand-50' : 'bg-primary text-on-primary',
-                )}
-              >
-                {label}
-              </span>
-            </button>
-          )
-        })}
-        {/* Seam badge: reads as "this became that" */}
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 left-1/2 flex size-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-surface/95 text-primary shadow-card"
+            )
+          })}
+          {/* Legibility scrim behind the switch */}
+          <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-ink-900/55 to-transparent" />
+        </button>
+
+        <div
+          role="group"
+          aria-label={c.toggleLabel}
+          className="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 rounded-pill border border-white/50 bg-surface/95 p-1 shadow-card"
         >
-          <ArrowRight className="size-4 rtl:-scale-x-100" strokeWidth={2.5} />
-        </span>
-      </div>
-      <div className="flex flex-1 items-start justify-between gap-3 px-4 py-3">
-        <div>
-          <p className={cn('font-semibold text-fg', featured && 'text-lg')}>{copy.name}</p>
-          <p className="mt-0.5 text-sm leading-snug text-fg-muted">{copy.work}</p>
+          {STAGES.map((which) => (
+            <button
+              key={which}
+              type="button"
+              aria-pressed={which === stage}
+              onClick={() => setStage(which)}
+              className={cn(
+                'min-h-9 cursor-pointer rounded-pill px-3.5 text-xs font-semibold whitespace-nowrap transition-colors duration-200 sm:px-4 sm:text-[13px]',
+                which === stage ? 'bg-primary text-on-primary shadow-sm' : 'text-fg-muted hover:text-fg',
+              )}
+            >
+              {label(which)}
+            </button>
+          ))}
         </div>
+      </div>
+      <div className="px-4 py-3">
+        <p className="font-semibold text-fg">{copy.name}</p>
+        <p className="mt-0.5 text-sm leading-snug text-fg-muted">{copy.work}</p>
       </div>
     </article>
   )
