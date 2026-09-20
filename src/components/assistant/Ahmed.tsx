@@ -72,8 +72,7 @@ export function Ahmed({ className }: AhmedProps) {
           <stop offset="1" stopColor={CLOTH_SHADE} />
         </linearGradient>
       </defs>
-      {/* The figure breathes very slightly */}
-      <g className="motion-safe:animate-breathe" style={{ transformOrigin: '60px 150px' }}>
+      <g>
         {/* Ghutra — the back panel and the two drapes fall behind the head */}
         <path d="M31 46c4-18 54-18 58 0l6 54H25z" fill={CLOTH_SHADE} />
         <path d="M37 47c-6 14-10 32-13 54h22c-2-16-2-32 0-48z" fill={CLOTH} stroke={CLOTH_LINE} strokeWidth="1.3" strokeLinejoin="round" />

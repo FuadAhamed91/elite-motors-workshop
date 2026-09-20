@@ -15,6 +15,7 @@ import { Services } from '@/components/sections/Services'
 import { TrustStrip } from '@/components/sections/TrustStrip'
 import { Workshop } from '@/components/sections/Workshop'
 import { SeoSchema } from '@/components/SeoSchema'
+import { Deferred } from '@/components/ui/Deferred'
 import { assistant } from '@/config/assistant'
 import { intro } from '@/config/intro'
 import { useAnchorNavigation } from '@/hooks/useAnchorNavigation'
@@ -59,21 +60,42 @@ export default function App() {
         <main id="main">
           <Hero />
           <TrustStrip />
+          {/* Services mounts one frame after the hero; everything lower mounts as the visitor approaches it. */}
           {belowFold && (
             <>
               <Services />
-              <Brands />
-              <Insurance />
-              <Fleet />
-              <BeforeAfter />
-              <Workshop />
-              <Reviews />
-              <Hours />
-              <Location />
+              <Deferred minHeight="60vh">
+                <Brands />
+              </Deferred>
+              <Deferred minHeight="90vh">
+                <Insurance />
+              </Deferred>
+              <Deferred minHeight="80vh">
+                <Fleet />
+              </Deferred>
+              <Deferred minHeight="90vh">
+                <BeforeAfter />
+              </Deferred>
+              <Deferred minHeight="90vh">
+                <Workshop />
+              </Deferred>
+              <Deferred minHeight="90vh">
+                <Reviews />
+              </Deferred>
+              <Deferred minHeight="80vh">
+                <Hours />
+              </Deferred>
+              <Deferred minHeight="70vh">
+                <Location />
+              </Deferred>
             </>
           )}
         </main>
-        {belowFold && <Footer />}
+        {belowFold && (
+          <Deferred minHeight="60vh">
+            <Footer />
+          </Deferred>
+        )}
         <WhatsAppFab />
         {assistant.enabled && idle && (
           <Suspense fallback={null}>

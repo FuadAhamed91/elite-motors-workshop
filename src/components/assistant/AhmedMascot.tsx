@@ -103,7 +103,10 @@ export function AhmedMascot({ chatOpen, onOpenChat }: AhmedMascotProps) {
             aria-label={copy.chat}
             className="pointer-events-auto -me-1 w-[6.75rem] shrink-0 cursor-pointer [mask-image:linear-gradient(to_bottom,black_72%,transparent)] sm:w-[7.5rem]"
           >
-            <Ahmed className="h-auto w-full drop-shadow-[0_10px_18px_rgb(15_27_61/0.35)]" />
+            {/* The breathing runs on this HTML wrapper: it composites on the GPU, unlike a transform on an SVG group */}
+            <span className="block origin-bottom motion-safe:animate-breathe">
+              <Ahmed className="h-auto w-full drop-shadow-[0_10px_18px_rgb(15_27_61/0.35)]" />
+            </span>
           </button>
         </m.div>
       )}
