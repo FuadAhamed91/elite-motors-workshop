@@ -197,7 +197,7 @@ export const en = {
 
   fleet: {
     eyebrow: 'Fleet & company vehicles',
-    title: 'Rental, taxi and delivery fleets keep their cars moving with us.',
+    title: 'Rental, taxi and company fleets keep their vehicles moving with us.',
     description:
       'Fleet managers in Abu Dhabi send us their cars for servicing, accident repair and insurance work because downtime costs them money. One workshop for mechanical, body and paint, one point of contact, one invoice.',
     points: [
@@ -207,10 +207,10 @@ export const en = {
       'Recovery to the workshop arranged for accident-damaged cars',
     ],
     clientsTitle: 'Fleets we service',
-    kinds: { rental: 'Car rental', taxi: 'Taxi operator', delivery: 'Delivery fleet' },
+    kinds: { rental: 'Car rental', taxi: 'Taxi operator', bakery: 'Bakery chain' },
     names: {} as Record<string, string>,
     visit: (name: string) => `Visit ${name}`,
-    note: 'Company names link to the companies\u2019 own websites.',
+    logoAlt: (name: string) => `${name} logo`,
     cta: 'Talk to us about your fleet',
   },
 

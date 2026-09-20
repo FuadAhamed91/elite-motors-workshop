@@ -64,10 +64,10 @@ export default function App() {
               <Services />
               <Brands />
               <Insurance />
+              <Fleet />
               <BeforeAfter />
               <Workshop />
               <Reviews />
-              <Fleet />
               <Hours />
               <Location />
             </>

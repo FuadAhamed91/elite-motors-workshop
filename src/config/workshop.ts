@@ -131,11 +131,11 @@ export const workshop = {
   nav: [
     { label: 'Services', href: '#services' },
     { label: 'Insurance', href: '/insurance' },
+    { label: 'Fleet', href: '#fleet' },
     { label: 'Before & After', href: '/before-after' },
     { label: 'Workshop', href: '#workshop' },
     { label: 'About', href: '#about' },
     { label: 'Reviews', href: '#reviews' },
-    { label: 'Fleet', href: '#fleet' },
     { label: 'Hours & Location', href: '#hours' },
   ] as const satisfies readonly NavLink[],
 } as const

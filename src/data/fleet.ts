@@ -1,23 +1,35 @@
-export type FleetKind = 'rental' | 'taxi' | 'delivery'
+export type FleetKind = 'rental' | 'taxi' | 'bakery'
 
 export interface FleetClient {
   id: string
   name: string
-  /** The client's own website (opens in a new tab); omit when we could not find one. */
-  url?: string
+  /** The client's own website (opens in a new tab). */
+  url: string
   kind: FleetKind
+  /** The company's logo in /logos/fleet (their own mark, shown to say "we service their fleet"). */
+  logo: string
+  /** Width ÷ height of the logo file, for the img size hints. */
+  ratio: number
 }
 
+const client = (id: string, name: string, url: string, kind: FleetKind, ratio: number): FleetClient => ({
+  id,
+  name,
+  url,
+  kind,
+  logo: `/logos/fleet/${id}.png`,
+  ratio,
+})
+
 /**
- * Fleet customers the owner named (2026-09-20). Shown as name tiles that link
- * to the companies' sites — no logos, so nothing to license. Labels for the
- * kinds live in `src/i18n` under `fleet.kinds`.
+ * Fleet customers the owner named (2026-09-20), with their logos. Labels for
+ * the kinds live in `src/i18n` under `fleet.kinds`.
  */
 export const fleetClients: readonly FleetClient[] = [
-  { id: 'kabi', name: 'Kabi Taxi', url: 'https://www.kabi.ae/', kind: 'taxi' },
-  { id: 'dollar', name: 'Dollar Rent a Car', url: 'https://www.dollaruae.com/', kind: 'rental' },
-  { id: 'thrifty', name: 'Thrifty Rent a Car', url: 'https://www.thriftyuae.com/', kind: 'rental' },
-  { id: 'legend', name: 'Legend Rent a Car', url: 'https://www.legendrentacar.com/', kind: 'rental' },
-  { id: 'city-star', name: 'City Star Rent a Car', url: 'https://citystarrentacar.com/', kind: 'rental' },
-  { id: 'bake-al-arab', name: 'Bake Al Arab', url: 'https://www.bakealarab.com/', kind: 'delivery' },
+  client('kabi', 'Kabi Taxi', 'https://www.kabi.ae/', 'taxi', 2.4),
+  client('dollar', 'Dollar Rent a Car', 'https://www.dollaruae.com/', 'rental', 2.63),
+  client('thrifty', 'Thrifty Rent a Car', 'https://www.thriftyuae.com/', 'rental', 2.86),
+  client('legend', 'Legend Rent a Car', 'https://www.legendrentacar.com/', 'rental', 3.09),
+  client('city-star', 'City Star Rent a Car', 'https://citystarrentacar.com/', 'rental', 3.48),
+  client('bake-al-arab', 'Bake Al Arab', 'https://www.bakealarab.com/', 'bakery', 1.27),
 ]

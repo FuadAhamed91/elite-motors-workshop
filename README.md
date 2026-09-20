@@ -160,11 +160,13 @@ only to say "we service these" — never imply an official dealership.
 
 ### Fleet (`#fleet`)
 
-"Fleet & company vehicles" after the reviews: the pitch for fleet managers (priority booking,
-claims handled, one invoice, recovery arranged) and name tiles for the fleets the owner named
-(`src/data/fleet.ts` — Kabi Taxi, Dollar, Thrifty, Legend and City Star rent-a-car, Bake Al Arab),
-each linking to the company's own site; no logos, so nothing to license. The assistant answers
-fleet/corporate questions with the same list.
+"Fleet & company vehicles" right after the insurance section, in the same style: a logo wall of
+the fleets the owner named (`src/data/fleet.ts` — Kabi Taxi, Dollar, Thrifty, Legend and City Star
+rent-a-car, and the Bake Al Arab bakery chain), each tile linking to the company's own site, plus
+the pitch for fleet managers (priority booking, claims handled, one invoice, recovery arranged) and
+a call button. Logos are the companies' own marks in `public/logos/fleet/` (from their sites /
+public profiles), shown only to say "we service their fleet". The assistant answers fleet /
+corporate questions with the same list.
 
 ### Before & after — `/before-after`
 
