@@ -28,7 +28,7 @@ export const gallery: readonly GalleryPhoto[] = [
 
 /** The facilities that back specific services — shown with the services grid. */
 export const facilities: readonly (GalleryPhoto & { service: string; blurb: string })[] = [
-  { id: 'paint', service: 'Painting', blurb: 'Full-size paint booth with drying oven', src: '/photos/paint-booth.jpg', thumb: '/photos/paint-booth-thumb.jpg', alt: 'Car masked up for painting inside the booth', caption: 'Paint booth', width: 899, height: 674 },
+  { id: 'paint', service: 'Painting', blurb: 'Full-size paint booth with drying oven', src: '/photos/paint-booth.jpg', thumb: '/photos/paint-booth-thumb.jpg', alt: 'The full-size paint booth with its doors closed', caption: 'Paint booth', width: 1199, height: 899 },
   { id: 'body', service: 'Denting & accident repair', blurb: 'Car-O-Liner bench for chassis and panel work', src: '/photos/body-shop.jpg', thumb: '/photos/body-shop-thumb.jpg', alt: 'Car being straightened on the Car-O-Liner chassis bench', caption: 'Body shop', width: 1050, height: 700 },
   { id: 'lifts', service: 'Mechanical work', blurb: 'Two-post lifts for engine, gearbox and brake jobs', src: '/photos/lifts.jpg', thumb: '/photos/lifts-thumb.jpg', alt: 'Vehicles raised on lifts with a technician at work', caption: 'Mechanical bays', width: 1400, height: 1050 },
 ]
