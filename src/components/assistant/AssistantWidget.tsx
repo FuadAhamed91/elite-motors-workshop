@@ -135,8 +135,8 @@ export function AssistantWidget() {
             className="fixed inset-x-3 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+8rem)] z-40 flex max-h-[min(72vh,600px)] flex-col overflow-hidden rounded-card border border-line bg-surface shadow-[0_30px_60px_-24px_rgb(68_52_30/0.45)] sm:inset-x-auto sm:end-6 sm:bottom-[calc(1.5rem+8.5rem)] sm:w-[380px]"
             style={{ transformOrigin: dir === 'rtl' ? '0% 100%' : '100% 100%' }}
           >
-            <header className="flex items-center gap-3 border-b border-line bg-bg px-4 py-3">
-              <span className="flex size-9 items-center justify-center rounded-full bg-primary/12 text-primary">
+            <header className="flex items-center gap-3 border-b border-white/10 bg-navy-900 px-4 py-3 text-on-navy [--color-fg:var(--color-on-navy)] [--color-fg-muted:var(--color-on-navy-muted)]">
+              <span className="flex size-9 items-center justify-center rounded-full bg-white/10 text-gold-500">
                 <MessageSquareText className="size-4.5" aria-hidden="true" />
               </span>
               <div className="min-w-0 flex-1">
@@ -146,7 +146,7 @@ export function AssistantWidget() {
                 <p className="flex items-center gap-1.5 text-xs text-fg-muted">
                   <span
                     aria-hidden="true"
-                    className={cn('size-1.5 rounded-full', status.isOpen ? 'bg-primary' : 'bg-warn')}
+                    className={cn('size-1.5 rounded-full', status.isOpen ? 'bg-gold-500' : 'bg-warn')}
                   />
                   {status.label} · {status.detail}
                 </p>
@@ -155,7 +155,7 @@ export function AssistantWidget() {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label={copy.close}
-                className="inline-flex size-9 cursor-pointer items-center justify-center rounded-full text-fg-muted transition-colors hover:bg-fg/5 hover:text-fg"
+                className="inline-flex size-9 cursor-pointer items-center justify-center rounded-full text-on-navy-muted transition-colors hover:bg-white/10 hover:text-on-navy"
               >
                 <X className="size-4" aria-hidden="true" />
               </button>

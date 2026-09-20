@@ -53,15 +53,15 @@ export function TrustStrip() {
               <StaggerItem
                 as="li"
                 key={stat.id}
-                className="rounded-2xl border border-line bg-bg/60 p-4 sm:p-5"
+                className="rounded-2xl border border-navy-800 bg-navy-900 p-4 text-on-navy shadow-[0_18px_40px_-24px_rgb(15_27_61/0.7)] sm:p-5"
               >
-                <span className="flex size-10 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                <span className="flex size-10 items-center justify-center rounded-xl bg-white/10 text-gold-500">
                   <Icon className="size-5" aria-hidden="true" />
                 </span>
-                <p className="mt-4 font-display text-[1.35rem] font-bold tracking-tight text-fg sm:text-[1.7rem]">
+                <p className="mt-4 font-display text-[1.35rem] font-bold tracking-tight sm:text-[1.7rem]">
                   {text.value}
                 </p>
-                <p className="mt-1 text-sm leading-snug text-fg-muted">{text.label}</p>
+                <p className="mt-1 text-sm leading-snug text-on-navy-muted">{text.label}</p>
               </StaggerItem>
             )
           })}

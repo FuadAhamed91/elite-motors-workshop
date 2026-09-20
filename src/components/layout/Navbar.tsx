@@ -58,7 +58,7 @@ export function Navbar() {
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300',
         frosted
-          ? 'border-b border-line bg-bg/92 shadow-[0_12px_40px_-24px_rgb(68_52_30/0.35)] sm:bg-bg/75 sm:backdrop-blur-xl'
+          ? 'border-b border-white/10 bg-navy-900 text-on-navy shadow-[0_12px_40px_-24px_rgb(15_27_61/0.6)] [--color-fg:var(--color-on-navy)] [--color-fg-muted:var(--color-on-navy-muted)] [--color-line:rgb(255_255_255/0.15)] sm:bg-navy-900/92 sm:backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent',
       )}
     >
@@ -80,7 +80,10 @@ export function Navbar() {
             <li key={link.href}>
               <a
                 href={href(link.href)}
-                className="inline-flex h-10 items-center rounded-pill px-3.5 text-sm font-medium whitespace-nowrap text-fg-muted transition-colors duration-200 hover:bg-fg/5 hover:text-fg"
+                className={cn(
+                  'inline-flex h-10 items-center rounded-pill px-3.5 text-sm font-medium whitespace-nowrap transition-colors duration-200',
+                  frosted ? 'text-on-navy-muted hover:bg-white/10 hover:text-gold-500' : 'text-fg-muted hover:bg-fg/5 hover:text-fg',
+                )}
               >
                 {navLabels[link.href] ?? link.label}
               </a>
@@ -96,13 +99,17 @@ export function Navbar() {
             aria-label={t.switchAria}
             lang={t.locale === 'en' ? 'ar' : 'en'}
             title={t.switchLabel}
-            className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border border-line bg-fg/3 text-sm font-semibold text-fg transition-colors hover:bg-fg/8 sm:h-10 sm:w-auto sm:rounded-pill sm:px-3"
+            className={cn(
+              'inline-flex size-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border text-sm font-semibold transition-colors sm:h-10 sm:w-auto sm:rounded-pill sm:px-3',
+              frosted ? 'border-white/20 bg-white/5 text-on-navy hover:bg-white/12' : 'border-line bg-fg/3 text-fg hover:bg-fg/8',
+            )}
           >
-            <Languages className="size-5 text-primary sm:size-4" aria-hidden="true" />
+            <Languages className={cn('size-5 sm:size-4', frosted ? 'text-gold-500' : 'text-primary')} aria-hidden="true" />
             <span className="hidden sm:inline">{t.switchLabel}</span>
           </button>
           <CtaLink
             href={buildTelLink(workshop.phone)}
+            variant={frosted ? 'accent' : 'primary'}
             size="sm"
             icon={<Phone />}
             className="max-sm:hidden"
@@ -113,7 +120,10 @@ export function Navbar() {
           <a
             href={buildTelLink(workshop.phone)}
             aria-label={t.common.call(workshop.phone)}
-            className="inline-flex size-11 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_10px_24px_-10px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] transition-transform active:scale-95 sm:hidden"
+            className={cn(
+              'inline-flex size-11 items-center justify-center rounded-full shadow-[0_10px_24px_-10px_rgb(0_0_0/0.4)] transition-transform active:scale-95 sm:hidden',
+              frosted ? 'bg-gold-500 text-navy-900' : 'bg-navy-900 text-on-navy',
+            )}
           >
             <Phone className="size-5" aria-hidden="true" />
           </a>
@@ -123,7 +133,10 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            className="inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-line bg-fg/3 text-fg transition-colors hover:bg-fg/8 xl:hidden"
+            className={cn(
+              'inline-flex size-11 cursor-pointer items-center justify-center rounded-full border transition-colors xl:hidden',
+              frosted ? 'border-white/20 bg-white/5 text-on-navy hover:bg-white/12' : 'border-line bg-fg/3 text-fg hover:bg-fg/8',
+            )}
           >
             {open ? (
               <X className="size-5" aria-hidden="true" />
@@ -143,7 +156,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8, transition: { duration: 0.15 } }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="border-t border-line xl:hidden"
+            className="border-t border-white/10 xl:hidden"
           >
             <div className="container-x flex flex-col gap-1 py-3">
               {workshop.nav.map((link) => (
@@ -151,19 +164,19 @@ export function Navbar() {
                   key={link.href}
                   href={href(link.href)}
                   onClick={() => setOpen(false)}
-                  className="flex h-12 items-center rounded-xl px-3 text-base font-medium text-fg transition-colors hover:bg-fg/5"
+                  className="flex h-12 items-center rounded-xl px-3 text-base font-medium text-on-navy transition-colors hover:bg-white/10 hover:text-gold-500"
                 >
                   {navLabels[link.href] ?? link.label}
                 </a>
               ))}
-              <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-3">
-                <CtaLink href={buildTelLink(workshop.phone)} icon={<Phone />} fullWidth>
+              <div className="mt-2 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
+                <CtaLink href={buildTelLink(workshop.phone)} variant="accent" icon={<Phone />} fullWidth>
                   {t.common.callShort}
                 </CtaLink>
                 <CtaLink
                   href={workshop.directionsLink}
                   external
-                  variant="outline"
+                  variant="light"
                   icon={<Navigation />}
                   fullWidth
                 >

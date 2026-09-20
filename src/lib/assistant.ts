@@ -244,7 +244,7 @@ interface AssistantStrings {
   booking: (phone: string, now: string) => string
   parts: string
   facility: (name: string, lines: string[]) => string
-  brands: (eu: string, jp: string, kr: string) => string
+  brands: (eu: string, jp: string, kr: string, us: string) => string
   experience: (name: string, year: number, years: number) => string
   results: (name: string) => string
 }
@@ -300,7 +300,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     parts: 'Genuine OEM parts only — the workshop fits genuine manufacturer parts. For a specific part or price, call the workshop.',
     facility: (name, lines) =>
       `${name} is a full mechanical, body and paint facility in Mussafah. Equipment includes:\n${lines.map((l) => `• ${l}`).join('\n')}\n\nPhotos are in the Gallery in the Workshop section of this site.`,
-    brands: (eu, jp, kr) => `The workshop services all major makes:\nEuropean: ${eu}\nJapanese: ${jp}\nKorean: ${kr}\n\nNot sure about yours? Call the workshop.`,
+    brands: (eu, jp, kr, us) => `The workshop services all major makes:\nEuropean: ${eu}\nJapanese: ${jp}\nKorean: ${kr}\nAmerican: ${us}\n\nNot sure about yours? Call the workshop.`,
     experience: (name, year, years) =>
       `${name} has been in Mussafah since ${year} — ${years}+ years of all-makes repairs, with trained technicians and an insurance-approved body & paint shop.`,
     results: (name) =>
@@ -356,7 +356,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
     parts: 'قطع غيار أصلية فقط — تركّب الورشة قطع الغيار الأصلية من الشركة المصنّعة. لقطعة أو سعر محدد، اتصل بالورشة.',
     facility: (name, lines) =>
       `${name} منشأة متكاملة للميكانيكا والسمكرة والصبغ في المصفح. من المعدات:\n${lines.map((l) => `• ${l}`).join('\n')}\n\nالصور في معرض الصور ضمن قسم الورشة في هذا الموقع.`,
-    brands: (eu, jp, kr) => `تخدم الورشة جميع الماركات الرئيسية:\nأوروبية: ${eu}\nيابانية: ${jp}\nكورية: ${kr}\n\nغير متأكد من سيارتك؟ اتصل بالورشة.`,
+    brands: (eu, jp, kr, us) => `تخدم الورشة جميع الماركات الرئيسية:\nأوروبية: ${eu}\nيابانية: ${jp}\nكورية: ${kr}\nأمريكية: ${us}\n\nغير متأكد من سيارتك؟ اتصل بالورشة.`,
     experience: (name, year, years) =>
       `${name} في المصفح منذ ${year} — أكثر من ${years} سنوات من إصلاح جميع الماركات، بفنيين مدرّبين وورشة سمكرة وصبغ معتمدة لدى شركات التأمين.`,
     results: (name) =>
@@ -581,7 +581,7 @@ function buildReply(id: IntentId, ctx: ReplyContext): AssistantReply {
       }
     case 'brands':
       return {
-        text: s.brands(brands.European.join(', '), brands.Japanese.join(', '), brands.Korean.join(', ')),
+        text: s.brands(brands.European.join(', '), brands.Japanese.join(', '), brands.Korean.join(', '), brands.American.join(', ')),
         links: [L.call],
         suggestions: [sg.services, sg.status],
         locale,

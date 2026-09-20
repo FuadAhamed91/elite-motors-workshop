@@ -117,7 +117,7 @@ export const ar: Dictionary = {
   stats: {
     years: { value: (n) => `+${n}`, label: (year) => `سنوات في المصفح · منذ ${year}` },
     insurance: { value: 'التأمين', label: 'ورشة سمكرة وصبغ معتمدة' },
-    techs: { value: 'جميع الماركات', label: 'سيارات أوروبية ويابانية وكورية' },
+    techs: { value: 'جميع الماركات', label: 'سيارات أوروبية ويابانية وكورية وأمريكية' },
     parts: { value: 'أصلية', label: 'قطع غيار أصلية فقط' },
   },
 
@@ -129,7 +129,7 @@ export const ar: Dictionary = {
     includesLabel: (title) => `ما تشمله خدمة ${title}`,
     facilitiesLabel: 'أين يتم العمل',
     multiBrand: 'ورشة لجميع الماركات',
-    regions: { European: 'أوروبية', Japanese: 'يابانية', Korean: 'كورية' },
+    regions: { European: 'أوروبية', Japanese: 'يابانية', Korean: 'كورية', American: 'أمريكية' },
     notSure: 'غير متأكد مما تحتاجه سيارتك؟',
     callAndDescribe: (phone) => `اتصل على ${ltr(phone)} واشرح المشكلة`,
     items: {
@@ -190,6 +190,16 @@ export const ar: Dictionary = {
       body: { service: 'السمكرة وإصلاح الحوادث', caption: 'قسم السمكرة', blurb: 'منصة قياس للشاصي وأعمال الألواح', alt: 'منصة السمكرة مع ألواح قيد الإصلاح' },
       lifts: { service: 'الأعمال الميكانيكية', caption: 'أقسام الميكانيكا', blurb: 'رافعات ثنائية العمود لأعمال المحرك والجير والفرامل', alt: 'سيارات مرفوعة على الرافعات وفني يعمل' },
     },
+  },
+
+  brands: {
+    eyebrow: 'جميع الماركات',
+    title: 'أوروبية ويابانية وكورية وأمريكية — في ورشة واحدة.',
+    description: 'تشخيص بمستوى الوكالة (Launch X431) وطاولة Car-O-Liner وقطع غيار أصلية لكل ماركة تدخل من البوابة.',
+    wallLabel: 'الماركات التي نخدمها',
+    regionsLabel: 'المناطق',
+    serviced: 'نخدم',
+    cta: 'اسأل عن سيارتك',
   },
 
   insurance: {

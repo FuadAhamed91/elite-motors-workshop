@@ -1,3 +1,4 @@
+import { brandsByRegion } from '@/data/brands'
 import type { LucideIcon } from 'lucide-react'
 import {
   Cog,
@@ -119,8 +120,4 @@ export const services: readonly Service[] = [
 ]
 
 /** Makes the workshop services (from the company profile). */
-export const brands = {
-  European: ['Mercedes-Benz', 'BMW', 'Volkswagen', 'Audi', 'Porsche'],
-  Japanese: ['Toyota', 'Lexus', 'Honda', 'Nissan', 'Infiniti', 'Mitsubishi'],
-  Korean: ['Hyundai', 'Kia'],
-} as const
+export const brands = brandsByRegion

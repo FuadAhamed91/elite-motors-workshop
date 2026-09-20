@@ -75,6 +75,8 @@
   --color-on-primary: #ffffff;
   --color-secondary: var(--color-gold-700);
   --color-secondary-bright: var(--color-gold-500);
+  --color-on-navy: var(--color-sand-50);
+  --color-on-navy-muted: var(--color-sand-300);
   --color-footer: var(--color-navy-900);
   --color-footer-fg: var(--color-sand-50);
   --color-footer-muted: var(--color-sand-300);
@@ -379,6 +381,40 @@
       var(--color-brand-blue) 33.4% 66.7%,
       var(--color-brand-yellow) 66.7% 100%
     );
+  }
+
+  /* Logo wall: a row of tiles (two identical copies) slides by exactly one copy, so the loop is seamless.
+     Transform-only; runs only while on screen (data-inview), pauses on hover, and becomes a plain
+     hand-scrollable row under reduced motion. */
+  .marquee {
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 55s linear infinite;
+    animation-play-state: paused;
+    will-change: transform;
+  }
+  .marquee[data-inview="true"] .marquee-track {
+    animation-play-state: running;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+    }
+    .marquee-track {
+      animation: none;
+    }
   }
 
   /* Warm tone for the Google Maps embed so it sits with the beige palette */

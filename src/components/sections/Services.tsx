@@ -5,7 +5,7 @@ import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { workshop } from '@/config/workshop'
 import { facilities } from '@/data/gallery'
-import { brands, services, type Service } from '@/data/services'
+import { services, type Service } from '@/data/services'
 import { useT } from '@/i18n'
 import { cn } from '@/lib/cn'
 import { buildTelLink } from '@/lib/whatsapp'
@@ -58,22 +58,6 @@ export function Services() {
           )
         })}
       </StaggerGroup>
-
-      <Reveal delay={0.05}>
-        <div className="mt-10 rounded-2xl border border-line bg-surface p-5 sm:p-6">
-          <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">{t.services.multiBrand}</p>
-          <div className="mt-3 grid gap-3 sm:grid-cols-3">
-            {(Object.keys(brands) as Array<keyof typeof brands>).map((region) => (
-              <div key={region}>
-                <p className="text-sm font-semibold text-fg">{t.services.regions[region]}</p>
-                <p className="mt-1 text-sm leading-relaxed text-fg-muted rtl:text-right" dir="ltr">
-                  {brands[region].join(' · ')}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Reveal>
 
       <Reveal delay={0.1}>
         <p className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-fg-muted">

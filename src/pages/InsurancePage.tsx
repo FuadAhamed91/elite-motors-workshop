@@ -69,7 +69,8 @@ export default function InsurancePage() {
           <InsurerWall />
         </section>
 
-        <section className="border-y border-line bg-surface/40 py-16 lg:py-20" aria-label={t.insurance.stepsTitle}>
+        <section className="relative bg-navy-900 py-16 lg:py-20" aria-label={t.insurance.stepsTitle}>
+          <div aria-hidden="true" className="brand-stripe absolute inset-x-0 top-0 h-1" />
           <div className="container-x grid gap-6 lg:grid-cols-[1.5fr_1fr]">
             <Reveal>
               <ClaimSteps />

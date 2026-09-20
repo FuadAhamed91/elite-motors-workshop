@@ -10,16 +10,18 @@ import { useT } from '@/i18n'
 export function Reviews() {
   const t = useT()
   return (
-    <section id="reviews" aria-labelledby="reviews-heading" className="below-fold relative py-20 lg:py-28">
+    <section id="reviews" aria-labelledby="reviews-heading" className="below-fold relative overflow-hidden bg-navy-900 py-20 text-on-navy lg:py-28">
+      <div aria-hidden="true" className="brand-stripe absolute inset-x-0 top-0 h-1" />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-1/3 -z-10 h-[480px] bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,color-mix(in_oklab,var(--color-secondary)_10%,transparent),transparent_70%)]"
+        className="absolute -top-32 right-0 h-[520px] w-[760px] bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--color-royal-500)_26%,transparent),transparent_65%)]"
       />
       <div className="container-x">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <Reveal>
             <SectionHeading
               id="reviews-heading"
+              tone="dark"
               eyebrow={t.reviews.eyebrow}
               title={t.reviews.title}
               description={t.reviews.description}
@@ -51,14 +53,14 @@ function GoogleReviewsBadge() {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 pe-5 shadow-card transition-colors hover:border-line-strong"
+      className="group flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 p-4 pe-5 text-on-navy transition-colors hover:border-white/30 hover:bg-white/10"
     >
-      <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary/12 text-secondary">
+      <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-gold-500/15 text-gold-500">
         <BadgeCheck className="size-6" aria-hidden="true" />
       </span>
       <span className="flex flex-col gap-0.5">
-        <span className="text-sm font-semibold text-fg">{t.reviews.badgeTitle}</span>
-        <span className="flex items-center gap-1 text-xs text-fg-muted">
+        <span className="text-sm font-semibold">{t.reviews.badgeTitle}</span>
+        <span className="flex items-center gap-1 text-xs text-on-navy-muted">
           {t.reviews.badgeSub(count)}
           <ExternalLink
             className="size-3 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5"

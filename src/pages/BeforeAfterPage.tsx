@@ -69,20 +69,21 @@ export default function BeforeAfterPage() {
           <RepairGrid columns={2} />
         </section>
 
-        <section className="border-t border-line bg-surface/40 py-16 lg:py-20" aria-labelledby="accident-heading">
+        <section className="relative bg-navy-900 py-16 text-on-navy lg:py-20" aria-labelledby="accident-heading">
+          <div aria-hidden="true" className="brand-stripe absolute inset-x-0 top-0 h-1" />
           <div className="container-x grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-center">
             <Reveal>
-              <h2 id="accident-heading" className="font-display text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+              <h2 id="accident-heading" className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
                 {c.accidentTitle}
               </h2>
-              <p className="mt-3 max-w-2xl text-fg-muted">{c.accidentBody}</p>
+              <p className="mt-3 max-w-2xl text-on-navy-muted">{c.accidentBody}</p>
             </Reveal>
             <Reveal delay={0.1}>
               <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-                <CtaLink href="/insurance" size="lg" iconRight={<ArrowUpRight className="rtl:-scale-x-100" />}>
+                <CtaLink href="/insurance" variant="accent" size="lg" iconRight={<ArrowUpRight className="rtl:-scale-x-100" />}>
                   {c.insuranceCta}
                 </CtaLink>
-                <CtaLink href={buildTelLink(workshop.phone)} variant="outline" size="lg" icon={<Phone />}>
+                <CtaLink href={buildTelLink(workshop.phone)} variant="light" size="lg" icon={<Phone />}>
                   {t.common.callShort}
                 </CtaLink>
               </div>

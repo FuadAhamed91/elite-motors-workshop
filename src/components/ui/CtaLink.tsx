@@ -1,7 +1,7 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
-export type CtaVariant = 'primary' | 'outline' | 'ghost' | 'inverse'
+export type CtaVariant = 'primary' | 'outline' | 'ghost' | 'inverse' | 'accent' | 'light'
 export type CtaSize = 'sm' | 'md' | 'lg'
 
 interface CtaLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'className' | 'href'> {
@@ -22,8 +22,14 @@ const BASE =
   'transition-[transform,background-color,border-color,box-shadow,color] duration-200 ease-out active:scale-[0.97] motion-reduce:active:scale-100'
 
 const VARIANTS: Record<CtaVariant, string> = {
+  /* Navy, brightening to the badge blue on hover */
   primary:
-    'bg-primary text-on-primary shadow-[0_12px_32px_-12px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] hover:bg-primary/90 hover:shadow-[0_18px_44px_-12px_color-mix(in_oklab,var(--color-primary)_80%,transparent)] hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
+    'bg-navy-900 text-on-navy shadow-[0_12px_32px_-12px_color-mix(in_oklab,var(--color-navy-900)_70%,transparent)] hover:bg-primary hover:shadow-[0_18px_44px_-12px_color-mix(in_oklab,var(--color-primary)_80%,transparent)] hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
+  /* Badge yellow with navy text — the primary action on a navy band or bar */
+  accent:
+    'bg-gold-500 text-navy-900 shadow-[0_12px_32px_-12px_color-mix(in_oklab,var(--color-gold-500)_70%,transparent)] hover:bg-[#ffd04a] hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
+  /* Outline for navy bands */
+  light: 'border border-white/30 text-on-navy hover:border-white/60 hover:bg-white/10',
   outline:
     'border border-line-strong bg-fg/3 text-fg hover:border-primary/60 hover:bg-fg/6 hover:text-primary',
   ghost: 'text-fg-muted hover:bg-fg/5 hover:text-fg',

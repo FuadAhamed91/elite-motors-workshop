@@ -119,7 +119,7 @@ export const en = {
   stats: {
     years: { value: (n: number) => `${n}+`, label: (year: number) => `Years in Mussafah · since ${year}` },
     insurance: { value: 'Insurance', label: 'Approved Body & Paint Shop' },
-    techs: { value: 'All makes', label: 'European, Japanese & Korean cars' },
+    techs: { value: 'All makes', label: 'European, Japanese, Korean & American cars' },
     parts: { value: 'Genuine', label: 'OEM Parts Only' },
   },
 
@@ -131,7 +131,7 @@ export const en = {
     includesLabel: (title: string) => `What ${title} includes`,
     facilitiesLabel: 'Where the work happens',
     multiBrand: 'Multi-brand workshop',
-    regions: { European: 'European', Japanese: 'Japanese', Korean: 'Korean' },
+    regions: { European: 'European', Japanese: 'Japanese', Korean: 'Korean', American: 'American' },
     notSure: 'Not sure what your car needs?',
     callAndDescribe: (phone: string) => `Call ${phone} and describe the problem`,
     items: {
@@ -192,6 +192,17 @@ export const en = {
       body: { service: 'Denting & accident repair', caption: 'Body shop', blurb: 'Measuring bench for chassis and panel work', alt: 'Body shop bench with panels being repaired' },
       lifts: { service: 'Mechanical work', caption: 'Mechanical bays', blurb: 'Two-post lifts for engine, gearbox and brake jobs', alt: 'Vehicles raised on lifts with a technician at work' },
     } as Record<string, { service: string; caption: string; blurb: string; alt: string }>,
+  },
+
+  brands: {
+    eyebrow: 'All makes',
+    title: 'European, Japanese, Korean and American — one workshop.',
+    description:
+      'Dealer-level diagnostics (Launch X431), a Car-O-Liner bench and genuine parts for every make that comes through the gate.',
+    wallLabel: 'Makes we service',
+    regionsLabel: 'Regions',
+    serviced: 'We service',
+    cta: 'Ask about your car',
   },
 
   insurance: {
