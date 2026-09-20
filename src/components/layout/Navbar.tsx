@@ -50,6 +50,7 @@ export function Navbar() {
     '#workshop': t.nav.workshop,
     '#about': t.nav.about,
     '#reviews': t.nav.reviews,
+    '#fleet': t.nav.fleet,
     '#hours': t.nav.hoursLocation,
   }
 

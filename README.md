@@ -137,7 +137,7 @@ Services, equipment highlights, brands and the founding year come from the compa
 "since …" line and the years stat derive from it. The old "basic profile"
 page (staff counts, previous phone numbers) is intentionally not used.
 
-`public/photos/` holds the workshop photos: the About banner (`workshop-exterior`, 16:9), the three
+`public/photos/` holds the workshop photos: the About banner (`workshop-exterior`, 2:1 — the sign over the blue fence, the owner's pick), the three
 facility photos under the services grid (paint booth, body shop, lifts) and the **Gallery**
 subsection in the Workshop section — a cover photo plus thumbnails that open a full-screen viewer
 (arrows, keyboard, swipe, thumbnail strip) over all eight photos (`photos` in
@@ -157,6 +157,14 @@ captioned with their region). The row is two identical copies sliding by one cop
 `index.css`): transform-only, runs only while on screen, pauses on hover, and becomes a plain
 scrollable row under reduced motion. The manufacturers' marks are their trademarks and are shown
 only to say "we service these" — never imply an official dealership.
+
+### Fleet (`#fleet`)
+
+"Fleet & company vehicles" after the reviews: the pitch for fleet managers (priority booking,
+claims handled, one invoice, recovery arranged) and name tiles for the fleets the owner named
+(`src/data/fleet.ts` — Kabi Taxi, Dollar, Thrifty, Legend and City Star rent-a-car, Bake Al Arab),
+each linking to the company's own site; no logos, so nothing to license. The assistant answers
+fleet/corporate questions with the same list.
 
 ### Before & after — `/before-after`
 
@@ -197,7 +205,7 @@ of the screen above the launcher, waves (`--animate-wave`) and shows a "Hi, I'm 
 I help you?" bubble; tapping him or the bubble opens the chat, × dismisses him, and he leaves by
 himself after 11 s (`AhmedMascot.tsx`; reduced motion = fade only, no wave). Under RTL the figure
 is mirrored so he still waves toward the page. `persona: 'plain'` restores the nameless
-chat-icon assistant; git tag `v7-before-ahmed` is the full earlier state. Ahmed also blinks and
+chat-icon assistant; git tag `v7-before-ahmed` is the full earlier state. Ahmed does not wave (the owner found it awkward); he blinks and
 breathes (`--animate-blink` / `--animate-breathe`), the launcher portrait nods now and then
 (`--animate-nod`) and shows an "Ask Ahmed" label on hover, his portrait sits beside every reply,
 and messages slide in.

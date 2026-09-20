@@ -59,6 +59,7 @@ export const en = {
     services: 'Services',
     insurance: 'Insurance',
     beforeAfter: 'Before & After',
+    fleet: 'Fleet',
     workshop: 'Workshop',
     about: 'About',
     reviews: 'Reviews',
@@ -192,6 +193,25 @@ export const en = {
       body: { service: 'Denting & accident repair', caption: 'Body shop', blurb: 'Car-O-Liner bench for chassis and panel work', alt: 'Car being straightened on the Car-O-Liner chassis bench' },
       lifts: { service: 'Mechanical work', caption: 'Mechanical bays', blurb: 'Two-post lifts for engine, gearbox and brake jobs', alt: 'Vehicles raised on lifts with a technician at work' },
     } as Record<string, { service: string; caption: string; blurb: string; alt: string }>,
+  },
+
+  fleet: {
+    eyebrow: 'Fleet & company vehicles',
+    title: 'Rental, taxi and delivery fleets keep their cars moving with us.',
+    description:
+      'Fleet managers in Abu Dhabi send us their cars for servicing, accident repair and insurance work because downtime costs them money. One workshop for mechanical, body and paint, one point of contact, one invoice.',
+    points: [
+      'Priority booking so fleet cars are back on the road fast',
+      'Accident repairs and insurance claims handled end to end',
+      'Consolidated invoicing and a service record per vehicle',
+      'Recovery to the workshop arranged for accident-damaged cars',
+    ],
+    clientsTitle: 'Fleets we service',
+    kinds: { rental: 'Car rental', taxi: 'Taxi operator', delivery: 'Delivery fleet' },
+    names: {} as Record<string, string>,
+    visit: (name: string) => `Visit ${name}`,
+    note: 'Company names link to the companies\u2019 own websites.',
+    cta: 'Talk to us about your fleet',
   },
 
   brands: {

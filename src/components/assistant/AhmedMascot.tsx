@@ -16,8 +16,8 @@ interface AhmedMascotProps {
 }
 
 /**
- * Ahmed peeks in from the side of the screen just above the chat launcher,
- * waves, and asks how he can help. Tapping him (or the bubble) opens the chat;
+ * Ahmed peeks in from the side of the screen just above the chat launcher
+ * and asks how he can help. Tapping him (or the bubble) opens the chat;
  * the × sends him away; otherwise he leaves by himself after a few seconds.
  */
 export function AhmedMascot({ chatOpen, onOpenChat }: AhmedMascotProps) {
@@ -103,7 +103,7 @@ export function AhmedMascot({ chatOpen, onOpenChat }: AhmedMascotProps) {
             aria-label={copy.chat}
             className="pointer-events-auto -me-1 w-[6.75rem] shrink-0 cursor-pointer [mask-image:linear-gradient(to_bottom,black_72%,transparent)] sm:w-[7.5rem]"
           >
-            <Ahmed waving className="h-auto w-full drop-shadow-[0_10px_18px_rgb(15_27_61/0.35)] rtl:-scale-x-100" />
+            <Ahmed className="h-auto w-full drop-shadow-[0_10px_18px_rgb(15_27_61/0.35)]" />
           </button>
         </m.div>
       )}

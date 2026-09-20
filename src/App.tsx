@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
 import { BeforeAfter } from '@/components/sections/BeforeAfter'
 import { Brands } from '@/components/sections/Brands'
+import { Fleet } from '@/components/sections/Fleet'
 import { Hero } from '@/components/sections/Hero'
 import { Hours } from '@/components/sections/Hours'
 import { Insurance } from '@/components/sections/Insurance'
@@ -66,6 +67,7 @@ export default function App() {
               <BeforeAfter />
               <Workshop />
               <Reviews />
+              <Fleet />
               <Hours />
               <Location />
             </>

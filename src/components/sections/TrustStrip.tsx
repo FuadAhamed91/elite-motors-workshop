@@ -28,9 +28,9 @@ export function TrustStrip() {
             thumb="/photos/workshop-exterior-thumb.jpg"
             alt={t.about.photoAlt}
             width={1400}
-            height={788}
+            height={673}
             sizes="(min-width: 1024px) 38vw, 100vw"
-            className="mb-6 aspect-video w-full rounded-2xl border border-line object-cover shadow-card"
+            className="mb-6 aspect-[2/1] w-full rounded-2xl border border-line object-cover shadow-card"
           />
           <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
             <span aria-hidden="true" className="brand-stripe h-[3px] w-7 rounded-full" />

@@ -1,12 +1,9 @@
-import { cn } from '@/lib/cn'
-
 /*
  * "Ahmed", the assistant's face: a friendly Emirati man in a white kandura and
  * ghutra with a black agal, drawn as flat vector art with a little shading.
  * Colours are literal here on purpose — skin, cloth and cord are not theme
- * colours. The waving arm is on the character's left (the viewer's left), so
- * when he peeks in from the end edge of the screen the wave faces the page;
- * under RTL the whole figure is mirrored by the parent.
+ * colours. He does not wave — the owner found the arm awkward — he just
+ * looks at you, blinks and breathes.
  */
 
 const SKIN = '#cf9469'
@@ -63,12 +60,10 @@ function FaceParts({ eyeClassName }: { eyeClassName?: string }) {
 
 interface AhmedProps {
   className?: string
-  /** Plays the wave (two beats) — set when the character has just appeared. */
-  waving?: boolean
 }
 
-/** Full figure (head, shoulders and the waving arm), 120 × 150. */
-export function Ahmed({ className, waving = false }: AhmedProps) {
+/** Full figure (head and shoulders), 120 × 150. */
+export function Ahmed({ className }: AhmedProps) {
   return (
     <svg viewBox="0 0 120 150" className={className} aria-hidden="true" focusable="false">
       <defs>
@@ -77,7 +72,7 @@ export function Ahmed({ className, waving = false }: AhmedProps) {
           <stop offset="1" stopColor={CLOTH_SHADE} />
         </linearGradient>
       </defs>
-      {/* Everything but the waving arm breathes very slightly */}
+      {/* The figure breathes very slightly */}
       <g className="motion-safe:animate-breathe" style={{ transformOrigin: '60px 150px' }}>
         {/* Ghutra — the back panel and the two drapes fall behind the head */}
         <path d="M31 46c4-18 54-18 58 0l6 54H25z" fill={CLOTH_SHADE} />
@@ -92,14 +87,6 @@ export function Ahmed({ className, waving = false }: AhmedProps) {
         <FaceParts eyeClassName="motion-safe:animate-blink" />
       </g>
 
-      {/* Waving arm (viewer's left) — sleeve + open hand; rotates at the shoulder */}
-      <g className={cn('origin-[26px_106px]', waving && 'motion-safe:animate-wave')}>
-        <path d="M32 110L12 78l15-9 20 34z" fill="url(#ahmed-cloth)" stroke={CLOTH_LINE} strokeWidth="1.4" strokeLinejoin="round" />
-        <path d="M14 82l14-8" stroke={CLOTH_LINE} strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M8 62V48M13.3 60V44M18.6 60V44M24 62V49" fill="none" stroke={SKIN} strokeWidth="4.8" strokeLinecap="round" />
-        <path d="M8.5 69l-5.5-6" fill="none" stroke={SKIN} strokeWidth="4.8" strokeLinecap="round" />
-        <rect x="5.5" y="58" width="21" height="15" rx="6.5" fill={SKIN} />
-      </g>
     </svg>
   )
 }

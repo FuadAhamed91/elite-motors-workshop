@@ -1,6 +1,7 @@
 import { workshop, type DaySchedule } from '@/config/workshop'
 import { equipment } from '@/data/gallery'
 import { reviews } from '@/data/reviews'
+import { fleetClients } from '@/data/fleet'
 import { insurers } from '@/data/insurers'
 import { brands, services, type Service } from '@/data/services'
 import { hoursStrings, type Dictionary, type Locale } from '@/i18n'
@@ -48,6 +49,7 @@ type IntentId =
   | 'bodyshop'
   | 'insurance'
   | 'results'
+  | 'fleet'
   | 'price'
   | 'reviews'
   | 'booking'
@@ -104,6 +106,11 @@ const INTENTS_EN: readonly Intent[] = [
   {
     id: 'results',
     patterns: ['before and after', 'before & after', 'before/after', 'before-and-after', 'before after', 'after repair', 'before repair', 'result', 'example', 'previous work', 'past work', 'portfolio', 'repaired car', 'fixed car', 'proof', 'your work', 'sample', 'showcase', 'how good', 'quality of'],
+    weight: 3,
+  },
+  {
+    id: 'fleet',
+    patterns: ['fleet', 'corporate', 'rental company', 'rent a car', 'taxi company', 'taxi operator', 'business account', 'service contract', 'company vehicles', 'our vehicles', 'delivery vans', 'many cars', 'multiple cars'],
     weight: 3,
   },
   { id: 'price', patterns: ['price', 'cost', 'how much', 'quote', 'estimate', 'rate', 'charge', 'fee', 'aed', 'dirham', 'expensive', 'cheap'], weight: 2 },
@@ -173,6 +180,11 @@ const INTENTS_AR: readonly Intent[] = [
     patterns: ['قبل وبعد', 'قبل و بعد', 'نتائج', 'نتيجه', 'امثله', 'مثال', 'اعمالكم', 'اعمال سابقه', 'شغلكم', 'شغل سابق', 'صلحتوها', 'صلحتوه', 'صور حوادث', 'صور الحوادث', 'صور اصلاح', 'صور الاصلاح', 'بعد الاصلاح', 'قبل الاصلاح', 'جوده الشغل', 'جوده العمل', 'نماذج'],
     weight: 3,
   },
+  {
+    id: 'fleet',
+    patterns: ['اسطول', 'اساطيل', 'شركه تاجير', 'تاجير سيارات', 'شركه تاكسي', 'سيارات الشركه', 'سيارات شركه', 'عقد صيانه', 'حساب شركه', 'عده سيارات', 'كذا سياره'],
+    weight: 3,
+  },
   { id: 'price', patterns: ['سعر', 'اسعار', 'بكم', 'كم يكلف', 'تكلفه', 'تسعيره', 'عرض سعر', 'تقدير', 'درهم', 'غالي', 'رخيص', 'رسوم', 'كم تاخذون'], weight: 2 },
   { id: 'reviews', patterns: ['تقييم', 'تقييمات', 'مراجعات', 'جوجل', 'قوقل', 'راي', 'اراء', 'ثقه', 'انصح', 'توصيه', 'سمعه', 'ممتازين'], weight: 2 },
   { id: 'booking', patterns: ['حجز', 'احجز', 'موعد', 'اجي', 'اجيكم', 'اجيب السياره', 'ازوركم', 'زياره', 'اروح لكم', 'اخذ موعد'], weight: 2 },
@@ -212,6 +224,7 @@ interface AssistantStrings {
     workshopSection: string
     insuranceSection: string
     resultsSection: string
+    fleetSection: string
     readReviews: string
   }
   suggestions: {
@@ -247,6 +260,7 @@ interface AssistantStrings {
   brands: (eu: string, jp: string, kr: string, us: string) => string
   experience: (name: string, year: number, years: number) => string
   results: (name: string) => string
+  fleet: (name: string, clients: string[], phone: string) => string
 }
 
 const STRINGS: Record<Locale, AssistantStrings> = {
@@ -263,6 +277,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       workshopSection: 'See the workshop photos',
       insuranceSection: 'Insurance claims page',
       resultsSection: 'Before & after photos',
+      fleetSection: 'Fleet & company vehicles',
       readReviews: 'Read reviews on Google',
     },
     suggestions: {
@@ -305,6 +320,8 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       `${name} has been in Mussafah since ${year} — ${years}+ years of all-makes repairs, with trained technicians and an insurance-approved body & paint shop.`,
     results: (name) =>
       `Yes — the Before & After page shows recent accident repairs from ${name}'s body shop, each car photographed on arrival and again after the repair. Number plates are blurred for the owners' privacy.`,
+    fleet: (name, clients, phone) =>
+      `Yes — ${name} services rental, taxi and delivery fleets, including ${clients.join(', ')}. Fleet cars get priority booking, accident and insurance work handled end to end, and one consolidated invoice. Call ${phone} to talk about your fleet.`,
   },
   ar: {
     links: {
@@ -319,6 +336,7 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       workshopSection: 'صور الورشة',
       insuranceSection: 'صفحة مطالبات التأمين',
       resultsSection: 'صور قبل وبعد',
+      fleetSection: 'الأساطيل وسيارات الشركات',
       readReviews: 'اقرأ التقييمات على جوجل',
     },
     suggestions: {
@@ -361,6 +379,8 @@ const STRINGS: Record<Locale, AssistantStrings> = {
       `${name} في المصفح منذ ${year} — أكثر من ${years} سنوات من إصلاح جميع الماركات، بفنيين مدرّبين وورشة سمكرة وصبغ معتمدة لدى شركات التأمين.`,
     results: (name) =>
       `نعم — صفحة «قبل وبعد» تعرض إصلاحات حوادث حديثة من ورشة السمكرة في ${name}، كل سيارة مصوَّرة عند وصولها ثم بعد الإصلاح. لوحات الأرقام مموَّهة حفاظاً على خصوصية أصحابها.`,
+    fleet: (name, clients, phone) =>
+      `نعم — تخدم ${name} أساطيل التأجير والتاكسي والتوصيل، ومنها ${clients.join('، ')}. سيارات الأساطيل لها أولوية في الحجز، مع إصلاح الحوادث وأعمال التأمين من البداية إلى النهاية وفاتورة موحّدة. اتصل على ${ltr(phone)} للحديث عن أسطولك.`,
   },
 }
 
@@ -533,6 +553,13 @@ function buildReply(id: IntentId, ctx: ReplyContext): AssistantReply {
       }
     case 'bodyshop':
       return { text: s.bodyshop(name), links: [L.anchor(s.links.resultsSection, '/before-after'), L.call], suggestions: [sg.status, sg.location], locale }
+    case 'fleet':
+      return {
+        text: s.fleet(name, fleetClients.map((client) => t.fleet.names[client.id] ?? client.name), workshop.phone),
+        links: [L.anchor(s.links.fleetSection, '#fleet'), L.call],
+        suggestions: [sg.status, sg.location],
+        locale,
+      }
     case 'results':
       return {
         text: s.results(name),
@@ -633,7 +660,7 @@ export function answerQuestion(question: string, uiLocale: Locale): AssistantRep
     if (!best || total > best.score) best = { id: intent.id, score: total }
   }
 
-  if (service && (!best || !['price', 'booking', 'status', 'hours', 'location', 'phone', 'insurance', 'results'].includes(best.id))) {
+  if (service && (!best || !['price', 'booking', 'status', 'hours', 'location', 'phone', 'insurance', 'results', 'fleet'].includes(best.id))) {
     return serviceReply(service, ctx)
   }
   if (best?.id === 'hours' || best?.id === 'status') {

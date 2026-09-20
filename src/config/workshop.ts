@@ -135,6 +135,7 @@ export const workshop = {
     { label: 'Workshop', href: '#workshop' },
     { label: 'About', href: '#about' },
     { label: 'Reviews', href: '#reviews' },
+    { label: 'Fleet', href: '#fleet' },
     { label: 'Hours & Location', href: '#hours' },
   ] as const satisfies readonly NavLink[],
 } as const
