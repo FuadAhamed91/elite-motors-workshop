@@ -4,11 +4,9 @@ import { CtaLink } from '@/components/ui/CtaLink'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { workshop } from '@/config/workshop'
-import { brandWall, type Brand, type BrandRegion } from '@/data/brands'
+import { brandWall, type Brand } from '@/data/brands'
 import { useT } from '@/i18n'
 import { buildTelLink } from '@/lib/whatsapp'
-
-const REGIONS: readonly BrandRegion[] = ['European', 'Japanese', 'Korean', 'American', 'Chinese']
 
 /**
  * "All makes" logo wall on a navy band: the manufacturers' logos (original colours) glide past in
@@ -63,17 +61,7 @@ export function Brands() {
         </div>
       </Reveal>
 
-      <div className="container-x relative mt-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <Reveal delay={0.15}>
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-sand-300" aria-label={c.regionsLabel}>
-            {REGIONS.map((region) => (
-              <li key={region} className="inline-flex items-center gap-2">
-                <span aria-hidden="true" className="size-1.5 rounded-full bg-gold-500" />
-                {t.services.regions[region]}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+      <div className="container-x relative mt-10 flex sm:justify-end">
         <Reveal delay={0.2}>
           <CtaLink href={buildTelLink(workshop.phone)} variant="accent" size="md" icon={<Phone />}>
             {c.cta}

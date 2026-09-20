@@ -152,7 +152,7 @@ you add new photos, redact plates first and keep them out of the repo otherwise.
 A navy band with a moving logo wall of the makes the workshop services — European, Japanese,
 Korean, American and Chinese (`src/data/brands.ts`; cream tiles with the manufacturers' logos in
 their original colours in `public/logos/brands/`). The logos are the SVGs kept on Wikimedia
-Commons (Mercedes-Benz, Mazda and GMC rasterised to PNG because their SVGs were huge); Alfa Romeo
+Commons (Mercedes-Benz and Mazda rasterised to PNG because their SVGs were huge); Alfa Romeo
 is the brand's own single-colour badge from alfaromeousa.com, recoloured dark, since the coloured
 badge is not freely available. Per-brand `height` keeps wordmarks visually lighter than emblems.
 The row is two identical copies sliding by one copy width (`.marquee` in `index.css`):

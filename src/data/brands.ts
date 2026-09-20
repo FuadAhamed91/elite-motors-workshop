@@ -16,7 +16,7 @@ const png = (id: string, name: string, region: BrandRegion, height: number): Bra
 /**
  * Makes the workshop services, in the order they scroll across the logo wall.
  * Logos are the manufacturers' trademarks (mostly the SVGs kept on Wikimedia
- * Commons; three heavy ones rasterised to PNG), shown only to say "we service
+ * Commons; Mercedes-Benz and Mazda rasterised to PNG), shown only to say "we service
  * these" — never imply an official dealership. Alfa Romeo is the brand's own
  * single-colour badge; the coloured one is not freely available.
  */
@@ -28,7 +28,7 @@ export const brandWall: readonly Brand[] = [
   svg('porsche', 'Porsche', 'European', 20),
   svg('toyota', 'Toyota', 'Japanese', 28),
   svg('lexus', 'Lexus', 'Japanese', 44),
-  svg('honda', 'Honda', 'Japanese', 40),
+  svg('honda', 'Honda', 'Japanese', 50),
   svg('nissan', 'Nissan', 'Japanese', 48),
   svg('infiniti', 'Infiniti', 'Japanese', 30),
   svg('mitsubishi', 'Mitsubishi', 'Japanese', 50),
@@ -42,7 +42,7 @@ export const brandWall: readonly Brand[] = [
   svg('ford', 'Ford', 'American', 40),
   svg('chevrolet', 'Chevrolet', 'American', 44),
   svg('jeep', 'Jeep', 'American', 34),
-  png('gmc', 'GMC', 'American', 26),
+  svg('gmc', 'GMC', 'American', 26),
   svg('changan', 'Changan', 'Chinese', 48),
   svg('mg', 'MG', 'Chinese', 50),
   svg('geely', 'Geely', 'Chinese', 34),
