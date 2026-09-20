@@ -443,9 +443,12 @@
   .marquee[data-inview="true"] .marquee-track {
     animation-play-state: running;
   }
-  .marquee:hover .marquee-track,
-  .marquee:focus-within .marquee-track {
-    animation-play-state: paused;
+  /* Pause under the pointer — only where a real hover exists; on touch screens a tap must not freeze it */
+  @media (hover: hover) {
+    .marquee:hover .marquee-track,
+    .marquee:focus-within .marquee-track {
+      animation-play-state: paused;
+    }
   }
   @keyframes marquee {
     to {

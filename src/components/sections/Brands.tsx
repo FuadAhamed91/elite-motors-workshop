@@ -11,7 +11,7 @@ import { buildTelLink } from '@/lib/whatsapp'
 const REGIONS: readonly BrandRegion[] = ['European', 'Japanese', 'Korean', 'American', 'Chinese']
 
 /**
- * "All makes" logo wall on a navy band: the manufacturers' marks glide past in
+ * "All makes" logo wall on a navy band: the manufacturers' logos (original colours) glide past in
  * a continuous loop (paused while off-screen, on hover, and under reduced
  * motion, where the row simply scrolls by hand).
  */
@@ -91,25 +91,20 @@ function BrandTile({ brand }: { brand: Brand }) {
       className="flex w-40 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-white/60 bg-sand-50 px-4 py-5 text-navy-900 shadow-[0_18px_40px_-24px_rgb(0_0_0/0.6)] transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 sm:w-44"
     >
       <span className="flex h-14 items-center justify-center">
-        {brand.logo ? (
-          <img
-            src={brand.logo}
-            alt=""
-            width={56}
-            height={brand.height ?? 48}
-            loading="lazy"
-            decoding="async"
-            style={{ height: brand.height ?? 48 }}
-            className="w-auto max-w-[8.5rem]"
-          />
-        ) : (
-          <span className="font-display text-[1.35rem] font-extrabold tracking-[0.06em] whitespace-nowrap uppercase">{brand.name}</span>
-        )}
+        <img
+          src={brand.logo}
+          alt=""
+          width={Math.round(brand.height * 2)}
+          height={brand.height}
+          loading="lazy"
+          decoding="async"
+          style={{ height: brand.height }}
+          className="w-auto max-w-[8.5rem] object-contain"
+        />
       </span>
-      {/* Wordmark tiles already show the name, so their caption is the region instead */}
       <span className="text-[13px] font-semibold tracking-wide text-navy-800">
         <span className="sr-only">{t.brands.serviced} </span>
-        {brand.logo ? brand.name : t.services.regions[brand.region]}
+        {brand.name}
       </span>
     </li>
   )

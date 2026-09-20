@@ -4,51 +4,52 @@ export interface Brand {
   id: string
   name: string
   region: BrandRegion
-  /** Navy monochrome mark in /logos/brands (see scripts/brand-logos.mjs); brands without one show a wordmark. */
-  logo?: string
-  /** Rendered height of the mark in px (wide marks such as Mini and Ford get a little less). */
-  height?: number
+  /** The manufacturer's own logo, in its original colours, in /logos/brands. */
+  logo: string
+  /** Rendered height of the logo in px — wordmarks sit smaller than emblems so the row looks even. */
+  height: number
 }
 
-const mark = (id: string, name: string, region: BrandRegion, height?: number): Brand => ({ id, name, region, logo: `/logos/brands/${id}.svg`, height })
-const word = (id: string, name: string, region: BrandRegion): Brand => ({ id, name, region })
+const svg = (id: string, name: string, region: BrandRegion, height: number): Brand => ({ id, name, region, logo: `/logos/brands/${id}.svg`, height })
+const png = (id: string, name: string, region: BrandRegion, height: number): Brand => ({ id, name, region, logo: `/logos/brands/${id}.png`, height })
 
 /**
  * Makes the workshop services, in the order they scroll across the logo wall.
- * The company profile lists the European, Japanese and Korean makes; the
- * American and Chinese ones and the extra European/Japanese makes are cars
- * that come through the yard (see the before/after photos) — trim if the owner prefers.
+ * Logos are the manufacturers' trademarks (mostly the SVGs kept on Wikimedia
+ * Commons; three heavy ones rasterised to PNG), shown only to say "we service
+ * these" — never imply an official dealership. Alfa Romeo is the brand's own
+ * single-colour badge; the coloured one is not freely available.
  */
 export const brandWall: readonly Brand[] = [
-  mark('mercedes-benz', 'Mercedes-Benz', 'European'),
-  mark('bmw', 'BMW', 'European'),
-  mark('audi', 'Audi', 'European', 40),
-  mark('volkswagen', 'Volkswagen', 'European'),
-  mark('porsche', 'Porsche', 'European'),
-  mark('toyota', 'Toyota', 'Japanese'),
-  mark('lexus', 'Lexus', 'Japanese'),
-  mark('honda', 'Honda', 'Japanese'),
-  mark('nissan', 'Nissan', 'Japanese'),
-  mark('infiniti', 'Infiniti', 'Japanese', 40),
-  mark('mitsubishi', 'Mitsubishi', 'Japanese'),
-  mark('hyundai', 'Hyundai', 'Korean', 40),
-  mark('kia', 'Kia', 'Korean', 34),
-  word('land-rover', 'Land Rover', 'European'),
-  mark('mini', 'Mini', 'European', 40),
-  mark('volvo', 'Volvo', 'European'),
-  word('alfa-romeo', 'Alfa Romeo', 'European'),
-  mark('mazda', 'Mazda', 'Japanese'),
-  mark('ford', 'Ford', 'American', 44),
-  mark('chevrolet', 'Chevrolet', 'American', 34),
-  mark('jeep', 'Jeep', 'American', 34),
-  word('gmc', 'GMC', 'American'),
-  word('changan', 'Changan', 'Chinese'),
-  mark('mg', 'MG', 'Chinese', 40),
-  word('geely', 'Geely', 'Chinese'),
-  word('chery', 'Chery', 'Chinese'),
-  word('byd', 'BYD', 'Chinese'),
-  word('haval', 'Haval', 'Chinese'),
-  word('jetour', 'Jetour', 'Chinese'),
+  png('mercedes-benz', 'Mercedes-Benz', 'European', 52),
+  svg('bmw', 'BMW', 'European', 52),
+  svg('audi', 'Audi', 'European', 30),
+  svg('volkswagen', 'Volkswagen', 'European', 52),
+  svg('porsche', 'Porsche', 'European', 20),
+  svg('toyota', 'Toyota', 'Japanese', 28),
+  svg('lexus', 'Lexus', 'Japanese', 44),
+  svg('honda', 'Honda', 'Japanese', 40),
+  svg('nissan', 'Nissan', 'Japanese', 48),
+  svg('infiniti', 'Infiniti', 'Japanese', 30),
+  svg('mitsubishi', 'Mitsubishi', 'Japanese', 50),
+  svg('hyundai', 'Hyundai', 'Korean', 24),
+  svg('kia', 'Kia', 'Korean', 26),
+  svg('land-rover', 'Land Rover', 'European', 40),
+  svg('mini', 'Mini', 'European', 34),
+  svg('volvo', 'Volvo', 'European', 22),
+  svg('alfa-romeo', 'Alfa Romeo', 'European', 52),
+  png('mazda', 'Mazda', 'Japanese', 46),
+  svg('ford', 'Ford', 'American', 40),
+  svg('chevrolet', 'Chevrolet', 'American', 44),
+  svg('jeep', 'Jeep', 'American', 34),
+  png('gmc', 'GMC', 'American', 26),
+  svg('changan', 'Changan', 'Chinese', 48),
+  svg('mg', 'MG', 'Chinese', 50),
+  svg('geely', 'Geely', 'Chinese', 34),
+  svg('chery', 'Chery', 'Chinese', 40),
+  svg('byd', 'BYD', 'Chinese', 24),
+  svg('haval', 'Haval', 'Chinese', 20),
+  svg('jetour', 'Jetour', 'Chinese', 18),
 ]
 
 /** Names grouped by region — the text lists used by the assistant and the services copy. */
