@@ -436,9 +436,15 @@
   .marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee 55s linear infinite;
+    animation: marquee 38s linear infinite;
     animation-play-state: paused;
     will-change: transform;
+  }
+  /* Phones: smaller tiles, so the same loop takes a little longer to keep the pace readable */
+  @media (max-width: 639px) {
+    .marquee-track {
+      animation-duration: 46s;
+    }
   }
   .marquee[data-inview="true"] .marquee-track {
     animation-play-state: running;

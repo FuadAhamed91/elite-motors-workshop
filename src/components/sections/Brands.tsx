@@ -51,7 +51,7 @@ export function Brands() {
           {/* Two copies of the row: the track slides by exactly one copy, so the loop is seamless. */}
           <div className="marquee-track">
             {[0, 1].map((copy) => (
-              <ul key={copy} className="flex shrink-0 items-stretch gap-4 pe-4 sm:gap-5 sm:pe-5" aria-hidden={copy === 1 || undefined}>
+              <ul key={copy} className="flex shrink-0 items-stretch gap-3 pe-3 sm:gap-5 sm:pe-5" aria-hidden={copy === 1 || undefined}>
                 {brandWall.map((brand) => (
                   <BrandTile key={brand.id} brand={brand} />
                 ))}
@@ -76,9 +76,9 @@ function BrandTile({ brand }: { brand: Brand }) {
   const t = useT()
   return (
     <li
-      className="flex w-40 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-white/60 bg-sand-50 px-4 py-5 text-navy-900 shadow-[0_18px_40px_-24px_rgb(0_0_0/0.6)] transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 sm:w-44"
+      className="flex w-[8.25rem] shrink-0 flex-col items-center justify-center gap-2 rounded-2xl border border-white/60 bg-sand-50 px-3 py-4 text-navy-900 shadow-[0_18px_40px_-24px_rgb(0_0_0/0.6)] transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 sm:w-44 sm:gap-3 sm:px-4 sm:py-5"
     >
-      <span className="flex h-14 items-center justify-center">
+      <span className="flex h-11 items-center justify-center sm:h-14">
         <img
           src={brand.logo}
           alt=""
@@ -87,10 +87,10 @@ function BrandTile({ brand }: { brand: Brand }) {
           loading="lazy"
           decoding="async"
           style={{ height: brand.height }}
-          className="w-auto max-w-[8.5rem] object-contain"
+          className="max-h-11 w-auto max-w-[6.5rem] object-contain sm:max-h-none sm:max-w-[8.5rem]"
         />
       </span>
-      <span className="text-[13px] font-semibold tracking-wide text-navy-800">
+      <span className="text-xs font-semibold tracking-wide text-navy-800 sm:text-[13px]">
         <span className="sr-only">{t.brands.serviced} </span>
         {brand.name}
       </span>
