@@ -61,7 +61,7 @@ export function Hero() {
         </Reveal>
 
         <Reveal delay={0.15} eager>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
             <CtaLink href={buildTelLink(workshop.phone)} size="lg" icon={<Phone />}>
               {t.common.call(workshop.phone)}
             </CtaLink>
