@@ -1,4 +1,4 @@
-import { Clock, MapPin, Navigation, Phone } from 'lucide-react'
+import { Navigation, Phone } from 'lucide-react'
 import { Logo } from '@/components/layout/Logo'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
@@ -116,22 +116,19 @@ export function Footer() {
         <div>
           <h3 className="text-xs font-semibold tracking-[0.18em] text-fg uppercase">{t.footer.visitUs}</h3>
           <ul className="mt-4 space-y-3 text-sm text-fg-muted">
-            <li className="flex gap-2.5">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
+            <li>
               <span>
                 {t.location.line2}
                 <br />
                 {t.location.city}
               </span>
             </li>
-            <li className="flex gap-2.5">
-              <Phone className="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
+            <li>
               <a href={buildTelLink(workshop.phone)} className="transition-colors hover:text-gold-500 tabular-nums" dir="ltr">
                 {workshop.phone}
               </a>
             </li>
-            <li className="flex gap-2.5">
-              <Clock className="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
+            <li>
               <span>{t.hours.summary}</span>
             </li>
           </ul>

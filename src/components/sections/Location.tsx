@@ -1,4 +1,4 @@
-import { ExternalLink, MapPin, Navigation, Phone } from 'lucide-react'
+import { ExternalLink, Navigation, Phone } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
@@ -41,9 +41,6 @@ function AddressCard() {
   return (
     <GlowCard innerClassName="flex h-full flex-col p-6 sm:p-8">
       <div className="flex items-start gap-4">
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary">
-          <MapPin className="size-6" aria-hidden="true" />
-        </span>
         <address className="not-italic">
           <p className="font-display text-xl font-bold text-fg">{t.location.line1}</p>
           <p className="mt-2 leading-relaxed text-fg/90">

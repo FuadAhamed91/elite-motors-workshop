@@ -1,15 +1,4 @@
 import { brandsByRegion } from '@/data/brands'
-import type { LucideIcon } from 'lucide-react'
-import {
-  Cog,
-  Cpu,
-  Disc3,
-  Droplets,
-  Hammer,
-  PaintBucket,
-  Snowflake,
-  Sparkles,
-} from 'lucide-react'
 
 export interface Service {
   id: string
@@ -18,12 +7,11 @@ export interface Service {
   /** Short heading shown on the card (kept punchy for mobile). */
   title: string
   description: string
-  /** What is included — rendered as check-list chips. */
+  /** What is included — rendered as a short list. */
   includes: readonly string[]
-  icon: LucideIcon
   /** Highlights climate-critical or most-requested services. */
   badge?: string
-  /** Accent used for the icon tile + hover glow. */
+  /** Accent used for the list markers + hover glow. */
   accent: 'primary' | 'secondary'
 }
 
@@ -41,7 +29,6 @@ export const services: readonly Service[] = [
     description:
       'Engine work from timing and gaskets to full rebuilds, plus automatic and manual gearbox repairs — with a 2-tonne engine crane for removal and installation.',
     includes: ['Engine repair & rebuild', 'Gearbox & transmission work', 'Clutch, mounts & drivetrain'],
-    icon: Cog,
     accent: 'secondary',
   },
   {
@@ -51,7 +38,6 @@ export const services: readonly Service[] = [
     description:
       'Scheduled servicing at the intervals your manufacturer specifies: engine oil and filters, fluids, belts and a full inspection, recorded in your service book.',
     includes: ['Engine oil & filter change', 'Fluids, belts & filters', 'Multi-point inspection'],
-    icon: Droplets,
     badge: 'Most requested',
     accent: 'primary',
   },
@@ -62,7 +48,6 @@ export const services: readonly Service[] = [
     description:
       'Ice-cold cabin air for Abu Dhabi summers and a cooling system that copes with 45°C traffic — AC repair and regas, radiator flushing, thermostat and water pump work.',
     includes: ['AC repair, leak test & regas', 'Radiator flush & replacement', 'Thermostat & water pump'],
-    icon: Snowflake,
     badge: 'UAE summer essential',
     accent: 'secondary',
   },
@@ -73,7 +58,6 @@ export const services: readonly Service[] = [
     description:
       'Pads, discs and calipers with an in-house brake lathe for rotors and drums, suspension repairs, and wheel alignment to manufacturer specifications.',
     includes: ['Brake pads, discs & lathe work', 'Shocks, bushes & links', 'Wheel alignment & bearings'],
-    icon: Disc3,
     accent: 'primary',
   },
   {
@@ -83,7 +67,6 @@ export const services: readonly Service[] = [
     description:
       'Dent removal, panel and bumper repairs and full accident restoration on a Car-O-Liner measuring bench — insurance-approved, with claims handled for you.',
     includes: ['Dent & panel repair', 'Chassis measuring & straightening', 'Insurance claim repairs'],
-    icon: Hammer,
     badge: 'Insurance approved',
     accent: 'secondary',
   },
@@ -94,7 +77,6 @@ export const services: readonly Service[] = [
     description:
       'Factory-quality finishes in a full-size paint booth with a drying oven: colour-matched panel resprays, full repaints and clear-coat correction.',
     includes: ['Full-size booth with drying oven', 'Colour matching & resprays', 'Clear coat & polishing'],
-    icon: PaintBucket,
     accent: 'primary',
   },
   {
@@ -104,7 +86,6 @@ export const services: readonly Service[] = [
     description:
       'Starting, charging and warning-light faults traced with the Launch X431 scanner — reads ECM fault codes on European, Japanese and Korean vehicles.',
     includes: ['OBD scan & fault report', 'Battery, alternator & starter', 'Wiring & sensor repairs'],
-    icon: Cpu,
     accent: 'secondary',
   },
   {
@@ -114,7 +95,6 @@ export const services: readonly Service[] = [
     description:
       'Interior and exterior detailing in the dedicated wash bay — a proper clean-up after every repair, or on its own to keep the car looking its best.',
     includes: ['Exterior wash & polish', 'Interior deep clean', 'Engine bay cleaning'],
-    icon: Sparkles,
     accent: 'primary',
   },
 ]

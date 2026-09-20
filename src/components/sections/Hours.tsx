@@ -1,4 +1,4 @@
-import { CalendarX, Clock, Coffee, MoonStar, Navigation, Phone, Sun } from 'lucide-react'
+import { Navigation, Phone } from 'lucide-react'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal } from '@/components/ui/Reveal'
@@ -44,10 +44,7 @@ function ScheduleCard() {
   return (
     <GlowCard innerClassName="p-5 sm:p-6">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-        <h3 className="flex items-center gap-2 font-display text-lg font-bold text-fg">
-          <Clock className="size-5 text-primary" aria-hidden="true" />
-          {t.hours.weekly}
-        </h3>
+        <h3 className="font-display text-lg font-bold text-fg">{t.hours.weekly}</h3>
         <span className="text-xs text-fg-muted">{t.hours.timesNote}</span>
       </div>
 
@@ -58,14 +55,8 @@ function ScheduleCard() {
       </ol>
 
       <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-4 text-xs text-fg-muted">
-        <li className="flex items-center gap-1.5">
-          <Coffee className="size-3.5 text-fg-muted" aria-hidden="true" />
-          {t.hours.breakLabel}
-        </li>
-        <li className="flex items-center gap-1.5">
-          <CalendarX className="size-3.5 text-danger" aria-hidden="true" />
-          {t.hours.sundayClosed}
-        </li>
+        <li>{t.hours.breakLabel}</li>
+        <li className="text-danger">{t.hours.sundayClosed}</li>
       </ul>
     </GlowCard>
   )
@@ -127,11 +118,6 @@ function ScheduleRow({ day, isToday }: ScheduleRowProps) {
               : 'border-danger/30 bg-danger/10 text-danger',
           )}
         >
-          {day.noteKind === 'prayer' ? (
-            <MoonStar className="size-3" aria-hidden="true" />
-          ) : (
-            <CalendarX className="size-3" aria-hidden="true" />
-          )}
           {day.noteKind === 'closed' ? t.hours.closedAllDay : day.note}
         </span>
       )}
@@ -150,10 +136,7 @@ function LiveStatusCard() {
 
   return (
     <GlowCard accent="secondary" innerClassName="flex h-full flex-col p-5 sm:p-6">
-      <h3 className="flex items-center gap-2 font-display text-lg font-bold text-fg">
-        <Sun className="size-5 text-secondary" aria-hidden="true" />
-        {t.hours.live}
-      </h3>
+      <h3 className="font-display text-lg font-bold text-fg">{t.hours.live}</h3>
 
       <div className="mt-5 rounded-2xl border border-line bg-bg/60 p-4">
         <StatusBadge />

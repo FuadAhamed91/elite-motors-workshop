@@ -1,4 +1,4 @@
-import { BadgeCheck, ExternalLink } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -55,9 +55,6 @@ function GoogleReviewsBadge() {
       rel="noopener noreferrer"
       className="group flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 p-4 pe-5 text-on-navy transition-colors hover:border-white/30 hover:bg-white/10"
     >
-      <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-gold-500/15 text-gold-500">
-        <BadgeCheck className="size-6" aria-hidden="true" />
-      </span>
       <span className="flex flex-col gap-0.5">
         <span className="text-sm font-semibold">{t.reviews.badgeTitle}</span>
         <span className="flex items-center gap-1 text-xs text-on-navy-muted">
@@ -109,8 +106,7 @@ function ReviewCard({ review }: ReviewCardProps) {
               <p className="mt-0.5 text-xs text-fg-muted">{t.reviews.when[review.id] ?? review.when}</p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-pill border border-line bg-fg/3 px-2 py-1 text-[11px] font-medium text-fg-muted">
-            <BadgeCheck className="size-3.5 text-secondary" aria-hidden="true" />
+          <span className="inline-flex items-center rounded-pill border border-line bg-fg/3 px-2 py-1 text-[11px] font-medium text-fg-muted">
             {t.reviews.google}
           </span>
         </div>

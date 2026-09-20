@@ -1,11 +1,9 @@
-import { AlertTriangle, ClipboardCheck, ExternalLink, FileCheck2, Phone, ShieldCheck, Wrench } from 'lucide-react'
+import { ExternalLink, Phone } from 'lucide-react'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { workshop } from '@/config/workshop'
 import { insurers } from '@/data/insurers'
 import { useT } from '@/i18n'
 import { buildTelLink } from '@/lib/whatsapp'
-
-const STEP_ICONS = [FileCheck2, ClipboardCheck, Wrench] as const
 
 /** Logo wall of the insurers the workshop is approved by — each tile links to the insurer. */
 export function InsurerWall() {
@@ -14,10 +12,7 @@ export function InsurerWall() {
   return (
     <>
       <Reveal delay={0.05}>
-        <p className="mt-10 flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
-          <ShieldCheck className="size-4" aria-hidden="true" />
-          {c.approvedBy}
-        </p>
+        <p className="mt-10 text-xs font-semibold tracking-[0.18em] text-primary uppercase">{c.approvedBy}</p>
       </Reveal>
       <StaggerGroup as="ul" className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
         {insurers.map((insurer) => {
@@ -67,13 +62,9 @@ export function ClaimSteps() {
       <h3 className="font-display text-xl font-bold tracking-tight text-fg">{c.stepsTitle}</h3>
       <ol className="mt-6 grid gap-6 sm:grid-cols-3">
         {c.steps.map((step, index) => {
-          const Icon = STEP_ICONS[index] ?? Wrench
           return (
-            <li key={step.title} className="relative">
-              <span className="flex size-11 items-center justify-center rounded-xl bg-primary/12 text-primary">
-                <Icon className="size-5" aria-hidden="true" />
-              </span>
-              <p className="mt-4 text-xs font-semibold tracking-[0.18em] text-fg-muted uppercase">{String(index + 1).padStart(2, '0')}</p>
+            <li key={step.title} className="relative border-t-2 border-primary/30 pt-4">
+              <p className="font-display text-2xl font-bold text-primary">{String(index + 1).padStart(2, '0')}</p>
               <p className="mt-1 font-semibold text-fg">{step.title}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-fg-muted">{step.body}</p>
             </li>
@@ -94,9 +85,7 @@ export function BringChecklist() {
       <ul className="mt-5 space-y-2.5">
         {c.bring.map((item) => (
           <li key={item} className="flex items-start gap-2.5 text-sm text-fg/90">
-            <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
-              <ClipboardCheck className="size-3" strokeWidth={2.5} aria-hidden="true" />
-            </span>
+            <span aria-hidden="true" className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-primary" />
             {item}
           </li>
         ))}
@@ -122,10 +111,7 @@ export function AfterAccident() {
   const c = t.insurance
   return (
     <div className="rounded-card border border-warn/30 bg-warn/8 p-6 sm:p-8">
-      <h3 className="flex items-center gap-2 font-display text-xl font-bold tracking-tight text-fg">
-        <AlertTriangle className="size-5 text-warn" aria-hidden="true" />
-        {c.afterAccidentTitle}
-      </h3>
+      <h3 className="font-display text-xl font-bold tracking-tight text-fg">{c.afterAccidentTitle}</h3>
       <ol className="mt-5 space-y-3">
         {c.afterAccident.map((item, index) => (
           <li key={item} className="flex gap-3 text-sm leading-relaxed text-fg/90">

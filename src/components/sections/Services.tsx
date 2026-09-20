@@ -1,4 +1,4 @@
-import { ArrowUpRight, Check, Phone } from 'lucide-react'
+import { ArrowUpRight, Phone } from 'lucide-react'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
@@ -86,36 +86,21 @@ interface ServiceCardProps {
 function ServiceCard({ service }: ServiceCardProps) {
   const t = useT()
   const copy = t.services.items[service.id] ?? { title: service.title, description: service.description, includes: [...service.includes], badge: service.badge }
-  const Icon = service.icon
-  const accentText = service.accent === 'primary' ? 'text-primary' : 'text-secondary'
-  const accentBg = service.accent === 'primary' ? 'bg-primary/12' : 'bg-secondary/12'
-
   return (
     <GlowCard accent={service.accent} innerClassName="flex flex-col p-6">
-      <div className="flex items-start justify-between gap-3">
-        <span
-          className={cn(
-            'flex size-12 shrink-0 items-center justify-center rounded-xl border border-line transition-transform duration-300 group-hover:scale-105 motion-reduce:group-hover:scale-100',
-            accentBg,
-            accentText,
-          )}
-        >
-          <Icon className="size-6" aria-hidden="true" strokeWidth={1.75} />
+      {copy.badge && (
+        <span className="mb-4 self-start rounded-pill border border-secondary/30 bg-secondary/10 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-secondary uppercase">
+          {copy.badge}
         </span>
-        {copy.badge && (
-          <span className="rounded-pill border border-secondary/30 bg-secondary/10 px-2.5 py-1 text-end text-[11px] font-semibold tracking-wider text-secondary uppercase">
-            {copy.badge}
-          </span>
-        )}
-      </div>
+      )}
 
-      <h3 className="mt-5 font-display text-xl font-bold tracking-tight text-fg">{copy.title}</h3>
+      <h3 className="font-display text-xl font-bold tracking-tight text-fg">{copy.title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-fg-muted">{copy.description}</p>
 
       <ul className="mt-4 space-y-2 pb-1" aria-label={t.services.includesLabel(copy.title)}>
         {copy.includes.map((item) => (
-          <li key={item} className="flex items-center gap-2 text-sm text-fg/90">
-            <Check className={cn('size-4 shrink-0', accentText)} strokeWidth={2.5} aria-hidden="true" />
+          <li key={item} className="flex items-start gap-2.5 text-sm text-fg/90">
+            <span aria-hidden="true" className={cn('mt-[0.55em] size-1.5 shrink-0 rounded-full', service.accent === 'primary' ? 'bg-primary' : 'bg-secondary')} />
             {item}
           </li>
         ))}

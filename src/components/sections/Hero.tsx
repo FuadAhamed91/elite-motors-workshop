@@ -1,4 +1,4 @@
-import { Check, ExternalLink, Images, MapPin, Navigation, Phone, ShieldCheck, Star } from 'lucide-react'
+import { ExternalLink, Images, Navigation, Phone, ShieldCheck, Star } from 'lucide-react'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { Reveal } from '@/components/ui/Reveal'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -84,19 +84,14 @@ export function Hero() {
               </CtaLink>
             </div>
           </div>
-          <p className="mt-4 flex items-center justify-center gap-2 text-sm text-fg-muted">
-            <MapPin className="size-4 shrink-0 text-primary" aria-hidden="true" />
-            {t.hero.addressLine(t.location.line2)}
-          </p>
+          <p className="mt-4 text-center text-sm text-fg-muted">{t.hero.addressLine(t.location.line2)}</p>
         </Reveal>
 
         <Reveal delay={0.2} eager>
           <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2">
             {t.hero.proofPoints(workshop.foundedYear).map((point) => (
-              <li key={point} className="flex items-center gap-2 text-sm text-fg/90">
-                <span className="flex size-5 items-center justify-center rounded-full bg-primary/15 text-primary">
-                  <Check className="size-3" strokeWidth={3} aria-hidden="true" />
-                </span>
+              <li key={point} className="flex items-center gap-2.5 text-sm text-fg/90">
+                <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-primary" />
                 {point}
               </li>
             ))}

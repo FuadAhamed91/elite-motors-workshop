@@ -1,4 +1,4 @@
-import { ArrowUpRight, Check, Images } from 'lucide-react'
+import { ArrowUpRight, Images } from 'lucide-react'
 import { lazy, Suspense, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Picture } from '@/components/ui/Picture'
@@ -50,9 +50,7 @@ export function Workshop() {
               const copy = t.workshop.equipment[item.id] ?? item
               return (
                 <li key={item.id} className="flex gap-3 rounded-2xl border border-line bg-surface p-4">
-                  <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/12 text-primary">
-                    <Check className="size-3.5" strokeWidth={3} aria-hidden="true" />
-                  </span>
+                  <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
                   <span>
                     <span className="block text-sm font-semibold text-fg">{copy.title}</span>
                     <span className="block text-sm text-fg-muted">{copy.detail}</span>

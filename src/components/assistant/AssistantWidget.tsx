@@ -167,7 +167,7 @@ export function AssistantWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.16, ease: EASE_OUT_CUBIC } }}
             transition={{ duration: 0.22, ease: EASE_OUT_CUBIC }}
-            className="fixed inset-x-3 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+8.75rem)] z-40 flex max-h-[min(72vh,600px)] flex-col overflow-hidden rounded-card border border-line bg-surface shadow-[0_30px_60px_-24px_rgb(68_52_30/0.45)] sm:inset-x-auto sm:end-6 sm:bottom-[calc(1.5rem+8.75rem)] sm:w-[380px]"
+            className="fixed inset-x-2 bottom-[max(0.5rem,env(safe-area-inset-bottom))] z-[45] flex max-h-[calc(100dvh-5.5rem-max(0.5rem,env(safe-area-inset-bottom)))] flex-col overflow-hidden rounded-card border border-line bg-surface shadow-[0_30px_60px_-24px_rgb(68_52_30/0.45)] sm:inset-x-auto sm:end-6 sm:bottom-[calc(1.5rem+8.75rem)] sm:max-h-[min(72vh,600px)] sm:w-[380px]"
             style={{ transformOrigin: dir === 'rtl' ? '0% 100%' : '100% 100%' }}
           >
             <header className="flex items-center gap-3 border-b border-white/10 bg-navy-900 px-4 py-3 text-on-navy [--color-fg:var(--color-on-navy)] [--color-fg-muted:var(--color-on-navy-muted)]">

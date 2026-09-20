@@ -207,7 +207,7 @@ export const en = {
       'Recovery to the workshop arranged for accident-damaged cars',
     ],
     clientsTitle: 'Fleets we service',
-    kinds: { rental: 'Car rental', taxi: 'Taxi operator', bakery: 'Bakery chain' },
+    kinds: { rental: 'Car rental', taxi: 'Taxi operator', bakery: 'Bakery chain', courier: 'Courier company' },
     names: {} as Record<string, string>,
     visit: (name: string) => `Visit ${name}`,
     logoAlt: (name: string) => `${name} logo`,

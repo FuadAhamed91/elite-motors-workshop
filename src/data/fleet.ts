@@ -1,4 +1,4 @@
-export type FleetKind = 'rental' | 'taxi' | 'bakery'
+export type FleetKind = 'rental' | 'taxi' | 'bakery' | 'courier'
 
 export interface FleetClient {
   id: string
@@ -32,4 +32,5 @@ export const fleetClients: readonly FleetClient[] = [
   client('legend', 'Legend Rent a Car', 'https://www.legendrentacar.com/', 'rental', 3.09),
   client('city-star', 'City Star Rent a Car', 'https://citystarrentacar.com/', 'rental', 3.48),
   client('bake-al-arab', 'Bake Al Arab', 'https://www.bakealarab.com/', 'bakery', 1.27),
+  client('me-courier', 'ME Courier', 'https://mecourier.ae/', 'courier', 1.81),
 ]

@@ -47,7 +47,6 @@ export function TrustStrip() {
 
         <StaggerGroup as="ul" className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {stats.map((stat) => {
-            const Icon = stat.icon
             const text = copy[stat.id] ?? { value: stat.value, label: stat.label }
             return (
               <StaggerItem
@@ -55,9 +54,7 @@ export function TrustStrip() {
                 key={stat.id}
                 className="rounded-2xl border border-navy-800 bg-navy-900 p-4 text-on-navy shadow-[0_18px_40px_-24px_rgb(15_27_61/0.7)] sm:p-5"
               >
-                <span className="flex size-10 items-center justify-center rounded-xl bg-white/10 text-gold-500">
-                  <Icon className="size-5" aria-hidden="true" />
-                </span>
+                <span aria-hidden="true" className="block h-[3px] w-8 rounded-full bg-gold-500" />
                 <p className="mt-4 font-display text-[1.35rem] font-bold tracking-tight sm:text-[1.7rem]">
                   {text.value}
                 </p>

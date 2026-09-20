@@ -1,4 +1,4 @@
-import { Building2, ExternalLink, Phone } from 'lucide-react'
+import { ExternalLink, Phone } from 'lucide-react'
 import { CtaLink } from '@/components/ui/CtaLink'
 import { Reveal, StaggerGroup, StaggerItem } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -24,12 +24,9 @@ export function Fleet() {
       </Reveal>
 
       <Reveal delay={0.05}>
-        <p className="mt-10 flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
-          <Building2 className="size-4" aria-hidden="true" />
-          {c.clientsTitle}
-        </p>
+        <p className="mt-10 text-xs font-semibold tracking-[0.18em] text-primary uppercase">{c.clientsTitle}</p>
       </Reveal>
-      <StaggerGroup as="ul" className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6" aria-label={c.clientsTitle}>
+      <StaggerGroup as="ul" className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4" aria-label={c.clientsTitle}>
         {fleetClients.map((client) => {
           const name = c.names[client.id] ?? client.name
           return (
@@ -69,9 +66,7 @@ export function Fleet() {
           <ul className="grid gap-2.5 sm:grid-cols-2">
             {c.points.map((point) => (
               <li key={point} className="flex items-start gap-2.5 text-sm text-fg/90">
-                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/12 text-primary">
-                  <Building2 className="size-3" aria-hidden="true" />
-                </span>
+                <span aria-hidden="true" className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-primary" />
                 {point}
               </li>
             ))}

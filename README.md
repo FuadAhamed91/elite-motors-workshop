@@ -162,7 +162,7 @@ only to say "we service these" — never imply an official dealership.
 
 "Fleet & company vehicles" right after the insurance section, in the same style: a logo wall of
 the fleets the owner named (`src/data/fleet.ts` — Kabi Taxi, Dollar, Thrifty, Legend and City Star
-rent-a-car, and the Bake Al Arab bakery chain), each tile linking to the company's own site, plus
+rent-a-car, the Bake Al Arab bakery chain and ME Courier), each tile linking to the company's own site, plus
 the pitch for fleet managers (priority booking, claims handled, one invoice, recovery arranged) and
 a call button. Logos are the companies' own marks in `public/logos/fleet/` (from their sites /
 public profiles), shown only to say "we service their fleet". The assistant answers fleet /
@@ -188,6 +188,13 @@ all plates blurred (including a plate lying on a dashboard and cars in the backg
 bay's green floor paint retouched to plain concrete (also in the gallery's wash-bay photo) and the
 phones' date/model stamps removed.
 
+## Icons
+
+The owner asked for **no decorative pictograms** (2026-09-20): service cards, stat tiles, claim
+steps, section eyebrows, hours/location cards and the footer carry no small icons — lists use a
+plain dot marker, steps are numbered. Icons remain only where they do a job: call/directions/arrow
+icons inside buttons and links, the WhatsApp mark, the star ratings, close/menu controls.
+
 ## On-site assistant
 
 `src/components/assistant/AssistantWidget.tsx` is a small chat panel (launcher above the WhatsApp
@@ -210,7 +217,8 @@ is mirrored so he still waves toward the page. `persona: 'plain'` restores the n
 chat-icon assistant; git tag `v7-before-ahmed` is the full earlier state. Ahmed does not wave (the owner found it awkward); he blinks and
 breathes (`--animate-blink` / `--animate-breathe`), the launcher portrait nods now and then
 (`--animate-nod`) and shows an "Ask Ahmed" label on hover, his portrait sits beside every reply,
-and messages slide in.
+and messages slide in. On phones the panel is a bottom sheet capped at `100dvh − 5.5rem`, so
+it never runs under the sticky navbar.
 
 ## Performance notes
 

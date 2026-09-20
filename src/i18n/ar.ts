@@ -205,7 +205,7 @@ export const ar: Dictionary = {
       'ترتيب سحب السيارات المتضررة من الحوادث إلى الورشة',
     ],
     clientsTitle: 'أساطيل نخدمها',
-    kinds: { rental: 'تأجير سيارات', taxi: 'مشغّل تاكسي', bakery: 'سلسلة مخابز' },
+    kinds: { rental: 'تأجير سيارات', taxi: 'مشغّل تاكسي', bakery: 'سلسلة مخابز', courier: 'شركة توصيل طرود' },
     names: {
       kabi: 'كابي تاكسي',
       dollar: 'دولار لتأجير السيارات',
@@ -213,6 +213,7 @@ export const ar: Dictionary = {
       legend: 'ليجند لتأجير السيارات',
       'city-star': 'سيتي ستار لتأجير السيارات',
       'bake-al-arab': 'بيك العرب',
+      'me-courier': 'مي كوريير',
     },
     visit: (name) => `زيارة موقع ${name}`,
     logoAlt: (name) => `شعار ${name}`,
