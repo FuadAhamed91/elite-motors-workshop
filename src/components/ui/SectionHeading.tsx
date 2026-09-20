@@ -31,7 +31,7 @@ export function SectionHeading({
             align === 'center' && 'justify-center',
           )}
         >
-          <span aria-hidden="true" className="h-px w-6 bg-linear-to-r from-primary to-secondary" />
+          <span aria-hidden="true" className="brand-stripe h-[3px] w-7 rounded-full" />
           {eyebrow}
         </p>
       )}

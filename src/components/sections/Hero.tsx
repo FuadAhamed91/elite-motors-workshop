@@ -16,7 +16,7 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-40 lg:pb-24"
     >
-      {/* Ambient background: blueprint grid + electric glows, all decorative */}
+      {/* Ambient background: blueprint grid + badge-blue and badge-yellow glows, all decorative */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black_20%,transparent_75%)]" />
         <div className="absolute -top-48 left-1/2 h-[720px] w-[1100px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--color-primary-bright)_16%,transparent),transparent_62%)]" />
@@ -47,7 +47,7 @@ export function Hero() {
             className="mx-auto mt-6 max-w-4xl font-display text-[2.6rem] leading-[1.05] font-extrabold tracking-tight text-balance text-fg sm:text-5xl lg:text-6xl xl:text-[4.4rem]"
           >
             {t.hero.headlineStart}{' '}
-            <span className="bg-linear-to-r from-primary via-primary-bright to-secondary bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-royal-700 via-primary-bright to-primary bg-clip-text text-transparent">
               {t.hero.headlineAccent}
             </span>{' '}
             {t.hero.headlineEnd}

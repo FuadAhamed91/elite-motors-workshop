@@ -33,7 +33,7 @@ export function TrustStrip() {
             className="mb-6 aspect-video w-full rounded-2xl border border-line object-cover shadow-card"
           />
           <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
-            <span aria-hidden="true" className="h-px w-6 bg-linear-to-r from-primary to-secondary" />
+            <span aria-hidden="true" className="brand-stripe h-[3px] w-7 rounded-full" />
             {t.about.eyebrow}
           </p>
           <h2

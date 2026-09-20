@@ -22,9 +22,11 @@
 
 /* ──────────────────────────────────────────────────────────────
    Design tokens — three layers (primitive → semantic → component)
-   Warm "sand" light theme: beige surfaces, ink text, electric
-   green/cyan accents tuned for light backgrounds (all text pairs
-   ≥ 4.5:1). Components never use raw hex — only the tokens below.
+   Warm "sand" light theme: beige surfaces, ink text, and accents
+   taken from the EMW badge — its blue is the primary, its yellow
+   (as a deep gold for text) the secondary, its red for details and
+   the tri-colour stripe. All text pairs ≥ 4.5:1 on sand-100.
+   Components never use raw hex — only the tokens below.
    ────────────────────────────────────────────────────────────── */
 @theme {
   /* Typography */
@@ -40,22 +42,25 @@
   --color-ink-700: #44403c; /* stone-700 */
   --color-ink-600: #57534e; /* stone-600 — 6.3:1 on sand-100 */
 
-  /* Primitive colors — electric accents */
-  --color-volt-500: #10b981; /* emerald-500 — gradients & glows */
-  --color-volt-600: #059669;
-  --color-volt-700: #047857; /* emerald-700 — 4.8:1 on sand-100 */
-  --color-electric-500: #06b6d4; /* cyan-500 — gradients & glows */
-  --color-electric-700: #0e7490; /* cyan-700 — 4.6:1 on sand-100 */
-  --color-whatsapp: #25d366; /* official WhatsApp green */
-  --color-whatsapp-dark: #1fb457;
-  --color-star: #f59e0b; /* amber-500 */
-  --color-warn: #b45309; /* amber-700 */
-  --color-danger: #be123c; /* rose-700 */
-
-  /* Primitive colors — EMW logo tiles (brand mark only, not UI accents) */
+  /* Primitive colors — EMW logo tiles (the badge itself and the tri-colour stripe) */
   --color-brand-red: #e2231a;
   --color-brand-blue: #2149b0;
   --color-brand-yellow: #f8c21c;
+
+  /* Primitive colors — accents derived from the badge */
+  --color-royal-500: #3b6ee8; /* brighter badge blue — gradients & glows */
+  --color-royal-600: var(--color-brand-blue); /* badge blue — 7.0:1 on sand-100 */
+  --color-royal-700: #1a3a8f; /* pressed / hover */
+  --color-navy-900: #0f1b3d; /* footer — badge blue taken almost to black */
+  --color-navy-800: #172a5e;
+  --color-gold-500: var(--color-brand-yellow); /* badge yellow — stars, fills */
+  --color-gold-700: #8f5f06; /* deep gold — 4.8:1 text on sand-100 */
+  --color-crimson-700: #c11d15; /* badge red deepened — 5.3:1 text on sand-100 */
+  --color-whatsapp: #25d366; /* official WhatsApp green */
+  --color-whatsapp-dark: #1fb457;
+  --color-star: var(--color-gold-500);
+  --color-warn: #b45309; /* amber-700 */
+  --color-danger: var(--color-crimson-700);
 
   /* Semantic tokens */
   --color-bg: var(--color-sand-100);
@@ -65,11 +70,14 @@
   --color-line-strong: color-mix(in oklab, var(--color-ink-900) 18%, transparent);
   --color-fg: var(--color-ink-900);
   --color-fg-muted: var(--color-ink-600);
-  --color-primary: var(--color-volt-700);
-  --color-primary-bright: var(--color-volt-500);
+  --color-primary: var(--color-royal-600);
+  --color-primary-bright: var(--color-royal-500);
   --color-on-primary: #ffffff;
-  --color-secondary: var(--color-electric-700);
-  --color-secondary-bright: var(--color-electric-500);
+  --color-secondary: var(--color-gold-700);
+  --color-secondary-bright: var(--color-gold-500);
+  --color-footer: var(--color-navy-900);
+  --color-footer-fg: var(--color-sand-50);
+  --color-footer-muted: var(--color-sand-300);
   --color-cta: var(--color-whatsapp);
   --color-cta-hover: var(--color-whatsapp-dark);
   --color-cta-fg: #062d17; /* near-black green — 9.6:1 on WhatsApp green */
@@ -84,8 +92,8 @@
   /* Elevation & glow (warm shadows) */
   --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.7) inset, 0 24px 48px -28px rgb(68 52 30 / 0.35);
   --shadow-cta: 0 12px 32px -12px color-mix(in oklab, var(--color-whatsapp) 65%, transparent);
-  --shadow-glow-primary: 0 0 0 1px color-mix(in oklab, var(--color-volt-500) 35%, transparent),
-    0 24px 60px -24px color-mix(in oklab, var(--color-volt-500) 55%, transparent);
+  --shadow-glow-primary: 0 0 0 1px color-mix(in oklab, var(--color-royal-500) 35%, transparent),
+    0 24px 60px -24px color-mix(in oklab, var(--color-royal-500) 55%, transparent);
 
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -348,7 +356,7 @@
       var(--color-line) 0%,
       var(--color-line) 62%,
       var(--color-primary-bright) 78%,
-      var(--color-secondary-bright) 88%,
+      var(--color-gold-500) 88%,
       var(--color-line) 100%
     );
     will-change: transform;
@@ -361,6 +369,16 @@
     .animated-border[data-inview="true"]::before {
       animation-play-state: running;
     }
+  }
+
+  /* The badge's red / blue / yellow tiles as a short rule (section eyebrows, footer edge) */
+  .brand-stripe {
+    background: linear-gradient(
+      90deg,
+      var(--color-brand-red) 0 33.4%,
+      var(--color-brand-blue) 33.4% 66.7%,
+      var(--color-brand-yellow) 66.7% 100%
+    );
   }
 
   /* Warm tone for the Google Maps embed so it sits with the beige palette */

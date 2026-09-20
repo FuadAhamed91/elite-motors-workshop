@@ -25,15 +25,17 @@ export function Footer() {
   }
 
   return (
-    <footer className="below-fold relative border-t border-line bg-surface/40 pb-28 sm:pb-12 lg:pb-10">
-      {/* Final conversion callout */}
-      <div className="container-x -mt-px py-16 lg:py-20">
+    <footer className="below-fold relative bg-footer pb-28 text-footer-fg sm:pb-12 lg:pb-10">
+      {/* The badge's red / blue / yellow as the footer's top edge */}
+      <div aria-hidden="true" className="brand-stripe h-1" />
+      {/* Final conversion callout — a cream card on the navy footer, so it keeps the page's own tokens */}
+      <div className="container-x py-14 lg:py-20">
         <Reveal>
           <GlowCard animatedBorder innerClassName="p-6 sm:p-10 lg:p-12">
             <div className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
               <div>
                 <p className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
-                  <span aria-hidden="true" className="h-px w-6 bg-linear-to-r from-primary to-secondary" />
+                  <span aria-hidden="true" className="brand-stripe h-[3px] w-7 rounded-full" />
                   {t.footer.eyebrow}
                 </p>
                 <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-balance text-fg sm:text-4xl">
@@ -60,13 +62,17 @@ export function Footer() {
         </Reveal>
       </div>
 
-      <div className="container-x grid gap-10 border-t border-line pt-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      {/* Light-on-navy text: the fg tokens are re-pointed for everything below the card */}
+      <div className="container-x grid gap-10 border-t border-white/10 pt-12 [--color-fg:var(--color-footer-fg)] [--color-fg-muted:var(--color-footer-muted)] sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div>
           <Logo variant="stacked" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-fg-muted">
             {t.footer.blurb(t.footer.city, workshop.foundedYear)}
           </p>
-          <StatusBadge className="mt-5" />
+          {/* The status pill keeps its light colours (its text is the page's blue / amber / red) */}
+          <span className="mt-5 inline-flex rounded-pill bg-surface [--color-fg:var(--color-ink-900)] [--color-fg-muted:var(--color-ink-600)]">
+            <StatusBadge />
+          </span>
         </div>
 
         <nav aria-label={t.nav.footer}>
@@ -76,14 +82,14 @@ export function Footer() {
               <li key={link.href}>
                 <a
                   href={href(link.href)}
-                  className="text-sm text-fg-muted transition-colors hover:text-primary"
+                  className="text-sm text-fg-muted transition-colors hover:text-gold-500"
                 >
                   {navLabels[link.href] ?? link.label}
                 </a>
               </li>
             ))}
             <li>
-              <a href={href('#location')} className="text-sm text-fg-muted transition-colors hover:text-primary">
+              <a href={href('#location')} className="text-sm text-fg-muted transition-colors hover:text-gold-500">
                 {t.footer.googleMaps}
               </a>
             </li>
@@ -97,7 +103,7 @@ export function Footer() {
               <li key={service.id}>
                 <a
                   href={href('#services')}
-                  className="text-sm text-fg-muted transition-colors hover:text-primary"
+                  className="text-sm text-fg-muted transition-colors hover:text-gold-500"
                 >
                   {t.services.items[service.id]?.title ?? service.title}
                 </a>
@@ -110,7 +116,7 @@ export function Footer() {
           <h3 className="text-xs font-semibold tracking-[0.18em] text-fg uppercase">{t.footer.visitUs}</h3>
           <ul className="mt-4 space-y-3 text-sm text-fg-muted">
             <li className="flex gap-2.5">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+              <MapPin className="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
               <span>
                 {t.location.line2}
                 <br />
@@ -118,20 +124,20 @@ export function Footer() {
               </span>
             </li>
             <li className="flex gap-2.5">
-              <Phone className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-              <a href={buildTelLink(workshop.phone)} className="transition-colors hover:text-primary tabular-nums" dir="ltr">
+              <Phone className="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
+              <a href={buildTelLink(workshop.phone)} className="transition-colors hover:text-gold-500 tabular-nums" dir="ltr">
                 {workshop.phone}
               </a>
             </li>
             <li className="flex gap-2.5">
-              <Clock className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+              <Clock className="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
               <span>{t.hours.summary}</span>
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="container-x mt-12 flex flex-col gap-4 border-t border-line pt-6 text-xs text-fg-muted sm:flex-row sm:items-start sm:justify-between sm:pe-28 lg:pe-32">
+      <div className="container-x mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-footer-muted sm:flex-row sm:items-start sm:justify-between sm:pe-28 lg:pe-32">
         <p>
           {t.footer.rights(year, t.brand.legalName)}
           <br />

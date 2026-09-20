@@ -1,7 +1,7 @@
 # Elite Motors Workshop — Landing Page
 
 High-conversion landing page for **Elite Motors Workshop**, an auto service and repair centre
-in Mussafah, Abu Dhabi. Warm beige/cream palette with electric green & cyan accents,
+in Mussafah, Abu Dhabi. Warm beige/cream palette with accents taken from the EMW badge (its blue as the primary, its yellow as a deep gold, its red for details and the tri-colour stripe; navy footer),
 21st.dev-style spotlight cards, Framer Motion reveals and Lucide icons.
 
 No booking wizards, calendars or lead forms. Every call to action is the landline (`tel:`) or
