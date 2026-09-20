@@ -44,9 +44,10 @@ const ring = (r, w) => `<path fill-rule="evenodd" d="M12 ${12 - r}a${r} ${r} 0 1
 const spoke = (deg) => `<path transform="rotate(${deg} 12 12)" d="M12 1.6L13.15 12 12 13.3 10.85 12z"/>`
 writeFileSync(`${out}/mercedes-benz.svg`, svg(`${ring(11.2, 1.25)}${spoke(0)}${spoke(120)}${spoke(240)}`))
 
-/* Lexus: oval ring with a bold L. */
-const oval = `<path fill-rule="evenodd" d="M12 3.6c6.3 0 11.4 3.76 11.4 8.4S18.3 20.4 12 20.4.6 16.64.6 12 5.7 3.6 12 3.6zm0 1.35C6.45 4.95 1.95 8.1 1.95 12S6.45 19.05 12 19.05 22.05 15.9 22.05 12 17.55 4.95 12 4.95z"/>`
-const L = `<path d="M7.4 7.3h2.6v7.55h6.9v2.05H7.4z"/>`
-writeFileSync(`${out}/lexus.svg`, svg(`${oval}${L}`))
+/* Lexus: the oval ring with the slanted L whose two ends run into the ring —
+   drawn as one filled shape (ring + L) so the joins are seamless. */
+const lexusL = 'M2.4 8.9 4 7.75 10.15 14.25 21.4 14.25 21.4 16.15 8.6 16.15z'
+const lexusRing = 'M12 4.1c6.35 0 11.5 3.54 11.5 7.9S18.35 19.9 12 19.9.5 16.36.5 12 5.65 4.1 12 4.1zm0 1.7C6.6 5.8 2.2 8.58 2.2 12S6.6 18.2 12 18.2s9.8-2.78 9.8-6.2S17.4 5.8 12 5.8z'
+writeFileSync(`${out}/lexus.svg`, svg(`<path fill-rule="evenodd" d="${lexusRing}"/><path d="${lexusL}"/>`))
 
 console.log('brand marks written to', out)

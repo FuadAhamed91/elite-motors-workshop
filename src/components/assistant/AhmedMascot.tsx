@@ -67,7 +67,7 @@ export function AhmedMascot({ chatOpen, onOpenChat }: AhmedMascotProps) {
           animate={{ x: 0, opacity: 1 }}
           exit={reduce ? { opacity: 0, transition: { duration: 0.2 } } : { x: offscreen, opacity: 0, transition: { duration: 0.35, ease: [0.4, 0, 1, 1] } }}
           transition={{ type: 'spring', stiffness: 230, damping: 24 }}
-          className="pointer-events-none fixed end-0 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+7.75rem)] z-40 flex items-start gap-2 sm:bottom-[calc(1.5rem+9.5rem)]"
+          className="pointer-events-none fixed end-0 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+8.5rem)] z-40 flex items-start gap-2 sm:bottom-[calc(1.5rem+8.5rem)]"
         >
           {/* Speech bubble — a button, so the whole thing is one tap */}
           <m.div

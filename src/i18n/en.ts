@@ -188,8 +188,8 @@ export const en = {
       },
     } as Record<string, { title: string; description: string; includes: string[]; badge?: string }>,
     facilities: {
-      paint: { service: 'Painting', caption: 'Paint booth', blurb: 'Full-size paint booth with drying oven', alt: 'Enclosed paint booth with red doors' },
-      body: { service: 'Denting & accident repair', caption: 'Body shop', blurb: 'Measuring bench for chassis and panel work', alt: 'Body shop bench with panels being repaired' },
+      paint: { service: 'Painting', caption: 'Paint booth', blurb: 'Full-size paint booth with drying oven', alt: 'Car masked up for painting inside the booth' },
+      body: { service: 'Denting & accident repair', caption: 'Body shop', blurb: 'Car-O-Liner bench for chassis and panel work', alt: 'Car being straightened on the Car-O-Liner chassis bench' },
       lifts: { service: 'Mechanical work', caption: 'Mechanical bays', blurb: 'Two-post lifts for engine, gearbox and brake jobs', alt: 'Vehicles raised on lifts with a technician at work' },
     } as Record<string, { service: string; caption: string; blurb: string; alt: string }>,
   },

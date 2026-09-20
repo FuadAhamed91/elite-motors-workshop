@@ -197,7 +197,10 @@ of the screen above the launcher, waves (`--animate-wave`) and shows a "Hi, I'm 
 I help you?" bubble; tapping him or the bubble opens the chat, × dismisses him, and he leaves by
 himself after 11 s (`AhmedMascot.tsx`; reduced motion = fade only, no wave). Under RTL the figure
 is mirrored so he still waves toward the page. `persona: 'plain'` restores the nameless
-chat-icon assistant; git tag `v7-before-ahmed` is the full earlier state.
+chat-icon assistant; git tag `v7-before-ahmed` is the full earlier state. Ahmed also blinks and
+breathes (`--animate-blink` / `--animate-breathe`), the launcher portrait nods now and then
+(`--animate-nod`) and shows an "Ask Ahmed" label on hover, his portrait sits beside every reply,
+and messages slide in.
 
 ## Performance notes
 

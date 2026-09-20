@@ -113,7 +113,7 @@ export function AssistantWidget() {
 
   return (
     <>
-      {/* Launcher — sits above the WhatsApp button */}
+      {/* Launcher — sits above the WhatsApp button. With Ahmed it is his portrait: it blinks, nods now and then, and shows a label on hover. */}
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
@@ -121,21 +121,37 @@ export function AssistantWidget() {
         aria-controls="emw-assistant"
         aria-label={open ? copy.close : copy.open(copy.name)}
         className={cn(
-          'fixed end-4 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+4.5rem)] z-40 inline-flex size-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border shadow-card transition-[transform,background-color] duration-150 ease-out active:scale-95 sm:end-6 sm:bottom-[calc(1.5rem+4.5rem)] sm:size-13',
-          ahmed && !open ? 'border-navy-800 bg-navy-900 text-on-navy' : 'border-line bg-surface text-fg hover:bg-surface-elevated',
+          'group fixed end-4 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+4.75rem)] z-40 flex cursor-pointer items-center gap-3 sm:end-6 sm:bottom-[calc(1.5rem+4.75rem)]',
         )}
       >
-        {open ? (
-          <X className="size-5" aria-hidden="true" />
-        ) : ahmed ? (
-          <span className="relative block size-full">
-            <AhmedFace className="size-full scale-[1.12]" />
-            {/* "online" dot */}
-            <span aria-hidden="true" className="absolute end-1 bottom-1 size-2.5 rounded-full border-2 border-navy-900 bg-gold-500" />
+        {ahmed && !open && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none hidden translate-x-2 rounded-pill border border-line bg-surface/90 px-3.5 py-2 text-sm font-semibold text-fg opacity-0 shadow-card backdrop-blur-md transition-[opacity,transform] duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:block rtl:-translate-x-2"
+          >
+            {copy.open(copy.name)}
           </span>
-        ) : (
-          <MessageSquareText className="size-5" aria-hidden="true" />
         )}
+        <span
+          className={cn(
+            'relative inline-flex size-14 shrink-0 items-center justify-center rounded-full border-2 shadow-card transition-transform duration-200 group-hover:scale-105 group-active:scale-95 motion-reduce:group-hover:scale-100',
+            ahmed && !open ? 'border-gold-500 bg-navy-900 text-on-navy' : 'border-line bg-surface text-fg group-hover:bg-surface-elevated',
+          )}
+        >
+          {open ? (
+            <X className="size-5" aria-hidden="true" />
+          ) : ahmed ? (
+            <>
+              <span className="block size-full overflow-hidden rounded-full motion-safe:animate-nod" style={{ transformOrigin: '50% 90%' }}>
+                <AhmedFace className="size-full" />
+              </span>
+              {/* "online" dot */}
+              <span aria-hidden="true" className="absolute end-0 bottom-0 size-3.5 rounded-full border-2 border-navy-900 bg-gold-500" />
+            </>
+          ) : (
+            <MessageSquareText className="size-5" aria-hidden="true" />
+          )}
+        </span>
       </button>
 
       {ahmed && <AhmedMascot chatOpen={open} onOpenChat={() => setOpen(true)} />}
@@ -151,7 +167,7 @@ export function AssistantWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.16, ease: EASE_OUT_CUBIC } }}
             transition={{ duration: 0.22, ease: EASE_OUT_CUBIC }}
-            className="fixed inset-x-3 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+8rem)] z-40 flex max-h-[min(72vh,600px)] flex-col overflow-hidden rounded-card border border-line bg-surface shadow-[0_30px_60px_-24px_rgb(68_52_30/0.45)] sm:inset-x-auto sm:end-6 sm:bottom-[calc(1.5rem+8.5rem)] sm:w-[380px]"
+            className="fixed inset-x-3 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+8.75rem)] z-40 flex max-h-[min(72vh,600px)] flex-col overflow-hidden rounded-card border border-line bg-surface shadow-[0_30px_60px_-24px_rgb(68_52_30/0.45)] sm:inset-x-auto sm:end-6 sm:bottom-[calc(1.5rem+8.75rem)] sm:w-[380px]"
             style={{ transformOrigin: dir === 'rtl' ? '0% 100%' : '100% 100%' }}
           >
             <header className="flex items-center gap-3 border-b border-white/10 bg-navy-900 px-4 py-3 text-on-navy [--color-fg:var(--color-on-navy)] [--color-fg-muted:var(--color-on-navy-muted)]">
@@ -182,17 +198,20 @@ export function AssistantWidget() {
 
             <div ref={logRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4" aria-live="polite">
               {messages.map((message) => (
-                <MessageBubble key={message.id} message={message} onSuggestion={ask} isLast={message === lastMessage} />
+                <MessageBubble key={message.id} message={message} onSuggestion={ask} isLast={message === lastMessage} avatar={ahmed} />
               ))}
               {typing && (
-                <div className="flex items-center gap-1 px-3 py-2" aria-label={copy.typing(copy.name)}>
-                  {[0, 1, 2].map((dot) => (
-                    <span
-                      key={dot}
-                      className="size-1.5 rounded-full bg-fg-muted/60 motion-safe:animate-pulse"
-                      style={{ animationDelay: `${dot * 150}ms` }}
-                    />
-                  ))}
+                <div className="flex items-center gap-2" aria-label={copy.typing(copy.name)}>
+                  {ahmed && <Avatar />}
+                  <div className="flex items-center gap-1 rounded-2xl rounded-es-md bg-bg px-3 py-2.5">
+                    {[0, 1, 2].map((dot) => (
+                      <span
+                        key={dot}
+                        className="size-1.5 rounded-full bg-fg-muted/60 motion-safe:animate-pulse"
+                        style={{ animationDelay: `${dot * 150}ms` }}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -228,30 +247,50 @@ export function AssistantWidget() {
   )
 }
 
+/** Ahmed's small portrait beside his replies. */
+function Avatar() {
+  return (
+    <span aria-hidden="true" className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full border border-gold-500/60 bg-navy-900">
+      <AhmedFace className="size-full" />
+    </span>
+  )
+}
+
 interface MessageBubbleProps {
   message: ChatMessage
   isLast: boolean
   onSuggestion: (question: string) => void
+  /** Show Ahmed's portrait next to assistant replies. */
+  avatar?: boolean
 }
 
-function MessageBubble({ message, isLast, onSuggestion }: MessageBubbleProps) {
+function MessageBubble({ message, isLast, onSuggestion, avatar = false }: MessageBubbleProps) {
   const href = useHref()
+  const reduce = useReducedMotion()
   const isUser = message.role === 'user'
   return (
-    <div className={cn('flex flex-col gap-2', isUser ? 'items-end' : 'items-start')}>
-      <div
-        dir={message.locale === 'ar' ? 'rtl' : 'ltr'}
-        lang={message.locale}
-        className={cn(
-          'max-w-[88%] rounded-2xl px-3.5 py-2.5 text-start text-sm leading-relaxed whitespace-pre-line',
-          isUser ? 'rounded-ee-md bg-primary text-on-primary' : 'rounded-es-md bg-bg text-fg',
-        )}
-      >
-        {message.text}
+    <m.div
+      initial={reduce ? false : { opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.22, ease: EASE_OUT_CUBIC }}
+      className={cn('flex flex-col gap-2', isUser ? 'items-end' : 'items-start')}
+    >
+      <div className={cn('flex max-w-[92%] items-start gap-2', isUser && 'flex-row-reverse')}>
+        {!isUser && avatar && <Avatar />}
+        <div
+          dir={message.locale === 'ar' ? 'rtl' : 'ltr'}
+          lang={message.locale}
+          className={cn(
+            'rounded-2xl px-3.5 py-2.5 text-start text-sm leading-relaxed whitespace-pre-line',
+            isUser ? 'rounded-ee-md bg-primary text-on-primary' : 'rounded-es-md bg-bg text-fg',
+          )}
+        >
+          {message.text}
+        </div>
       </div>
 
       {message.links && message.links.length > 0 && (
-        <div className="flex max-w-[92%] flex-wrap gap-2">
+        <div className={cn('flex max-w-[92%] flex-wrap gap-2', avatar && !isUser && 'ps-9')}>
           {message.links.map((link) => {
             const external = link.kind !== 'anchor' && link.kind !== 'call'
             return (
@@ -276,7 +315,7 @@ function MessageBubble({ message, isLast, onSuggestion }: MessageBubbleProps) {
 
       {/* Suggestions only stay on the latest assistant message to keep the log tidy */}
       {!isUser && isLast && message.suggestions && message.suggestions.length > 0 && (
-        <div className="flex max-w-[92%] flex-wrap gap-2">
+        <div className={cn('flex max-w-[92%] flex-wrap gap-2', avatar && 'ps-9')}>
           {message.suggestions.map((suggestion) => (
             <button
               key={suggestion}
@@ -289,6 +328,6 @@ function MessageBubble({ message, isLast, onSuggestion }: MessageBubbleProps) {
           ))}
         </div>
       )}
-    </div>
+    </m.div>
   )
 }
