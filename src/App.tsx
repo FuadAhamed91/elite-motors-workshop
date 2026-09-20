@@ -60,10 +60,12 @@ export default function App() {
         <main id="main">
           <Hero />
           <TrustStrip />
-          {/* Services mounts one frame after the hero; everything lower mounts as the visitor approaches it. */}
+          {/* Everything below About mounts as the visitor approaches it (Services is within reach at once on a phone). */}
           {belowFold && (
             <>
-              <Services />
+              <Deferred minHeight="120vh">
+                <Services />
+              </Deferred>
               <Deferred minHeight="60vh">
                 <Brands />
               </Deferred>
