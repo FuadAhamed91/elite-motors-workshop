@@ -119,7 +119,7 @@ export const en = {
   stats: {
     years: { value: (n: number) => `${n}+`, label: (year: number) => `Years in Mussafah · since ${year}` },
     insurance: { value: 'Insurance', label: 'Approved Body & Paint Shop' },
-    techs: { value: 'All makes', label: 'European, Japanese, Korean & American cars' },
+    techs: { value: 'All makes', label: 'European, Japanese, Korean, American & Chinese cars' },
     parts: { value: 'Genuine', label: 'OEM Parts Only' },
   },
 
@@ -131,7 +131,7 @@ export const en = {
     includesLabel: (title: string) => `What ${title} includes`,
     facilitiesLabel: 'Where the work happens',
     multiBrand: 'Multi-brand workshop',
-    regions: { European: 'European', Japanese: 'Japanese', Korean: 'Korean', American: 'American' },
+    regions: { European: 'European', Japanese: 'Japanese', Korean: 'Korean', American: 'American', Chinese: 'Chinese' },
     notSure: 'Not sure what your car needs?',
     callAndDescribe: (phone: string) => `Call ${phone} and describe the problem`,
     items: {
@@ -196,7 +196,7 @@ export const en = {
 
   brands: {
     eyebrow: 'All makes',
-    title: 'European, Japanese, Korean and American — one workshop.',
+    title: 'European, Japanese, Korean, American and Chinese — one workshop.',
     description:
       'Dealer-level diagnostics (Launch X431), a Car-O-Liner bench and genuine parts for every make that comes through the gate.',
     wallLabel: 'Makes we service',
@@ -441,11 +441,20 @@ export const en = {
   },
 
   assistant: {
-    name: 'EMW Assistant',
+    name: 'Ahmed',
+    plainName: 'EMW Assistant',
     greeting:
+      "Hi, I'm Ahmed from Elite Motors Workshop. I can help with opening hours, our location, services, insurance claims and how to get in touch. What would you like to know?",
+    plainGreeting:
       "Hi! I can help with the workshop's opening hours, location, services and how to get in touch. What would you like to know?",
+    mascot: {
+      hello: 'Hi, I\u2019m Ahmed \u{1F44B}',
+      question: 'How can I help you?',
+      chat: 'Chat with Ahmed',
+      dismiss: 'Not now',
+    },
     quickReplies: ['Are you open now?', 'Opening hours', 'Where are you located?', 'Which insurers do you work with?', 'What services do you offer?'],
-    open: (name: string) => `Open ${name}`,
+    open: (name: string) => `Chat with ${name}`,
     close: 'Close assistant',
     inputLabel: 'Ask about hours, location or services',
     placeholder: 'Ask about hours, location, services…',

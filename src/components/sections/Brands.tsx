@@ -6,10 +6,9 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { workshop } from '@/config/workshop'
 import { brandWall, type Brand, type BrandRegion } from '@/data/brands'
 import { useT } from '@/i18n'
-import { cn } from '@/lib/cn'
 import { buildTelLink } from '@/lib/whatsapp'
 
-const REGIONS: readonly BrandRegion[] = ['European', 'Japanese', 'Korean', 'American']
+const REGIONS: readonly BrandRegion[] = ['European', 'Japanese', 'Korean', 'American', 'Chinese']
 
 /**
  * "All makes" logo wall on a navy band: the manufacturers' marks glide past in
@@ -49,7 +48,7 @@ export function Brands() {
           role="region"
           aria-label={c.wallLabel}
           data-inview={inView}
-          className="marquee [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]"
+          className="marquee [mask-image:linear-gradient(90deg,transparent,black_4%,black_96%,transparent)]"
         >
           {/* Two copies of the row: the track slides by exactly one copy, so the loop is seamless. */}
           <div className="marquee-track">
@@ -89,27 +88,28 @@ function BrandTile({ brand }: { brand: Brand }) {
   const t = useT()
   return (
     <li
-      className="flex w-36 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-5 transition-colors duration-300 hover:bg-white/10 sm:w-40"
+      className="flex w-40 shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-white/60 bg-sand-50 px-4 py-5 text-navy-900 shadow-[0_18px_40px_-24px_rgb(0_0_0/0.6)] transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 sm:w-44"
     >
-      <span className="flex h-11 items-center justify-center">
+      <span className="flex h-14 items-center justify-center">
         {brand.logo ? (
           <img
             src={brand.logo}
             alt=""
-            width={44}
-            height={brand.height ?? 36}
+            width={56}
+            height={brand.height ?? 48}
             loading="lazy"
             decoding="async"
-            style={{ height: brand.height ?? 36 }}
-            className={cn('w-auto max-w-[6.5rem] opacity-90')}
+            style={{ height: brand.height ?? 48 }}
+            className="w-auto max-w-[8.5rem]"
           />
         ) : (
-          <span className="font-display text-lg font-extrabold tracking-[0.04em] whitespace-nowrap text-sand-50 uppercase">{brand.name}</span>
+          <span className="font-display text-[1.35rem] font-extrabold tracking-[0.06em] whitespace-nowrap uppercase">{brand.name}</span>
         )}
       </span>
-      <span className="text-xs font-medium tracking-wide text-sand-300">
+      {/* Wordmark tiles already show the name, so their caption is the region instead */}
+      <span className="text-[13px] font-semibold tracking-wide text-navy-800">
         <span className="sr-only">{t.brands.serviced} </span>
-        {brand.name}
+        {brand.logo ? brand.name : t.services.regions[brand.region]}
       </span>
     </li>
   )

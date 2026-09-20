@@ -1,4 +1,4 @@
-// Writes the monochrome (cream) brand marks used by the "All makes" logo wall to
+// Writes the monochrome (navy) brand marks used by the "All makes" logo wall to
 // public/logos/brands/<id>.svg. Most come from simple-icons (CC0 icon data; the marks
 // themselves stay the manufacturers' trademarks — shown only to say "we service these").
 // Mercedes-Benz and Lexus are not in simple-icons, so simplified marks are drawn here;
@@ -7,7 +7,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import * as si from 'simple-icons'
 
-const FILL = '#fcf9f3' // sand-50 — the wall sits on the navy band
+const FILL = '#0f1b3d' // navy-900 — the marks sit on cream tiles
 const out = 'public/logos/brands'
 mkdirSync(out, { recursive: true })
 
@@ -29,6 +29,7 @@ const fromSimpleIcons = {
   ford: si.siFord,
   chevrolet: si.siChevrolet,
   jeep: si.siJeep,
+  mg: si.siMg,
 }
 
 const svg = (body, viewBox = '0 0 24 24') =>

@@ -14,6 +14,6 @@ export interface Stat {
 export const stats: readonly Stat[] = [
   { id: 'years', value: `${yearsInBusiness}+`, label: `Years in Mussafah · since ${workshop.foundedYear}`, icon: Award },
   { id: 'insurance', value: 'Insurance', label: 'Approved Body & Paint Shop', icon: ShieldCheck },
-  { id: 'techs', value: 'All makes', label: 'European, Japanese, Korean & American cars', icon: BadgeCheck },
+  { id: 'techs', value: 'All makes', label: 'European, Japanese, Korean, American & Chinese cars', icon: BadgeCheck },
   { id: 'parts', value: 'Genuine', label: 'OEM Parts Only', icon: PackageCheck },
 ]

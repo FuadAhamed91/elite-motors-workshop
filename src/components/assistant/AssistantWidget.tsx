@@ -1,7 +1,10 @@
 import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ExternalLink, MapPin, MessageSquareText, Navigation, Phone, SendHorizontal, X } from 'lucide-react'
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { AhmedFace } from '@/components/assistant/Ahmed'
+import { AhmedMascot } from '@/components/assistant/AhmedMascot'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
+import { assistant } from '@/config/assistant'
 import { workshop } from '@/config/workshop'
 import { useWorkshopStatus } from '@/hooks/useWorkshopStatus'
 import { useLocale, type Locale } from '@/i18n'
@@ -47,7 +50,8 @@ export function AssistantWidget() {
   const { status } = useWorkshopStatus()
   const headingId = useId()
   const { t, locale, dir } = useLocale()
-  const copy = t.assistant
+  const ahmed = assistant.persona === 'ahmed'
+  const copy = ahmed ? t.assistant : { ...t.assistant, name: t.assistant.plainName, greeting: t.assistant.plainGreeting }
 
   // Greeting on first open.
   useEffect(() => {
@@ -116,10 +120,25 @@ export function AssistantWidget() {
         aria-expanded={open}
         aria-controls="emw-assistant"
         aria-label={open ? copy.close : copy.open(copy.name)}
-        className="fixed end-4 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+4.5rem)] z-40 inline-flex size-12 cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-fg shadow-card transition-[transform,background-color] duration-150 ease-out hover:bg-surface-elevated active:scale-95 sm:end-6 sm:bottom-[calc(1.5rem+4.5rem)] sm:size-13"
+        className={cn(
+          'fixed end-4 bottom-[calc(max(1rem,env(safe-area-inset-bottom))+4.5rem)] z-40 inline-flex size-12 cursor-pointer items-center justify-center overflow-hidden rounded-full border shadow-card transition-[transform,background-color] duration-150 ease-out active:scale-95 sm:end-6 sm:bottom-[calc(1.5rem+4.5rem)] sm:size-13',
+          ahmed && !open ? 'border-navy-800 bg-navy-900 text-on-navy' : 'border-line bg-surface text-fg hover:bg-surface-elevated',
+        )}
       >
-        {open ? <X className="size-5" aria-hidden="true" /> : <MessageSquareText className="size-5" aria-hidden="true" />}
+        {open ? (
+          <X className="size-5" aria-hidden="true" />
+        ) : ahmed ? (
+          <span className="relative block size-full">
+            <AhmedFace className="size-full scale-[1.12]" />
+            {/* "online" dot */}
+            <span aria-hidden="true" className="absolute end-1 bottom-1 size-2.5 rounded-full border-2 border-navy-900 bg-gold-500" />
+          </span>
+        ) : (
+          <MessageSquareText className="size-5" aria-hidden="true" />
+        )}
       </button>
+
+      {ahmed && <AhmedMascot chatOpen={open} onOpenChat={() => setOpen(true)} />}
 
       <AnimatePresence>
         {open && (
@@ -136,8 +155,8 @@ export function AssistantWidget() {
             style={{ transformOrigin: dir === 'rtl' ? '0% 100%' : '100% 100%' }}
           >
             <header className="flex items-center gap-3 border-b border-white/10 bg-navy-900 px-4 py-3 text-on-navy [--color-fg:var(--color-on-navy)] [--color-fg-muted:var(--color-on-navy-muted)]">
-              <span className="flex size-9 items-center justify-center rounded-full bg-white/10 text-gold-500">
-                <MessageSquareText className="size-4.5" aria-hidden="true" />
+              <span className="flex size-9 items-center justify-center overflow-hidden rounded-full bg-white/10 text-gold-500">
+                {ahmed ? <AhmedFace className="size-full scale-[1.12]" /> : <MessageSquareText className="size-4.5" aria-hidden="true" />}
               </span>
               <div className="min-w-0 flex-1">
                 <h2 id={headingId} className="font-display text-sm font-bold text-fg">
