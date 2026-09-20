@@ -225,6 +225,13 @@ it never runs under the sticky navbar.
 
 ## Performance notes
 
+- The app is written against the React API but **runs on Preact** (`@preact/preset-vite` aliases
+  `react`/`react-dom` to `preact/compat`; the shell renderer uses `preact-render-to-string`),
+  which takes ~190 KB of JavaScript off the first visit. Sections below About are wrapped in
+  `Deferred` and mount only when the visitor scrolls within ~900px of them (anchor jumps and deep
+  links mount everything first, then settle the scroll); framer-motion's animation engine loads
+  as its own chunk after the app.
+
 - Only `transform`/`opacity` animate (looping textures translate a doubled pattern; the animated
   border rotates a gradient behind the card); no `backdrop-filter` on cards; hero glows are
   gradients, not large blurs.
